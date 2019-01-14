@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introdução à programação em R</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Curso-R" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução à programação em R
+### Curso-R
+
+---
+
+class: middle, center
+
+# Sobre a Curso-R
+
+---
+
+## Curso-R
+
+&lt;img src="img/professores.png" style=" display: block; margin-left: auto; margin-right: auto;"&gt;&lt;/img&gt;
+
+---
+
+## Curso-R
+
+&lt;br&gt;
+
+- Primeiros cursos em 2015, no IME-USP
+
+- Curso-R surge oficialmente em 2017
+
+- Mais de 20 cursos e 300 alunos
+
+---
+class: middle, center
+
+# Sobre o curso
+
+---
+## Cronograma
+
+- Introdução à programação em R
+   - Conceitos básicos e importação
+   - Manipulação de dados
+   - Visualização de dados 
+   - Case, dashboards estáticos e outros tópicos
+   
+---
+
+## Material
+
+- Temos um material em português disponível nesta página:
+
+&lt;center&gt;&lt;a href = 'http://material.curso-r.com/'&gt;http://material.curso-r.com/ &lt;/a&gt;&lt;/center&gt;
+
+&lt;img src="img/material.png" style=" display: block; margin-left: auto; margin-right: auto; width: 70%"&gt;&lt;/img&gt;
+
+- Também temos um blog: &lt;a href='http://curso-r.com/blog/'&gt;http://curso-r.com/blog/ &lt;/a&gt;
+
+---
+
+## Referência
+
+- [R for data science](https://r4ds.had.co.nz)
+
+&lt;img src="img/r4ds.png" width="328" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: middle, center
+
+# Introdução: por que programar?
+
+---
+## Fazemos análise de dados no computador
+
+&lt;img src="img/diagrama-programacao.png" style="display: block; margin-left: auto; margin-right: auto; width: 70%"&gt; 
+
+---
+class: center, middle
+
+### Por que programar é preferível?
+
+&lt;br&gt;
+
+# 1. Código é texto
+# 2. Código é legível
+# 3. Código é aberto
+
+---
+class: middle, center
+
+# Código é texto
+
+Podemos copiar e colar
+
+&lt;img src="img/copy-paste.png" style="width: 80%"&gt;
+
+---
+class: middle, center
+
+### Stack Overflow
+
+&lt;img src="img/stack.png" style="width: 70%"&gt;
+
+---
+## Código é legível
+
+
+
+
+```r
+image_read("https://jeroen.github.io/images/frink.png") %&gt;%
+  image_rotate(270) %&gt;%
+  image_background("blue", flatten = TRUE) %&gt;%
+  image_border("red", "10x10") %&gt;%
+  image_annotate("Liguagens de programação ainda\nsão linguagens!", 
+                 color = "white", size = 30)
+```
+
+--
+
+.pull-left[
+&lt;img src = "https://jeroen.github.io/images/frink.png" style="width:45%"&gt;
+]
+
+--
+
+.pull-right[
+&lt;img src="introducao-ao-curso_files/figure-html/unnamed-chunk-4-1.png" width="620" /&gt;
+]
+
+
+---
+# Código é aberto
+
+Todas as linguagens de programação modernas são open-source:
+
+
+- Estudantes podem usar as mesmas ferramentas que os profissionais.
+
+- Todos podem usar as melhores ferramentas independente do poder financeiro.
+
+- Qualquer um pode reproduzir as suas análises.
+
+- Você pode corrigir problemas.
+
+- Você pode desenvolver suas próprias ferramentas.
+
+---
+class: middle, center
+
+### Por que utilizar o R?
+
+--
+
+# O R foi criado para fazer análise de dados.
+
+---
+
+## O ciclo da ciência de dados
+
+&lt;img src="img/ciclo-ciencia-de-dados.png" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
+
+---
+
+## O ciclo da ciência de dados com o R
+
+&lt;img src="img/ciclo-ciencia-de-dados-pacotes.png" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
+
+---
+
+## Por que usar o R?
+
+&lt;img src="img/cola.png" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
+
+O R é a **cola**.
+
+---
+class: middle, center
+
+# Ambientação
+
+---
+class: center, middle, inverse
+
+
+
+## Download do R
+
+[Windows](https://cran.r-project.org/bin/windows/base/)
+[MacOS](https://cran.r-project.org/bin/macosx/)
+[Linux](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
+
+---
+class: center, middle, inverse
+
+## Download do RStudio
+
+[Todas as plataformas](https://www.rstudio.com/products/rstudio/download/#download)
+
+
+---
+# Vamos ao R!
+
+&lt;br&gt;
+
+&lt;img src="https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
+
+---
+class: middle, center
+
+# Importação
+
+---
+
+## Ciclo da ciência de dados
+
+&lt;img src="img/ciclo-ciencia-de-dados.png" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
+
+---
+
+## O que é importar?
+
+&lt;img src="https://user-images.githubusercontent.com/4706822/43643475-c4b9d7f4-9701-11e8-927e-2e412e99a131.png" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
+
+---
+
+## readr
+
+O pacote `readr` possui diversas funções para ler arquivos de texto:
+
+* `read_csv()`
+* `read_delim()`
+* `read_csv2()`
+* `read_log()`
+
+---
+
+## Caminho para os arquivos
+
+1. Podem ser absolutos
+
+
+```r
+read_csv("/home/william/Curso-R/201809-intro-r/data/imdb.csv")
+```
+
+
+2. Podem ser relativos ao diretório de trabalho
+
+
+```r
+getwd()
+```
+
+```
+## [1] "/home/william/Documents/Curso-R/intro-programacao-em-r-mestre/slides"
+```
+
+
+
+```r
+read_csv("dados/imdb.csv")
+```
+
+---
+
+## Point and Click
+
+Usar o `Import Dataset` do RStudio.
+
+![](https://user-images.githubusercontent.com/4706822/43643963-60496a3a-9703-11e8-81a2-b394bda016ae.png)
+
+---
+
+## read_rds
+
+RDS é o formato binário do R.
+
+* write_rds
+* read_rds
+
+---
+
+## readxl
+
+&gt; Ler arquivos do excel
+
+* `read_excel`
+
+---
+
+## haven
+
+&gt; Ler arquivos de outros softwares de estatística
+
+* `read_sas`
+* `read_spss`
+* `read_stata`
+
+---
+
+## DBI + odbc
+
+&gt; Conexão com bancos de dados
+
+* `dbConnect`
+
+[db.rstudio.com](https://db.rstudio.com)
+
+---
+class: middle, center
+
+# dplyr
+
+---
+
+## Ciclo da ciência de dados
+
+&lt;img src="img/ciclo-ciencia-de-dados.png" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
+
+
+---
+class: middle
+
+
+
+&gt; “Happy families are all alike; every unhappy family is unhappy in its own way.” –– Leo Tolstoy
+
+
+&gt; “Tidy datasets are all alike, but every messy dataset is messy in its own way.” –– Hadley Wickham
+
+---
+
+## Os 5 verbos do dplyr
+
+* `filter()`: selecionar observações (linhas) da base de dados
+* `arrange()`: ordenar de acordo com alguma variável (coluna)
+* `select()`: selecionar variáveis (colunas)
+* `mutate()`: modificar/criar variáveis do banco de dados
+* `summarise()`: sumarizar/agregar variáveis de uma base de dados
+
+---
+
+## 3 regras
+
+* o primeiro argumento é sempre um `data.frame`
+* os outros argumentos descrevem o que você quer fazer
+* todos os verbos retornam sempre um `data.frame`
+
+Essas três regras fazem o uso do pipe (`%&gt;%`) ser muito intuitivo.
+
+---
+class: smaller
+
+# glimpse
+
+Solta um resuminho da base
+
+
+```r
+glimpse(imdb)
+```
+
+```
+## Observations: 3,807
+## Variables: 15
+## $ titulo         &lt;chr&gt; "Avatar ", "Pirates of the Caribbean: At World'...
+## $ ano            &lt;int&gt; 2009, 2007, 2012, 2012, 2007, 2010, 2015, 2016,...
+## $ diretor        &lt;chr&gt; "James Cameron", "Gore Verbinski", "Christopher...
+## $ duracao        &lt;int&gt; 178, 169, 164, 132, 156, 100, 141, 183, 169, 15...
+## $ cor            &lt;chr&gt; "Color", "Color", "Color", "Color", "Color", "C...
+## $ generos        &lt;chr&gt; "Action|Adventure|Fantasy|Sci-Fi", "Action|Adve...
+## $ pais           &lt;chr&gt; "USA", "USA", "USA", "USA", "USA", "USA", "USA"...
+## $ classificacao  &lt;chr&gt; "A partir de 13 anos", "A partir de 13 anos", "...
+## $ orcamento      &lt;int&gt; 237000000, 300000000, 250000000, 263700000, 258...
+## $ receita        &lt;int&gt; 760505847, 309404152, 448130642, 73058679, 3365...
+## $ nota_imdb      &lt;dbl&gt; 7.9, 7.1, 8.5, 6.6, 6.2, 7.8, 7.5, 6.9, 6.1, 7....
+## $ likes_facebook &lt;int&gt; 33000, 0, 164000, 24000, 0, 29000, 118000, 1970...
+## $ ator_1         &lt;chr&gt; "CCH Pounder", "Johnny Depp", "Tom Hardy", "Dar...
+## $ ator_2         &lt;chr&gt; "Joel David Moore", "Orlando Bloom", "Christian...
+## $ ator_3         &lt;chr&gt; "Wes Studi", "Jack Davenport", "Joseph Gordon-L...
+```
+
+
+---
+class: smaller
+
+## filter
+
+Selecionar **linhas** da base de dados!
+
+
+```r
+imdb %&gt;% 
+  filter(nota_imdb &gt; 9)
+```
+
+```
+## # A tibble: 3 x 15
+##   titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##   &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+## 1 The S…  1994 Frank …     142 Color Crime|… USA   A partir de …  25000000
+## 2 The G…  1972 Franci…     175 Color Crime|… USA   A partir de …   6000000
+## 3 Kickb…  2016 John S…      90 &lt;NA&gt;  Action  USA   Outros         17000000
+## # ... with 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+
+---
+
+## filter
+
+&gt; Você pode salvar os resultados em uma outra variável:
+
+
+```r
+filmes_bons &lt;- imdb %&gt;% 
+  filter(nota_imdb &gt; 9)
+
+filmes_bons
+```
+
+```
+## # A tibble: 3 x 15
+##   titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##   &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+## 1 The S…  1994 Frank …     142 Color Crime|… USA   A partir de …  25000000
+## 2 The G…  1972 Franci…     175 Color Crime|… USA   A partir de …   6000000
+## 3 Kickb…  2016 John S…      90 &lt;NA&gt;  Action  USA   Outros         17000000
+## # ... with 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+
+---
+
+## filter
+
+&gt; Você pode sobreescrever a base também:
+
+
+```r
+filmes_bons &lt;- filmes_bons %&gt;% 
+  filter(orcamento &lt; 1000000)
+
+filmes_bons
+```
+
+```
+## # A tibble: 0 x 15
+## # ... with 15 variables: titulo &lt;chr&gt;, ano &lt;int&gt;, diretor &lt;chr&gt;,
+## #   duracao &lt;int&gt;, cor &lt;chr&gt;, generos &lt;chr&gt;, pais &lt;chr&gt;,
+## #   classificacao &lt;chr&gt;, orcamento &lt;int&gt;, receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+
+---
+class: center, middle
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+
+---
+
+## arrange
+
+&gt; Ordenar linhas da base de acordo com alguma variável
+
+
+```r
+imdb %&gt;% 
+  arrange(orcamento)
+```
+
+```
+## # A tibble: 3,807 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Tarna…  2003 Jonath…      88 Color Biogra… USA   Outros              218
+##  2 My Da…  2004 Jon Gu…      90 Color Docume… USA   Livre              1100
+##  3 A Pla…  2013 Benjam…      76 Color Drama|… USA   Outros             1400
+##  4 The M…  2005 Anthon…      84 Color Crime|… USA   A partir de …      3250
+##  5 Prime…  2004 Shane …      77 Color Drama|… USA   A partir de …      7000
+##  6 El Ma…  1992 Robert…      81 Color Action… USA   A partir de …      7000
+##  7 Newly…  2011 Edward…      95 Color Comedy… USA   Outros             9000
+##  8 Pink …  1972 John W…     108 Color Comedy… USA   A partir de …     10000
+##  9 The T…  2007 Jane C…       7 Color Romanc… USA   Outros            13000
+## 10 Paran…  2007 Oren P…      84 Color Horror  USA   A partir de …     15000
+## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
+## #   ator_3 &lt;chr&gt;
+```
+
+---
+
+## arrange
+
+&gt; Você também pode ordenar na ordem decrescente
+
+
+```r
+imdb %&gt;% 
+  arrange(desc(orcamento))
+```
+
+```
+## # A tibble: 3,807 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  2 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  3 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  4 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  7 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9 Pirat…  2011 Rob Ma…     136 Color Action… USA   A partir de … 250000000
+## 10 Capta…  2016 Anthon…     147 Color Action… USA   A partir de … 250000000
+## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
+## #   ator_3 &lt;chr&gt;
+```
+
+---
+
+## arrange
+
+&gt; Também é possível ordenar por mais de uma variável:
+
+
+```r
+imdb %&gt;% 
+  arrange(desc(ano), titulo)
+```
+
+```
+## # A tibble: 3,807 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 10 Cl…  2016 Dan Tr…     104 Color Drama|… USA   A partir de …  15000000
+##  2 13 Ho…  2016 Michae…     144 Color Action… USA   A partir de …  50000000
+##  3 A Beg…  2016 Mitche…      87 Color Comedy… USA   Outros               NA
+##  4 Alice…  2016 James …     113 Color Advent… USA   Livre         170000000
+##  5 Alleg…  2016 Robert…     120 Color Action… USA   A partir de … 110000000
+##  6 Allel…  2016 Darren…      97 Color Horror… USA   Outros           500000
+##  7 Antib…  2016 Danny …      94 Color Horror  USA   Outros          3500000
+##  8 Bad M…  2016 Jon Lu…     100 Color Comedy  USA   A partir de …  20000000
+##  9 Bad M…  2016 Jon Lu…     100 Color Comedy  USA   A partir de …  20000000
+## 10 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
+## #   ator_3 &lt;chr&gt;
+```
+
+---
+class: center, middle
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+
+---
+
+## select
+
+&gt; Selecionar colunas de uma tabela
+
+
+```r
+imdb %&gt;% 
+  select(titulo, ano, orcamento)
+```
+
+```
+## # A tibble: 3,807 x 3
+##    titulo                                        ano orcamento
+##    &lt;chr&gt;                                       &lt;int&gt;     &lt;int&gt;
+##  1 Avatar                                       2009 237000000
+##  2 Pirates of the Caribbean: At World's End     2007 300000000
+##  3 The Dark Knight Rises                        2012 250000000
+##  4 John Carter                                  2012 263700000
+##  5 Spider-Man 3                                 2007 258000000
+##  6 Tangled                                      2010 260000000
+##  7 Avengers: Age of Ultron                      2015 250000000
+##  8 Batman v Superman: Dawn of Justice           2016 250000000
+##  9 Superman Returns                             2006 209000000
+## 10 Pirates of the Caribbean: Dead Man's Chest   2006 225000000
+## # ... with 3,797 more rows
+```
+
+---
+
+## select
+
+&gt; Funções úteis p/ seleção
+
+
+```r
+imdb %&gt;% 
+  select(starts_with("ator"))
+```
+
+```
+## # A tibble: 3,807 x 3
+##    ator_1          ator_2            ator_3              
+##    &lt;chr&gt;           &lt;chr&gt;             &lt;chr&gt;               
+##  1 CCH Pounder     Joel David Moore  Wes Studi           
+##  2 Johnny Depp     Orlando Bloom     Jack Davenport      
+##  3 Tom Hardy       Christian Bale    Joseph Gordon-Levitt
+##  4 Daryl Sabara    Samantha Morton   Polly Walker        
+##  5 J.K. Simmons    James Franco      Kirsten Dunst       
+##  6 Brad Garrett    Donna Murphy      M.C. Gainey         
+##  7 Chris Hemsworth Robert Downey Jr. Scarlett Johansson  
+##  8 Henry Cavill    Lauren Cohan      Alan D. Purwin      
+##  9 Kevin Spacey    Marlon Brando     Frank Langella      
+## 10 Johnny Depp     Orlando Bloom     Jack Davenport      
+## # ... with 3,797 more rows
+```
+
+---
+
+## select
+
+&gt; Excluir variáveis:
+
+
+```r
+imdb %&gt;% 
+  select(-starts_with("ator"), -titulo)
+```
+
+```
+## # A tibble: 3,807 x 11
+##      ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  7  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+## 10  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## # ... with 3,797 more rows, and 3 more variables: receita &lt;int&gt;,
+## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;
+```
+
+---
+
+## select
+
+&gt; Outras funções úteis de seleção
+
+* `starts_with("abc")`: seleciona nomes que começam com "abc"
+
+* `ends_with("xyz")`: seleciona nomes que terminam com "xyz"
+
+* `contains("ijk")`: seleciona nomes que contêm "ijk"
+
+* `matches("(.)\\1")`: seleciona nomes usando Expressões Regulares
+
+* `num_range("x", 1:3)`: seleciona x1, x3 e x3
+
+---
+class: center, middle
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+
+---
+
+## mutate
+
+&gt; Criar ou modificar colunas de um banco de dados.
+
+
+```r
+imdb %&gt;% mutate(duracao = duracao/60)
+```
+
+```
+## # A tibble: 3,807 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avata…  2009 James …    2.97 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…    2.82 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…    2.73 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…    2.2  Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…    2.6  Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…    1.67 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…    2.35 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…    3.05 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …    2.82 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…    2.52 Color Action… USA   A partir de … 225000000
+## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
+## #   ator_3 &lt;chr&gt;
+```
+
+---
+
+## mutate
+
+&gt; Criando uma nova variável
+
+
+```r
+imdb %&gt;% mutate(duracao_horas = duracao/60)
+```
+
+```
+## # A tibble: 3,807 x 16
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avata…  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## # ... with 3,797 more rows, and 7 more variables: receita &lt;int&gt;,
+## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
+## #   ator_3 &lt;chr&gt;, duracao_horas &lt;dbl&gt;
+```
+
+
+---
+class: center, middle
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+
+
+---
+
+## summarise
+
+&gt; Agregar/Sumarisar a tabela
+
+
+```r
+imdb %&gt;% summarise(media_orcamento = mean(orcamento, na.rm=TRUE))
+```
+
+```
+## # A tibble: 1 x 1
+##   media_orcamento
+##             &lt;dbl&gt;
+## 1       35755986.
+```
+
+---
+
+## summarise
+
+&gt; Calcular várias medidas agregadas
+
+
+```r
+imdb %&gt;% summarise(
+  media_orcamento = mean(orcamento, na.rm=TRUE),
+  mediana_orcamento = median(orcamento, na.rm = TRUE)
+  )
+```
+
+```
+## # A tibble: 1 x 2
+##   media_orcamento mediana_orcamento
+##             &lt;dbl&gt;             &lt;int&gt;
+## 1       35755986.          20000000
+```
+
+---
+class: center, middle
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+
+---
+
+## group_by + summarise
+
+&gt; Sumarisar/Agregar a base por grupos
+
+
+```r
+imdb %&gt;% group_by(ano)
+```
+
+```
+## # A tibble: 3,807 x 15
+## # Groups:   ano [91]
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avata…  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
+## #   ator_3 &lt;chr&gt;
+```
+
+---
+
+## group_by + summarise
+
+&gt; Agregar/Sumarisar por grupos
+
+
+```r
+imdb %&gt;% group_by(ano) %&gt;% summarise(qtd_filmes = n())
+```
+
+```
+## # A tibble: 91 x 2
+##      ano qtd_filmes
+##    &lt;int&gt;      &lt;int&gt;
+##  1  1916          1
+##  2  1920          1
+##  3  1925          1
+##  4  1929          1
+##  5  1930          1
+##  6  1932          1
+##  7  1933          2
+##  8  1934          1
+##  9  1935          1
+## 10  1936          2
+## # ... with 81 more rows
+```
+
+---
+class: middle, center
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+
+
+---
+
+## left join
+
+&gt; Tipos de joins
+
+&lt;img src="http://r4ds.had.co.nz/diagrams/join-outer.png" style="width: 40%;" class="middle center"&gt;
+
+---
+
+## left join
+
+&gt; Chaves duplicadas na tabela da esquerda
+
+![](http://r4ds.had.co.nz/diagrams/join-one-to-many.png)
+
+---
+
+## left join
+
+&gt; Chaves duplicadas nas duas tabelas
+
+![](http://r4ds.had.co.nz/diagrams/join-many-to-many.png)
+
+---
+class: middle, center
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+
+---
+
+## gather
+
+&gt; Transformar variáveis em linhas:
+
+![](http://r4ds.had.co.nz/images/tidy-9.png)
+
+---
+class: middle, center
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+
+---
+
+## spread
+
+&gt; Transformar linhas em colunas
+
+![](http://r4ds.had.co.nz/images/tidy-8.png)
+
+---
+class: middle, center
+
+![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
