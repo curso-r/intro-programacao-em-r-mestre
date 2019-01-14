@@ -1,0 +1,669 @@
+---
+title: "Gráficos com ggplot2"
+author: "Curso-R"
+output: html_document
+---
+
+# ggplot2
+
+- Tese de doutorado do Hadley Wickham.
+
+- Baseado na *Grammar of graphics*,  que tenta responder a pergunta: 
+
+> o que é um gráfico estatístico?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- Um gráfico estatístico é uma representação visual dos dados que utiliza os atributos estéticos (posição, cor, forma, tamanho, ...) de formas geométricas (pontos, linhas, barras, ...).
+
+
+- Com base nessa definição, Hadley desenvolveu a gramática dos gráficos em camadas (ou *layered grammar of graphics*): cada elemento do gráfico pode ser representado por uma camada e um gráfico seria a sobreposição dessas camadas.
+
+```{r}
+knitr::include_graphics("../slides/img/layers.png")
+```
+
+
+
+# Pacotes
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+# Ler dados
+
+```{r}
+imdb <- read_rds("../dados/imdb.rds")
+imdb <- imdb %>% mutate(lucro = receita - orcamento)
+```
+
+> Pergunta: será que filmes com maior orçamento tendem a arrecadar mais?
+
+Gráfico de dispersão: arrecadação vs orçamento
+
+```{r}
+ggplot(imdb) +
+  geom_point(aes(x = orcamento, y = receita))
+```
+
+Vamos acrescentar a reta y = x para visualizar a quantidade de filmes que não se pagaram.
+$$
+y = x
+$$
+
+
+```{r}
+imdb %>%
+  ggplot() +
+  geom_point(mapping = aes(x = orcamento, y = receita)) +
+  geom_abline(intercept = 0, slope = 1, color = "red")
+```
+
+Também podemos usar a cor dos pontos para visualizar os filmes que não se pagaram.
+
+```{r}
+imdb %>%
+  filter(!is.na(lucro)) %>% 
+  mutate(
+    lucro = ifelse(lucro <= 0, "Não", "Sim")
+  ) %>%
+  ggplot() + 
+  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro)) +
+  scale_color_manual(values = c("#FFFF00", "#F0C0F0"))
+
+# O que aconteceria se usássemos uma variável numérica para representar a cor dos pontos?
+```
+
+
+Vamos arrumar os labels.
+
+```{r}
+imdb %>%
+  mutate(
+    lucro = ifelse(lucro <= 0, "Não", "Sim")
+  ) %>%
+  filter(!is.na(lucro)) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro)) +
+  labs(x = "Orçamento", y = "Arrecadação", color = "Houve lucro?") 
+```
+
+
+Vamos também mudar as labels nos eixos.
+
+```{r}
+imdb %>%
+  mutate(
+    lucro = ifelse(lucro <= 0, "Não", "Sim")
+  ) %>%
+  filter(!is.na(lucro)) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro)) +
+  labs(x = "Orçamento", y = "Arrecadação", color = "Houve lucro?") +
+  scale_y_continuous(label = scales::dollar_format()) +
+  scale_x_continuous(label = scales::dollar_format()) +
+  scale_color_manual(values = c("red", "green"), labels = c("N", "S"))
+```
+
+Também podemos colocar as variáveis na escala de milhões.
+
+```{r}
+imdb %>%
+  filter(!is.na(lucro)) %>% 
+  mutate(
+    lucro = ifelse(lucro <= 0, "Não", "Sim")
+  ) %>% 
+  mutate(
+    receita = receita/1000000,
+    orcamento = orcamento/1000000
+  ) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro)) +
+  labs(
+    x = "Orçamento  (em milhões de dólares)", 
+    y = "Arrecadação (em milhões de dólares)", 
+    color = "Houve lucro?"
+  ) +
+  scale_y_continuous(label = scales::dollar_format(), breaks = c(150, 200)) +
+  scale_x_continuous(label = scales::dollar_format())
+```
+
+
+> Exercício: será que filmes mais caros tendem a receber uma nota maior?
+
+1. Crie um gráfico de dispersão da nota do imdb pelo orçamento.
+
+```{r}
+imdb %>% 
+  ggplot() +
+  geom_point(aes(x = orcamento, y = nota_imdb))
+```
+
+2. Pinte todos os pontos do gráfico de azul.
+
+```{r}
+imdb %>% 
+  ggplot() +
+  geom_point(aes(x = orcamento, y = nota_imdb), color = "red")
+```
+
+3. Refaça o gráfico do item 1. apenas para filmes com classificação etária livre. Também refaça para os filmes com classificação etária "a partir de 13 anos".
+
+```{r}
+imdb %>% 
+  filter(classificacao == "Livre") %>% 
+  ggplot() +
+  geom_point(aes(x = orcamento, y = nota_imdb))
+
+
+imdb %>% 
+  filter(classificacao == "A partir de 13 anos") %>% 
+  ggplot() +
+  geom_point(aes(x = orcamento, y = nota_imdb))
+```
+
+
+
+
+Podemos usar `facets` para fazer um gráfico para cada nível de uma variável.
+
+```{r}
+imdb %>%
+  filter(classificacao %in% c("Livre", "A partir de 13 anos")) %>%
+  ggplot() +
+  geom_point(aes(x = orcamento, y = nota_imdb)) +
+  facet_wrap(~classificacao, nrow = 2)
+```
+
+A função `facet_grid()` permite combinar os níveis de duas variáveis.
+
+```{r}
+imdb %>%
+  filter(classificacao %in% c("Livre", "A partir de 13 anos")) %>%
+  mutate(ano_cat = ifelse(ano < 2000, "Antigos", "Recentes")) %>%
+  ggplot() +
+  geom_point(aes(x = orcamento, y = nota_imdb)) +
+  facet_grid(ano_cat ~ .)
+```
+
+
+> Pergunta: quais são os diretores que fizeram mais filmes e quantos filmes eles fizeram?
+
+Podemos fazer um gráfico de barras.
+
+```{r}
+imdb %>%
+  ggplot() +
+  geom_bar(aes(x = diretor))
+```
+
+Vamos visualizar apenas os 10 diretores com mais filmes.
+
+```{r}
+imdb %>% 
+  count(diretor) %>% 
+  arrange(desc(n)) %>% 
+  filter(!is.na(diretor)) %>% 
+  dplyr::top_n(10, n) %>%
+  ggplot() +
+  geom_bar(aes(x = diretor, y = n), stat = "identity")
+
+imdb %>% 
+  dplyr::count(diretor) %>% 
+  arrange(desc(n)) %>% 
+  filter(!is.na(diretor)) %>% 
+  top_n(10, n) %>%
+  ggplot() +
+  geom_col(aes(x = diretor, y = n))
+```
+
+Vamos arrumar os labels rotacionando os nomes.
+
+```{r}
+imdb %>% 
+  count(diretor) %>% 
+  arrange(desc(n)) %>% 
+  filter(!is.na(diretor)) %>% 
+  top_n(10, n) %>%
+  ggplot() +
+  geom_bar(aes(x = diretor, y = n), stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+```
+
+Também seria interessante ordenar as barras de forma crescente. Para isso, precisamos lidar com `fatores`.
+
+Um fator é a representação numérica de uma variavel categórica dentro do R. Ele será mostrado como texto (categoria/level), mas por trás ele é tratado como um inteiro.
+
+O melhor pacote para tratar fatores é o `forcats`.
+
+- `forcats`: `for` (para) + `cats` (categóricas)
+
+- utilidade: funções para reordenar e renomear fatores de diversas formas
+
+- é especialmente útil para visualização
+
+- `fct_reorder`, `fct_infreq`, `fct_collapse`, `fct_lump`
+
+- são usados dentro de mutate()
+
+```{r}
+library(forcats)
+
+imdb %>% 
+  count(diretor) %>% 
+  arrange(desc(n)) %>% 
+  filter(!is.na(diretor)) %>% 
+  top_n(10, n) %>%
+  mutate(
+    diretor = fct_reorder(diretor, n, .desc = TRUE)
+  ) %>% 
+  ggplot() +
+  geom_bar(aes(x = diretor, y = n), stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+```
+
+Também podemos escolher outra cor para as barras.
+
+```{r}
+imdb %>% 
+  count(diretor) %>% 
+  arrange(desc(n)) %>% 
+  filter(!is.na(diretor)) %>% 
+  top_n(10, n) %>%
+  mutate(
+    diretor = fct_reorder(diretor, n, .desc = TRUE)
+  ) %>% 
+  ggplot() +
+  geom_bar(
+    aes(x = diretor, y = n), 
+    stat = "identity", 
+    fill = "green"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+```
+
+Ou fazer cada barra de uma cor.
+
+```{r}
+p <- imdb %>% 
+  count(diretor) %>% 
+  arrange(desc(n)) %>% 
+  filter(!is.na(diretor)) %>% 
+  top_n(10, n) %>%
+  mutate(
+    diretor = fct_reorder(diretor, n)
+  ) %>% 
+  ggplot() +
+  geom_bar(
+    aes(x = diretor, y = n, fill = diretor), 
+    stat = "identity", 
+    color = "darkblue",
+    show.legend = FALSE
+  ) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+
+
+ggsave(filename = "plot.png", p, width = 6, height = 6)
+```
+
+
+# Boxplots
+
+```{r}
+imdb %>% 
+  filter(!is.na(diretor)) %>%
+  group_by(diretor) %>% 
+  filter(n() >= 15) %>% 
+  ggplot() +
+  geom_boxplot(aes(x = diretor, y = lucro))
+```
+
+Ordenando pela mediana.
+
+```{r}
+imdb %>% 
+  filter(!is.na(diretor)) %>%
+  group_by(diretor) %>% 
+  filter(n() >= 15) %>%
+  ungroup() %>% 
+  mutate(
+    diretor = fct_reorder(diretor, lucro, .fun = median, na.rm = TRUE, .desc = TRUE)
+  ) %>% 
+  ggplot() +
+  geom_boxplot(aes(x = diretor, y = lucro, fill = diretor), show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+```
+
+Também poderíamos fazer um histograma para avaliar a distribuição.
+
+```{r}
+imdb %>% 
+  filter(diretor == "Steven Spielberg") %>%
+  ggplot() +
+  geom_histogram(aes(x = lucro))
+```
+
+Deixando mais bonito.
+
+```{r}
+imdb %>% 
+  filter(diretor == "Steven Spielberg") %>%
+  ggplot() +
+  geom_histogram(
+    aes(x = lucro, y = ..density..), 
+    binwidth = 100000000,
+    color = "black",
+    fill = "light blue"
+  ) +
+  geom_density(aes(x = lucro))
+
+
+```
+
+> Exercício
+
+1. Refaça o último gráfico utilizando a agora a variável `orçamento` como resposta.
+
+```{r}
+imdb %>% 
+  filter(diretor == "Steven Spielberg") %>%
+  ggplot() +
+  geom_histogram(aes(x = orcamento), binwidth = 45000000, color = "white")
+
+imdb %>% 
+  filter(diretor == "Steven Spielberg") %>%
+  ggplot() +
+  geom_histogram(aes(x = orcamento), bins = 7, color = "white")
+```
+
+
+2.a Selecione um gênero e visualize os diretores com mais filmes dentro desse gênero.
+
+```{r}
+imdb %>% 
+  filter(str_detect(generos, "Action"), !is.na(diretor)) %>% 
+  count(diretor, sort = TRUE) %>% 
+  top_n(10, n) %>% 
+  ggplot() +
+  geom_col(aes(x = diretor, y = n)) +
+  theme_light()
+```
+
+
+2.b Estude a distribuição da variável `lucro` para cada diretor.
+
+```{r}
+imdb %>% 
+  filter(str_detect(generos, "Action"), !is.na(diretor)) %>% 
+  group_by(diretor) %>% 
+  filter(n() >= 6) %>% 
+  ggplot() +
+  geom_boxplot(aes(x = diretor, y = lucro))
+```
+
+
+
+> Pergunta: qual o comportamento das notas dos filmes do Spielberg no IMDB ao longo do tempo?
+
+Vamos fazer um gráfico de linhas das notas pelo ano.
+
+```{r}
+imdb %>% 
+  filter(diretor == "Steven Spielberg") %>% 
+  ggplot() +
+  geom_line(aes(x = ano, y = nota_imdb))
+```
+
+Vamos agregar os dados para termos apenas uma medida por ano.
+
+```{r}
+imdb %>% 
+  filter(diretor == "Steven Spielberg") %>%
+  group_by(ano) %>% 
+  summarise(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
+  ggplot() +
+  geom_line(aes(x = ano, y = nota_media))
+```
+
+Podemos misturar dois `geom's`.
+
+```{r}
+imdb %>% 
+  filter(diretor == "Steven Spielberg") %>%
+  group_by(ano) %>% 
+  mutate(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
+  ggplot() +
+  geom_line(aes(x = ano, y = nota_media), alpha = 0.1) +
+  geom_point(aes(x = ano, y = nota_media), alpha = 0.1) +
+  geom_text(aes(x = ano, y = nota_media, label = nota_media))
+```
+
+Neste caso, é útil reescreveremos o código da seguinte maneira.
+
+```{r}
+imdb %>% 
+  filter(diretor == "Steven Spielberg") %>%
+  group_by(ano) %>% 
+  mutate(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
+  ggplot(aes(x = ano, y = nota_media)) +
+  geom_point(alpha = 0.1) +
+  geom_line(alpha = 0.1) +
+  geom_text(aes(label = nota_media))
+```
+
+
+> Exercícios
+
+1. Selecione um dos atores que fez mais filmes e estude a nota de seus filmes no IMDB ao longo do tempo. Utilize apenas a coluna `ator_1`.
+
+```{r}
+imdb %>% 
+  filter(ator_1 == "Johnny Depp") %>%
+  ggplot(aes(x = ano, y = nota_imdb)) +
+  geom_point(alpha = 0.1) +
+  geom_line(alpha = 0.1) +
+  geom_text(aes(label = nota_imdb))
+```
+
+2. Calcule a nota média dos filmes por ano e faça uma série temporal da nota anual.
+
+```{r}
+imdb %>% 
+  filter(ator_1 == "Johnny Depp") %>%
+  group_by(ano) %>% 
+  mutate(nota_media = round(mean(nota_imdb, na.rm = TRUE), 1)) %>% 
+  ggplot(aes(x = ano, y = nota_media)) +
+  geom_point(alpha = 0.1) +
+  geom_line(alpha = 0.1) +
+  geom_text(aes(label = nota_media), nudge_x = 1)
+```
+
+E se quiséssemos utilizar as 3 colunas de atores no exemplo 1?
+
+```{r}
+imdb %>% 
+  gather(posicao, ator, ator_1, ator_2, ator_3) %>% 
+  View
+```
+
+Repita o exercício 1 utilizando agora as três colunas de ator.
+
+```{r}
+imdb %>% 
+  gather(posicao, ator, ator_1, ator_2, ator_3) %>% 
+  filter(ator == "Johnny Depp") %>%
+  group_by(ano) %>% 
+  mutate(nota_media = round(mean(nota_imdb, na.rm = TRUE), 1)) %>% 
+  ggplot(aes(x = ano, y = nota_media)) +
+  geom_point(alpha = 0.1) +
+  geom_line(alpha = 0.1) +
+  geom_text(aes(label = nota_media), nudge_x = 1)
+```
+
+
+# Misc de ggplot2
+
+Temas.
+
+```{r}
+imdb %>%
+  mutate(
+    lucro = ifelse(lucro <= 0, "Não", "Sim")
+  ) %>% 
+  mutate(
+    receita = receita/1000000,
+    orcamento = orcamento/1000000
+  ) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro)) +
+  labs(
+    x = "Orçamento (em milhões de dólares)", 
+    y = "Arrecadação (em milhões de dólares)", 
+    color = "Houve lucro?"
+  ) +
+  scale_y_continuous(label = scales::dollar_format()) +
+  scale_x_continuous(label = scales::dollar_format()) +
+  theme_bw()
+```
+
+Títulos
+
+```{r}
+imdb %>%
+  mutate(
+    lucro = ifelse(lucro <= 0, "Não", "Sim")
+  ) %>% 
+  mutate(
+    receita = receita/1000000,
+    orcamento = orcamento/1000000
+  ) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro)) +
+  labs(
+    x = "Orçamento", 
+    y = "Arrecadação", 
+    color = "Houve lucro?"
+  ) +
+  scale_y_continuous(label = scales::dollar_format()) +
+  scale_x_continuous(label = scales::dollar_format()) +
+  theme_minimal() +
+  ggtitle("Arrecadação vs Orçamento ") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+Legendas
+
+```{r}
+imdb %>%
+  mutate(
+    lucro = ifelse(lucro <= 0, "Não", "Sim")
+  ) %>% 
+  mutate(
+    receita = receita/1000000,
+    orcamento = orcamento/1000000
+  ) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro)) +
+  labs(
+    x = "Orçamento", 
+    y = "Arrecadação", 
+    color = "Houve lucro?"
+  ) +
+  scale_y_continuous(label = scales::dollar_format()) +
+  scale_x_continuous(label = scales::dollar_format()) +
+  theme_minimal() +
+  ggtitle("Arrecadação vs Orçamento (em milhões de dólares)") +
+  theme(legend.position = "top")
+```
+
+gplot2 extensions: https://www.ggplot2-exts.org/
+
+```{r}
+library(ggridges)
+install.packages("ggridges")
+
+imdb %>%
+  filter(ano > 2005) %>% 
+  mutate(ano = as.factor(ano)) %>% 
+  ggplot(aes(y = ano, x = receita, fill = ano)) +
+  geom_density_ridges(na.rm = TRUE, show.legend = FALSE)
+```
+
+Foco
+
+```{r}
+imdb %>%
+  filter(ano > 2005) %>% 
+  mutate(ano = as.factor(ano)) %>% 
+  ggplot(aes(y = ano, x = receita, fill = ano)) +
+  geom_density_ridges(na.rm = TRUE) +
+  coord_cartesian(xlim = c(-30000000, 200000000))
+```
+
+
+## Outros pacotes interessantes para gráficos:
+
+Plotly
+
+```{r}
+library(plotly)
+
+p <- imdb %>% 
+  filter(diretor == "Steven Spielberg") %>%
+  ggplot(aes(x = ano, y = nota_imdb, text = titulo)) +
+  geom_point() +
+  geom_line(aes(group = 1))
+
+ggplotly(p, tooltip = "text")
+```
+
+Patchwork
+
+```{r}
+devtools::install_github("thomasp85/patchwork")
+
+library(patchwork)
+
+p1 <- imdb %>% 
+  filter(!is.na(diretor)) %>%
+  group_by(diretor) %>% 
+  filter(n() >= 15) %>%
+    filter(n() >= 15) %>%
+  ungroup() %>% 
+  mutate(
+    diretor = as.factor(diretor),
+    diretor = fct_reorder(diretor, lucro, .fun = mean, na.rm = TRUE)
+  ) %>% 
+  ggplot() +
+  geom_boxplot(aes(x = diretor, y = lucro)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+
+p2 <- imdb %>% 
+  filter(diretor == "Steven Spielberg") %>% 
+  ggplot() +
+  geom_histogram(
+    aes(x = lucro),
+    fill = "lightblue", 
+    color = "darkblue", 
+    binwidth = 100000000
+  )
+
+
+p1 + p2
+patchwork::wrap_plots(ncol)
+```
+
