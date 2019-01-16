@@ -3,12 +3,10 @@ library(tidyverse)
 
 # Caminhos
 # 1. Podem ser absolutos
-read_csv("/home/jtrecenti/Documents/201812-curso-kantar/dados/imdb.csv")
+"/home/william/Documents/Curso-R/intro-programacao-em-r-mestre/dados/imdb.csv"
 
 # 2. Podem ser relativos ao diretório de trabalho
 getwd()
-
-read_csv("dados/imdb.csv")
 
 # Arquivos de texto
 imdb <- read_csv(file = "dados/imdb.csv")
@@ -30,9 +28,6 @@ imdb_spss <- read_spss("dados/imdb.sav")
 # pacote rio
 library(rio)
 imdb_rio <- rio::import("dados/imdb.xlsx")
-
-imdb_rio %>% 
-  as_tibble()
 
 # data.table
 library(data.table)

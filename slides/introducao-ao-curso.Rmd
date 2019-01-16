@@ -52,9 +52,7 @@ class: middle, center
 
 - Temos um material em português disponível nesta página:
 
-<center><a href = 'http://material.curso-r.com/'>http://material.curso-r.com/ </a></center>
-
-<img src="img/material.png" style=" display: block; margin-left: auto; margin-right: auto; width: 70%"></img>
+<a href = 'https://curso-r.com/material'><img src="img/material.png" style=" display: block; margin-left: auto; margin-right: auto; width: 70%"></img></a>
 
 - Também temos um blog: <a href='http://curso-r.com/blog/'>http://curso-r.com/blog/ </a>
 
