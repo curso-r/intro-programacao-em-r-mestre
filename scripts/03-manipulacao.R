@@ -4,7 +4,7 @@ library(tidyverse)
 
 # Base de dados -----------------------------------------------------------
 
-imdb <- read_rds("data/imdb.rds")
+imdb <- read_rds("dados/imdb.rds")
 
 # filter ------------------------------------------------------------------
 
@@ -137,16 +137,15 @@ imdb %>% arrange(desc(orcamento))
 imdb %>% arrange(desc(ano), titulo)
 
 # exercício 1
-# Ordene os filmes em ordem decrescente de lucro por ano e salve em um objeto chamado
-# filmes_ordenados
+# Ordene os filmes em ordem crescente de ano e decrescente de lucro e salve 
+# em um objeto chamado filmes_ordenados
 
 # exemplo 4
 # NA
 
-df <- tibble(x = c(NA, 1, 2), y = c(1, NA, 2))
+df <- tibble(x = c(NA, 2, 1), y = c(1, 2, 3))
 
 df %>% arrange(x)
-df %>% arrange(y)
 df %>% arrange(!is.na(x), x)
 
 # exemplo 5
@@ -205,14 +204,19 @@ imdb %>% mutate(duracao_horas = duracao/60)
 # Deixe essa tabela ordenada com o maior prejuízo primeiro. Salve o resultado em 
 # um objeto chamado filmes_prejuizo.
 
+
 # exemplo 3
 # gêneros
 
 # install.packages("gender")
 library(gender)
 
+gender(c("William"), years = 2012)
+gender(c("Robin"), years = 2012)
+
 gender(c("Madison", "Hillary"), years = 1930, method = "ssa")
 gender(c("Madison", "Hillary"), years = 2010, method = "ssa")
+
 gender("Matheus", years = 1920)
 
 obter_genero <- function(nome, ano) {
@@ -223,7 +227,7 @@ obter_genero <- function(nome, ano) {
   
   ano_min <- ano - 60
   ano_max <- ano - 30
-   
+  
   if (ano_min < 1880) {
     ano_min <- 1880
   }
@@ -247,10 +251,10 @@ imdb_generos <- imdb %>%
   mutate(
     diretor_primeiro_nome = str_extract(diretor, ".* ") %>% str_trim(),
     genero = map2_chr(diretor_primeiro_nome, ano, obter_genero)
-    )
+  )
 
 # saveRDS(imdb_generos, "data/imdb_generos.rds")
-imdb_generos <- read_rds("data/imdb_generos.rds")
+imdb_generos <- read_rds("dados/imdb_generos.rds")
 
 # https://github.com/meirelesff/genderBR
 
@@ -332,7 +336,6 @@ imdb %>%
   filter(ator_1 %in% c("Brad Pitt", "Angelina Jolie Pitt")) %>%
   group_by(ator_1) %>%
   summarise(orcamento = mean(orcamento), receita = mean(receita), qtd = n())
-
 
 # left join ---------------------------------------------------------------
 
