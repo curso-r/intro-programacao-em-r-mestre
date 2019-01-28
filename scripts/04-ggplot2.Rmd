@@ -14,7 +14,7 @@ library(ggplot2)
 # Ler dados
 
 ```{r}
-imdb <- read_rds("../../data/imdb.rds")
+imdb <- read_rds("../dados/imdb.rds")
 imdb <- imdb %>% mutate(lucro = receita - orcamento)
 ```
 
@@ -307,7 +307,7 @@ imdb %>%
   ggplot() +
   geom_histogram(
     aes(x = lucro), 
-    binwidth = 1000000,
+    binwidth = 100000000,
     color = "white"
   )
 ```
@@ -353,7 +353,7 @@ Vamos agregar os dados para termos apenas uma medida por ano.
 imdb %>% 
   filter(diretor == "Steven Spielberg") %>%
   group_by(ano) %>% 
-  mutate(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
+  summarise(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
   ggplot() +
   geom_line(aes(x = ano, y = nota_media))
 ```
@@ -364,7 +364,7 @@ Podemos misturar dois `geom's`.
 imdb %>% 
   filter(diretor == "Steven Spielberg") %>%
   group_by(ano) %>% 
-  mutate(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
+  summarise(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
   ggplot() +
   geom_line(aes(x = ano, y = nota_media), alpha = 0.1) +
   geom_point(aes(x = ano, y = nota_media), alpha = 0.1) +
@@ -378,10 +378,10 @@ Neste caso, é útil reescreveremos o código da seguinte maneira.
 imdb %>% 
   filter(diretor == "Steven Spielberg") %>%
   group_by(ano) %>% 
-  mutate(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
+  summarise(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
   ggplot(aes(x = ano, y = nota_media)) +
-  geom_point() +
-  geom_line() +
+  geom_point(alpha = 0.1) +
+  geom_line(alpha = 0.1) +
   geom_text(aes(label = nota_media))
 ```
 
@@ -416,9 +416,9 @@ desses atores.
 E se quiséssemos utilizar as 3 colunas de atores?
 
 ```{r}
-imdb %>% 
+imdb_atores <- imdb %>% 
   gather(posicao, ator, ator_1, ator_2, ator_3) %>% 
-  View
+View(imdb_atores)
 ```
 
 ## Exercícios

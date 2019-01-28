@@ -204,7 +204,6 @@ imdb %>% mutate(duracao_horas = duracao/60)
 # Deixe essa tabela ordenada com o maior prejuízo primeiro. Salve o resultado em 
 # um objeto chamado filmes_prejuizo.
 
-
 # exemplo 3
 # gêneros
 
