@@ -22,6 +22,8 @@ A <- 42
 
 # Vetores -----------------------------------------------------------------
 
+# Ver figura img/vetores.png
+
 # Vetores são conjuntos ordenados de números
 
 c(1, 4, 3, 10)
@@ -54,26 +56,7 @@ class(obj)
 # Bases (data.frame)
 
 mtcars
-tibble::as_tibble(mtcars)
-
 class(mtcars)
-class(tibble::as_tibble(mtcars))
-
-# Pacotes -----------------------------------------------------------------
-
-# Para instalar pacotes
-
-install.packages(c("tidyverse", "rmarkdown", "devtools"))
-
-# Para carregar pacotes
-
-library(dplyr)
-library(ggplot2)
-
-# Também é possível acessar as funções usando ::
-
-dplyr::select()
-
 
 # Funções -----------------------------------------------------------------
 
@@ -156,6 +139,31 @@ funcao_com_muitos_argumentos(argumento_1 = 10, argumento_2 = 14, argumento_3 = 3
 
 # ATALHO: CTRL+I
 
+# Pacotes -----------------------------------------------------------------
+
+# Para instalar pacotes
+
+install.packages(c("tidyverse", "rmarkdown", "devtools"))
+
+# Para carregar pacotes
+
+library(dplyr)
+
+# Também é possível acessar as funções usando ::
+
+dplyr::select()
+
+
+# Tidyverse ---------------------------------------------------------------
+
+# O tidyverse é um pacote de pacotes.
+
+library(tidyverse)
+
+# Os pacotes do tidyverse seguem uma mesma filosofia e sintaxe.
+
+# O pipe é a força da gravidade dentro do tidyverse.
+
 # Pipe (%>%) --------------------------------------------------------------
 
 # Receita de bolo sem pipe. Tente entender o que é preciso fazer.
@@ -194,7 +202,6 @@ recipiente(rep("farinha", 2), "água", "fermento", "leite", "óleo") %>%
   esfrie("geladeira", "20min")
 
 # ATALHO: CTRL + SHIFT + M
-
 
 # Controles de fluxo ------------------------------------------------------
 

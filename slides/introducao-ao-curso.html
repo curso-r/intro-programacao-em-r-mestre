@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
     <title>Introdução à programação em R</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta name="author" content="Curso-R" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
@@ -66,10 +66,9 @@ class: middle, center
 
 ## Referência
 
-- [R for data science](https://r4ds.had.co.nz)
-
+&lt;a href = "https://r4ds.had.co.nz"&gt;
 &lt;img src="img/r4ds.png" width="328" style="display: block; margin: auto;" /&gt;
-
+&lt;/a&gt;
 ---
 
 class: middle, center
@@ -77,9 +76,27 @@ class: middle, center
 # Introdução: por que programar?
 
 ---
-## Fazemos análise de dados no computador
+## O computador é a ferramenta do cientista de dados
+
+&lt;img src="img/parafuso.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 70%"&gt; 
+
+---
+## Precisamos nos comunicar com o computador
 
 &lt;img src="img/diagrama-programacao.png" style="display: block; margin-left: auto; margin-right: auto; width: 70%"&gt; 
+
+---
+## Point-click vs linguagens de programação
+
+.pull-left[
+&lt;img src = "img/chave-de-fenda.jpg" style="width:80%"&gt;
+]
+
+--
+
+.pull-right[
+&lt;img src = "img/chave-de-fenda-r.jpg" style="width:80%"&gt;
+]
 
 ---
 class: center, middle
@@ -260,7 +277,7 @@ getwd()
 ```
 
 ```
-## [1] "/home/william/Documents/Curso-R/intro-programacao-em-r-mestre/slides"
+## [1] "/Users/william/Documents/curso-r/intro-programacao-em-r-mestre/slides"
 ```
 
 
@@ -371,21 +388,21 @@ glimpse(imdb)
 ```
 ## Observations: 3,807
 ## Variables: 15
-## $ titulo         &lt;chr&gt; "Avatar ", "Pirates of the Caribbean: At World'...
-## $ ano            &lt;int&gt; 2009, 2007, 2012, 2012, 2007, 2010, 2015, 2016,...
-## $ diretor        &lt;chr&gt; "James Cameron", "Gore Verbinski", "Christopher...
-## $ duracao        &lt;int&gt; 178, 169, 164, 132, 156, 100, 141, 183, 169, 15...
-## $ cor            &lt;chr&gt; "Color", "Color", "Color", "Color", "Color", "C...
-## $ generos        &lt;chr&gt; "Action|Adventure|Fantasy|Sci-Fi", "Action|Adve...
-## $ pais           &lt;chr&gt; "USA", "USA", "USA", "USA", "USA", "USA", "USA"...
-## $ classificacao  &lt;chr&gt; "A partir de 13 anos", "A partir de 13 anos", "...
-## $ orcamento      &lt;int&gt; 237000000, 300000000, 250000000, 263700000, 258...
-## $ receita        &lt;int&gt; 760505847, 309404152, 448130642, 73058679, 3365...
-## $ nota_imdb      &lt;dbl&gt; 7.9, 7.1, 8.5, 6.6, 6.2, 7.8, 7.5, 6.9, 6.1, 7....
-## $ likes_facebook &lt;int&gt; 33000, 0, 164000, 24000, 0, 29000, 118000, 1970...
-## $ ator_1         &lt;chr&gt; "CCH Pounder", "Johnny Depp", "Tom Hardy", "Dar...
-## $ ator_2         &lt;chr&gt; "Joel David Moore", "Orlando Bloom", "Christian...
-## $ ator_3         &lt;chr&gt; "Wes Studi", "Jack Davenport", "Joseph Gordon-L...
+## $ titulo         &lt;chr&gt; "Avatar ", "Pirates of the Caribbean: At World's …
+## $ ano            &lt;int&gt; 2009, 2007, 2012, 2012, 2007, 2010, 2015, 2016, 2…
+## $ diretor        &lt;chr&gt; "James Cameron", "Gore Verbinski", "Christopher N…
+## $ duracao        &lt;int&gt; 178, 169, 164, 132, 156, 100, 141, 183, 169, 151,…
+## $ cor            &lt;chr&gt; "Color", "Color", "Color", "Color", "Color", "Col…
+## $ generos        &lt;chr&gt; "Action|Adventure|Fantasy|Sci-Fi", "Action|Advent…
+## $ pais           &lt;chr&gt; "USA", "USA", "USA", "USA", "USA", "USA", "USA", …
+## $ classificacao  &lt;chr&gt; "A partir de 13 anos", "A partir de 13 anos", "A …
+## $ orcamento      &lt;int&gt; 237000000, 300000000, 250000000, 263700000, 25800…
+## $ receita        &lt;int&gt; 760505847, 309404152, 448130642, 73058679, 336530…
+## $ nota_imdb      &lt;dbl&gt; 7.9, 7.1, 8.5, 6.6, 6.2, 7.8, 7.5, 6.9, 6.1, 7.3,…
+## $ likes_facebook &lt;int&gt; 33000, 0, 164000, 24000, 0, 29000, 118000, 197000…
+## $ ator_1         &lt;chr&gt; "CCH Pounder", "Johnny Depp", "Tom Hardy", "Daryl…
+## $ ator_2         &lt;chr&gt; "Joel David Moore", "Orlando Bloom", "Christian B…
+## $ ator_3         &lt;chr&gt; "Wes Studi", "Jack Davenport", "Joseph Gordon-Lev…
 ```
 
 
@@ -409,7 +426,7 @@ imdb %&gt;%
 ## 1 The S…  1994 Frank …     142 Color Crime|… USA   A partir de …  25000000
 ## 2 The G…  1972 Franci…     175 Color Crime|… USA   A partir de …   6000000
 ## 3 Kickb…  2016 John S…      90 &lt;NA&gt;  Action  USA   Outros         17000000
-## # ... with 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## # … with 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
 ## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
 ```
 
@@ -434,7 +451,7 @@ filmes_bons
 ## 1 The S…  1994 Frank …     142 Color Crime|… USA   A partir de …  25000000
 ## 2 The G…  1972 Franci…     175 Color Crime|… USA   A partir de …   6000000
 ## 3 Kickb…  2016 John S…      90 &lt;NA&gt;  Action  USA   Outros         17000000
-## # ... with 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## # … with 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
 ## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
 ```
 
@@ -454,7 +471,7 @@ filmes_bons
 
 ```
 ## # A tibble: 0 x 15
-## # ... with 15 variables: titulo &lt;chr&gt;, ano &lt;int&gt;, diretor &lt;chr&gt;,
+## # … with 15 variables: titulo &lt;chr&gt;, ano &lt;int&gt;, diretor &lt;chr&gt;,
 ## #   duracao &lt;int&gt;, cor &lt;chr&gt;, generos &lt;chr&gt;, pais &lt;chr&gt;,
 ## #   classificacao &lt;chr&gt;, orcamento &lt;int&gt;, receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
 ## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
@@ -491,7 +508,7 @@ imdb %&gt;%
 ##  8 Pink …  1972 John W…     108 Color Comedy… USA   A partir de …     10000
 ##  9 The T…  2007 Jane C…       7 Color Romanc… USA   Outros            13000
 ## 10 Paran…  2007 Oren P…      84 Color Horror  USA   A partir de …     15000
-## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## # … with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
 ## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
 ## #   ator_3 &lt;chr&gt;
 ```
@@ -522,7 +539,7 @@ imdb %&gt;%
 ##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
 ##  9 Pirat…  2011 Rob Ma…     136 Color Action… USA   A partir de … 250000000
 ## 10 Capta…  2016 Anthon…     147 Color Action… USA   A partir de … 250000000
-## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## # … with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
 ## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
 ## #   ator_3 &lt;chr&gt;
 ```
@@ -553,7 +570,7 @@ imdb %&gt;%
 ##  8 Bad M…  2016 Jon Lu…     100 Color Comedy  USA   A partir de …  20000000
 ##  9 Bad M…  2016 Jon Lu…     100 Color Comedy  USA   A partir de …  20000000
 ## 10 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
-## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## # … with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
 ## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
 ## #   ator_3 &lt;chr&gt;
 ```
@@ -589,7 +606,7 @@ imdb %&gt;%
 ##  8 Batman v Superman: Dawn of Justice           2016 250000000
 ##  9 Superman Returns                             2006 209000000
 ## 10 Pirates of the Caribbean: Dead Man's Chest   2006 225000000
-## # ... with 3,797 more rows
+## # … with 3,797 more rows
 ```
 
 ---
@@ -618,7 +635,7 @@ imdb %&gt;%
 ##  8 Henry Cavill    Lauren Cohan      Alan D. Purwin      
 ##  9 Kevin Spacey    Marlon Brando     Frank Langella      
 ## 10 Johnny Depp     Orlando Bloom     Jack Davenport      
-## # ... with 3,797 more rows
+## # … with 3,797 more rows
 ```
 
 ---
@@ -647,7 +664,7 @@ imdb %&gt;%
 ##  8  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
 ##  9  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
 ## 10  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
-## # ... with 3,797 more rows, and 3 more variables: receita &lt;int&gt;,
+## # … with 3,797 more rows, and 3 more variables: receita &lt;int&gt;,
 ## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;
 ```
 
@@ -665,7 +682,7 @@ imdb %&gt;%
 
 * `matches("(.)\\1")`: seleciona nomes usando Expressões Regulares
 
-* `num_range("x", 1:3)`: seleciona x1, x3 e x3
+* `num_range("x", 1:3)`: seleciona x1, x2 e x3
 
 ---
 class: center, middle
@@ -697,7 +714,7 @@ imdb %&gt;% mutate(duracao = duracao/60)
 ##  8 Batma…  2016 Zack S…    3.05 Color Action… USA   A partir de … 250000000
 ##  9 Super…  2006 Bryan …    2.82 Color Action… USA   A partir de … 209000000
 ## 10 Pirat…  2006 Gore V…    2.52 Color Action… USA   A partir de … 225000000
-## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## # … with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
 ## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
 ## #   ator_3 &lt;chr&gt;
 ```
@@ -727,7 +744,7 @@ imdb %&gt;% mutate(duracao_horas = duracao/60)
 ##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
 ##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
 ## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
-## # ... with 3,797 more rows, and 7 more variables: receita &lt;int&gt;,
+## # … with 3,797 more rows, and 7 more variables: receita &lt;int&gt;,
 ## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
 ## #   ator_3 &lt;chr&gt;, duracao_horas &lt;dbl&gt;
 ```
@@ -809,7 +826,7 @@ imdb %&gt;% group_by(ano)
 ##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
 ##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
 ## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
-## # ... with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
+## # … with 3,797 more rows, and 6 more variables: receita &lt;int&gt;,
 ## #   nota_imdb &lt;dbl&gt;, likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;,
 ## #   ator_3 &lt;chr&gt;
 ```
@@ -839,7 +856,7 @@ imdb %&gt;% group_by(ano) %&gt;% summarise(qtd_filmes = n())
 ##  8  1934          1
 ##  9  1935          1
 ## 10  1936          2
-## # ... with 81 more rows
+## # … with 81 more rows
 ```
 
 ---
@@ -903,6 +920,7 @@ class: middle, center
 
 ![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -912,16 +930,57 @@ class: middle, center
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
 })();</script>
 
 <script>
 (function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -935,7 +994,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

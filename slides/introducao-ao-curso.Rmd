@@ -60,12 +60,11 @@ class: middle, center
 
 ## Referência
 
-- [R for data science](https://r4ds.had.co.nz)
-
+<a href = "https://r4ds.had.co.nz">
 ```{r, fig.align='center', fig.width=4, fig.height=6, echo = FALSE}
 knitr::include_graphics("img/r4ds.png")
 ```
-
+</a>
 ---
 
 class: middle, center
@@ -73,9 +72,27 @@ class: middle, center
 # Introdução: por que programar?
 
 ---
-## Fazemos análise de dados no computador
+## O computador é a ferramenta do cientista de dados
+
+<img src="img/parafuso.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 70%"> 
+
+---
+## Precisamos nos comunicar com o computador
 
 <img src="img/diagrama-programacao.png" style="display: block; margin-left: auto; margin-right: auto; width: 70%"> 
+
+---
+## Point-click vs linguagens de programação
+
+.pull-left[
+<img src = "img/chave-de-fenda.jpg" style="width:80%">
+]
+
+--
+
+.pull-right[
+<img src = "img/chave-de-fenda-r.jpg" style="width:80%">
+]
 
 ---
 class: center, middle
@@ -502,7 +519,7 @@ imdb %>%
 
 * `matches("(.)\\1")`: seleciona nomes usando Expressões Regulares
 
-* `num_range("x", 1:3)`: seleciona x1, x3 e x3
+* `num_range("x", 1:3)`: seleciona x1, x2 e x3
 
 ---
 class: center, middle

@@ -4,6 +4,24 @@ author: "Curso-R"
 output: html_document
 ---
 
+# Introdução
+
+- Tese de doutorado do Hadley Wickham.
+
+- Baseado na gramática dos gráficos (*grammar of graphics*) de Leland Wilkinson.
+
+- Tenta responder a pergunta: o que é um gráfico estatístico?
+
+
+> Um gráfico estatístico é uma representação visual dos dados que utiliza os atributos estéticos (posição, cor, forma, tamanho, ...) de formas geométricas (pontos, linhas, barras, ...).
+
+- Com base nessa definição, Hadley desenvolveu a gramática dos gráficos em camadas (ou *layered grammar of graphics*): cada elemento do gráfico pode ser representado por uma camada e um gráfico seria a sobreposição dessas camadas.
+
+```{r}
+knitr::include_graphics("img/layers.png")
+```
+
+
 # Pacotes
 
 ```{r}
