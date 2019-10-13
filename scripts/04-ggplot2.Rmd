@@ -46,11 +46,12 @@ ggplot(imdb) +
 ```
 
 Vamos acrescentar a reta y = x para visualizar a quantidade de filmes que não se pagaram.
+(Também pintamos as bolinhas de roxo)
 
 ```{r}
 imdb %>%
   ggplot() +
-  geom_point(mapping = aes(x = orcamento, y = receita)) +
+  geom_point(mapping = aes(x = orcamento, y = receita), colour = "purple") +
   geom_abline(intercept = 0, slope = 1, color = "red")
 ```
 
