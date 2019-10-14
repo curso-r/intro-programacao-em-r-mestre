@@ -1,9 +1,10 @@
 ---
 title: "Introdução à programação em R"
-author: "Curso-R"
+author: "<img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>"
 date: ""
 output:
   xaringan::moon_reader:
+    css: ["default", "default-fonts", "css/custom-intro.css"]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -22,15 +23,11 @@ class: middle, center
 
 ---
 
-## Curso-R
+## Linha do tempo
 
-<br>
-
-- Primeiros cursos em 2015, no IME-USP
-
-- Curso-R surge oficialmente em 2017
-
-- Mais de 20 cursos e 300 alunos
+<center>
+<img src="img/linha_do_tempo.jpg" width = 45%></img>
+</center>
 
 ---
 class: middle, center
@@ -38,91 +35,168 @@ class: middle, center
 # Sobre o curso
 
 ---
-## Cronograma
 
-- Introdução à programação em R
-   - Conceitos básicos e importação
-   - Manipulação de dados
-   - Visualização de dados 
-   - Case, dashboards estáticos e outros tópicos
+## Conteúdo
+
+- Introdução ao R
+
+- Importação de dados
+
+- Manipulação de dados
+
+- Visualização de dados
+
+- Comunicação
    
+---
+## Introdução ao R
+
+.pull-left[
+<br>
+- R e RStudio
+
+- Trabalhando com projetos
+
+- Objetos e funções
+
+- Pacotes
+]
+
+.pull-right[
+<img src="img/arte_comunidade.png">
+]
+
+---
+## Importação
+
+.pull-left[
+<br>
+- Arquivos de texto
+
+- Arquivos do excel
+
+- Arquivos de outros softwares (SAS, SPSS)
+
+- Conexão com banco de dados
+]
+
+.pull-right[
+<br>
+<img src="img/arte_janitor.png">
+]
+
+---
+## Manipulação
+
+.pull-left[
+<br>
+- Selecionar colunas
+
+- Filtrar linhas
+
+- Criar ou modificar colunas
+
+- Agrupar e sumarizar
+
+- Juntar tabelas
+]
+
+.pull-right[
+<img src="img/arte_dplyr.png">
+]
+
+---
+## Visualização
+
+<center>
+<img src="img/arte_ggplot2.png" width = 80%>
+</center>
+
+---
+## Comunicação
+
+- Relatórios automatizados
+- Dashboards estáticos
+
+<center>
+<img src="img/arte_rmarkdown.png" width = 70%>
+</center>
+
 ---
 
 ## Material
 
-- Temos um material em português disponível nesta página:
+<center>
 
-<a href = 'https://curso-r.com/material'><img src="img/material.png" style=" display: block; margin-left: auto; margin-right: auto; width: 70%"></img></a>
+<br>
 
-- Também temos um blog: <a href='http://curso-r.com/blog/'>http://curso-r.com/blog/ </a>
+Temos um material em português disponível nesta página:
+
+<br>
+
+<a href='https://curso-r.com/material'>https://curso-r.com/material</a>
+
+<br>
+<br>
+
+Também temos um blog: 
+
+<br>
+
+<a href='http://curso-r.com/blog/'>http://curso-r.com/blog/ </a>
+
+</center>
+
+<a href="https://www.curso-r.com/blog/2019-07-15-comunidade/">
+<img src="img/post-comunidade.png" style="position: fixed; bottom: 80px; left: 180px" width = 170px height = 280px></img>
+</a>
+
+<a href="https://www.curso-r.com/blog/2017-07-29-segundo-menor-dl/">
+<img src="img/post-deep-learning.png" style="position: fixed; bottom: 78px; left: 380px" width = 170px height = 275px></img>
+</a>
+
+<a href="https://www.curso-r.com/blog/2017-05-01-as-paletas-de-cores-da-marvel-vs-dc/">
+<img src="img/post-marvel.png" style="position: fixed; bottom: 82px; left: 570px" width = 170px height = 277px></img>
+</a>
 
 ---
 
 ## Referência
 
+<br>
+<center>
 <a href = "https://r4ds.had.co.nz">
-```{r, fig.align='center', fig.width=4, fig.height=6, echo = FALSE}
-knitr::include_graphics("img/r4ds.png")
-```
+<img src="img/r4ds.png" width = 40%> 
 </a>
----
+</center>
 
+---
 class: middle, center
 
 # Introdução: por que programar?
 
 ---
+class: middle, center
+
 ## O computador é a ferramenta do cientista de dados
 
-<img src="img/parafuso.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 70%"> 
-
 ---
+class: middle, center
+
 ## Precisamos nos comunicar com o computador
 
 <img src="img/diagrama-programacao.png" style="display: block; margin-left: auto; margin-right: auto; width: 70%"> 
 
 ---
-## Point-click vs linguagens de programação
-
-.pull-left[
-<img src = "img/chave-de-fenda.jpg" style="width:80%">
-]
-
---
-
-.pull-right[
-<img src = "img/chave-de-fenda-r.jpg" style="width:80%">
-]
-
----
-class: center, middle
-
-### Por que programar é preferível?
-
-<br>
-
-# 1. Código é texto
-# 2. Código é legível
-# 3. Código é aberto
-
----
 class: middle, center
+## O código é texto
 
-# Código é texto
+### Podemos copiar e colar
 
-Podemos copiar e colar
-
-<img src="img/copy-paste.png" style="width: 80%">
-
----
-class: middle, center
-
-### Stack Overflow
-
-<img src="img/stack.png" style="width: 70%">
+<img src="img/copy-paste.png" style="width: 70%">
 
 ---
-## Código é legível
+## O código documenta a nossa análise
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library(magrittr)
@@ -144,7 +218,7 @@ image_read("https://jeroen.github.io/images/frink.png") %>%
 --
 
 .pull-left[
-<img src = "https://jeroen.github.io/images/frink.png" style="width:45%">
+<img src = "https://jeroen.github.io/images/frink.png" style="width:35%">
 ]
 
 --
@@ -164,14 +238,13 @@ image_read("https://jeroen.github.io/images/frink.png") %>%
 ---
 # Código é aberto
 
-Todas as linguagens de programação modernas são open-source:
-
+Todas as linguagens de programação modernas são livres e abertas:
 
 - Estudantes podem usar as mesmas ferramentas que os profissionais.
 
-- Todos podem usar as melhores ferramentas independente do poder financeiro.
+- Todos podem usar as melhores ferramentas independentemente do poder financeiro.
 
-- Qualquer um pode reproduzir as suas análises.
+- O código facilita a reproducibilidade das análises.
 
 - Você pode corrigir problemas.
 
@@ -180,11 +253,7 @@ Todas as linguagens de programação modernas são open-source:
 ---
 class: middle, center
 
-### Por que utilizar o R?
-
---
-
-# O R foi criado para fazer análise de dados.
+# Por que utilizar o R?
 
 ---
 
@@ -199,467 +268,48 @@ class: middle, center
 <img src="img/ciclo-ciencia-de-dados-pacotes.png" style = "display: block; margin-left: auto; margin-right: auto;">
 
 ---
-
-## Por que usar o R?
-
-<img src="img/cola.png" style = "display: block; margin-left: auto; margin-right: auto;">
-
-O R é a **cola**.
-
----
 class: middle, center
 
-# Ambientação
+# Informações importantes
 
 ---
-class: center, middle, inverse
+# Aprendizado
 
-```{r setup2, include=FALSE}
-options(htmltools.dir.version = FALSE)
-```
-
-## Download do R
-
-[Windows](https://cran.r-project.org/bin/windows/base/)
-[MacOS](https://cran.r-project.org/bin/macosx/)
-[Linux](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
-
----
-class: center, middle, inverse
-
-## Download do RStudio
-
-[Todas as plataformas](https://www.rstudio.com/products/rstudio/download/#download)
-
-
----
-# Vamos ao R!
-
-<br>
+### O objetivo do curso é ajudar a quebrar inércia da etapa inicial de aprendizado. Assim como um idioma, o único jeito de aprender uma linguagem de programação é praticando.
 
 <img src="https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif" style = "display: block; margin-left: auto; margin-right: auto;">
 
 ---
-class: middle, center
+# Pedindo ajuda
 
-# Importação
+.pull-left[
+<br>
+- Documentação do R
 
----
+- Google
 
-## Ciclo da ciência de dados
+- Stakoverflow
+]
 
-<img src="img/ciclo-ciencia-de-dados.png" style = "display: block; margin-left: auto; margin-right: auto;">
-
----
-
-## O que é importar?
-
-<img src="https://user-images.githubusercontent.com/4706822/43643475-c4b9d7f4-9701-11e8-927e-2e412e99a131.png" style = "display: block; margin-left: auto; margin-right: auto;">
-
----
-
-## readr
-
-O pacote `readr` possui diversas funções para ler arquivos de texto:
-
-* `read_csv()`
-* `read_delim()`
-* `read_csv2()`
-* `read_log()`
+.pull-right[
+<img src="img/stack.png">
+]
 
 ---
+# Regras, boas práticas e estilo
 
-## Caminho para os arquivos
+<br>
 
-1. Podem ser absolutos
+- Regras: devem ser seguidas para o código funcionar (sintaxe, vocabulário)
 
-```{r, eval=FALSE}
-read_csv("/home/william/Curso-R/201809-intro-r/data/imdb.csv")
-```
+- Boas práticas: recomenda-se seguir para a criação de códigos legíveis (espaçamento, nomes, organização)
 
+- Estilo: cada um pode escolher aquele com o qual se sentir mais à vontade (tipos de identação, formatação)
 
-2. Podem ser relativos ao diretório de trabalho
-
-```{r}
-getwd()
-```
-
-
-```{r, eval=FALSE}
-read_csv("dados/imdb.csv")
-```
-
----
-
-## Point and Click
-
-Usar o `Import Dataset` do RStudio.
-
-![](https://user-images.githubusercontent.com/4706822/43643963-60496a3a-9703-11e8-81a2-b394bda016ae.png)
-
----
-
-## read_rds
-
-RDS é o formato binário do R.
-
-* write_rds
-* read_rds
-
----
-
-## readxl
-
-> Ler arquivos do excel
-
-* `read_excel`
-
----
-
-## haven
-
-> Ler arquivos de outros softwares de estatística
-
-* `read_sas`
-* `read_spss`
-* `read_stata`
-
----
-
-## DBI + odbc
-
-> Conexão com bancos de dados
-
-* `dbConnect`
-
-[db.rstudio.com](https://db.rstudio.com)
 
 ---
 class: middle, center
 
-# dplyr
-
----
-
-## Ciclo da ciência de dados
-
-<img src="img/ciclo-ciencia-de-dados.png" style = "display: block; margin-left: auto; margin-right: auto;">
-
-
----
-class: middle
-
-```{r setup, include=FALSE}
-library(tidyverse)
-imdb <- read_rds("../dados/imdb.rds")
-```
-
-> “Happy families are all alike; every unhappy family is unhappy in its own way.” –– Leo Tolstoy
-
-
-> “Tidy datasets are all alike, but every messy dataset is messy in its own way.” –– Hadley Wickham
-
----
-
-## Os 5 verbos do dplyr
-
-* `filter()`: selecionar observações (linhas) da base de dados
-* `arrange()`: ordenar de acordo com alguma variável (coluna)
-* `select()`: selecionar variáveis (colunas)
-* `mutate()`: modificar/criar variáveis do banco de dados
-* `summarise()`: sumarizar/agregar variáveis de uma base de dados
-
----
-
-## 3 regras
-
-* o primeiro argumento é sempre um `data.frame`
-* os outros argumentos descrevem o que você quer fazer
-* todos os verbos retornam sempre um `data.frame`
-
-Essas três regras fazem o uso do pipe (`%>%`) ser muito intuitivo.
-
----
-class: smaller
-
-# glimpse
-
-Solta um resuminho da base
-
-```{r}
-glimpse(imdb)
-```
-
-
----
-class: smaller
-
-## filter
-
-Selecionar **linhas** da base de dados!
-
-```{r, warning=FALSE, out.width="70%"}
-imdb %>% 
-  filter(nota_imdb > 9)
-```
-
----
-
-## filter
-
-> Você pode salvar os resultados em uma outra variável:
-
-```{r, warning=FALSE}
-filmes_bons <- imdb %>% 
-  filter(nota_imdb > 9)
-
-filmes_bons
-```
-
----
-
-## filter
-
-> Você pode sobreescrever a base também:
-
-```{r}
-filmes_bons <- filmes_bons %>% 
-  filter(orcamento < 1000000)
-
-filmes_bons
-```
-
----
-class: center, middle
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
-
----
-
-## arrange
-
-> Ordenar linhas da base de acordo com alguma variável
-
-```{r}
-imdb %>% 
-  arrange(orcamento)
-```
-
----
-
-## arrange
-
-> Você também pode ordenar na ordem decrescente
-
-```{r}
-imdb %>% 
-  arrange(desc(orcamento))
-```
-
----
-
-## arrange
-
-> Também é possível ordenar por mais de uma variável:
-
-```{r}
-imdb %>% 
-  arrange(desc(ano), titulo)
-```
-
----
-class: center, middle
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
-
----
-
-## select
-
-> Selecionar colunas de uma tabela
-
-```{r}
-imdb %>% 
-  select(titulo, ano, orcamento)
-```
-
----
-
-## select
-
-> Funções úteis p/ seleção
-
-```{r}
-imdb %>% 
-  select(starts_with("ator"))
-```
-
----
-
-## select
-
-> Excluir variáveis:
-
-```{r}
-imdb %>% 
-  select(-starts_with("ator"), -titulo)
-```
-
----
-
-## select
-
-> Outras funções úteis de seleção
-
-* `starts_with("abc")`: seleciona nomes que começam com "abc"
-
-* `ends_with("xyz")`: seleciona nomes que terminam com "xyz"
-
-* `contains("ijk")`: seleciona nomes que contêm "ijk"
-
-* `matches("(.)\\1")`: seleciona nomes usando Expressões Regulares
-
-* `num_range("x", 1:3)`: seleciona x1, x2 e x3
-
----
-class: center, middle
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
-
----
-
-## mutate
-
-> Criar ou modificar colunas de um banco de dados.
-
-```{r}
-imdb %>% mutate(duracao = duracao/60)
-```
-
----
-
-## mutate
-
-> Criando uma nova variável
-
-```{r}
-imdb %>% mutate(duracao_horas = duracao/60)
-```
-
-
----
-class: center, middle
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
-
-
----
-
-## summarise
-
-> Agregar/Sumarisar a tabela
-
-```{r}
-imdb %>% summarise(media_orcamento = mean(orcamento, na.rm=TRUE))
-```
-
----
-
-## summarise
-
-> Calcular várias medidas agregadas
-
-```{r}
-imdb %>% summarise(
-  media_orcamento = mean(orcamento, na.rm=TRUE),
-  mediana_orcamento = median(orcamento, na.rm = TRUE)
-  )
-```
-
----
-class: center, middle
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
-
----
-
-## group_by + summarise
-
-> Sumarisar/Agregar a base por grupos
-
-```{r}
-imdb %>% group_by(ano)
-```
-
----
-
-## group_by + summarise
-
-> Agregar/Sumarisar por grupos
-
-```{r}
-imdb %>% group_by(ano) %>% summarise(qtd_filmes = n())
-```
-
----
-class: middle, center
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
-
-
----
-
-## left join
-
-> Tipos de joins
-
-<img src="http://r4ds.had.co.nz/diagrams/join-outer.png" style="width: 40%;" class="middle center">
-
----
-
-## left join
-
-> Chaves duplicadas na tabela da esquerda
-
-![](http://r4ds.had.co.nz/diagrams/join-one-to-many.png)
-
----
-
-## left join
-
-> Chaves duplicadas nas duas tabelas
-
-![](http://r4ds.had.co.nz/diagrams/join-many-to-many.png)
-
----
-class: middle, center
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
-
----
-
-## gather
-
-> Transformar variáveis em linhas:
-
-![](http://r4ds.had.co.nz/images/tidy-9.png)
-
----
-class: middle, center
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
-
----
-
-## spread
-
-> Transformar linhas em colunas
-
-![](http://r4ds.had.co.nz/images/tidy-8.png)
-
----
-class: middle, center
-
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+# Vamos ao R!
 
 
