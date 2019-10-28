@@ -42,19 +42,15 @@ arrange(imdb, desc(orcamento))
 
 arrange(imdb, desc(ano), titulo)
 
-# exercício 1
-# Ordene os filmes em ordem crescente de ano e decrescente de lucro e salve 
-# em um objeto chamado filmes_ordenados
-
 # exemplo 4
 # NA
 
 df <- tibble(x = c(NA, 2, 1), y = c(1, 2, 3))
 arrange(df, x)
 
-# exemplo 5
-
-imdb %>% filter(ano == 2010) %>% arrange(desc(orcamento))
+# exercício 1
+# Ordene os filmes em ordem crescente de ano e decrescente de lucro e salve 
+# em um objeto chamado filmes_ordenados
 
 # Exercício 2 
 # Selecione apenas as colunas título e orçamento 

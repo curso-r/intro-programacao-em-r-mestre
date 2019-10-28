@@ -1,11 +1,9 @@
-# Nome dos objetos/variáveis ----------------------------------------------
-
 # Criando objetos/variáveis -----------------------------------------------
 
 obj <- 1
 obj
 
-# também dizemos 'guardando as saídas'
+# Também dizemos 'guardando as saídas'
 y <- seq(1, 10, length.out = 5)
 y
 
@@ -17,7 +15,8 @@ y
 a <- 5
 A <- 42
 
-# Os nomes devem começar com uma letra. Podem conter letras, números, _ e .
+# Os nomes devem começar com uma letra. 
+# Podem conter letras, números, _ e .
 
 eu_uso_snake_case
 outrasPessoasUsamCamelCase
@@ -43,8 +42,9 @@ vetor[-c(1, 3)]
 
 
 # exercícios:
-# 1) crie um vetor de 0 a 5 e guarde num objeto chamado 'zero_a_cinco'
-# dica: usar o operador : (1:10)
+# 1) crie um vetor de 0 a 5 e guarde num objeto 
+# chamado 'zero_a_cinco'.
+# Dica: usar o operador : (1:10)
 
 # 2) extraia apenas os números 0 e 5 desse vetor
 
@@ -79,9 +79,7 @@ class(mtcars)
 # o operador $
 mtcars$mpg
 
-# exercício 1: na linha debaixo, coloque o $ e aperte TAB
-
-# exercício 2: selecione a coluna 'cyl' usando o $ e 
+# Exercício: selecione a coluna 'cyl' usando o $ e 
 # depois extraia os valores de 4 a 8
 
 
@@ -101,28 +99,17 @@ mean(seq(1, 10, 2))
 y <- seq(1, 10, length.out = 5)
 y
 
-# exercícios:
+# Exercícios
+
 # 1) use a funcao 'sum' para somar os valores de 1 a 100
 
-# 2) agora some os valores da coluna mpg do banco de dados mtcars (dica: use o $)
+# 2) agora some os valores da coluna mpg do banco 
+# de dados mtcars (dica: use o $)
 
 
 # Criando funções
 
 minha_soma <- function(x, y) {
-  
-  x + y
-  
-}
-
-minha_soma(2, 3)
-
-# Retornando explicitamente
-
-minha_soma2 <- function(x, y) {
-  
-  x <- x^2
-  y <-y^2
   
   soma <- x + y
   
@@ -130,7 +117,11 @@ minha_soma2 <- function(x, y) {
   
 }
 
-minha_soma2(1, 2)
+minha_soma(2, 3)
+
+# Exercício: crie uma função que recebe 2 números
+# e devolve a raiz quadrada da soma desses números.
+# Dica: sqrt() é a função para raiz quadrada.
 
 
 # Comparações lógicas ------------------------------------------------------
@@ -146,8 +137,9 @@ minha_soma2(1, 2)
 1 >= 0
 2 <= 1
 
-# exercício: crie um vetor de números e veja o que acontece se você fizer
-# uma comparação lógica com ele.
+# Exercício: crie um vetor de números e veja o 
+# que acontece se você fizer uma comparação 
+# lógica com ele.
 
 
 # Valores especiais -------------------------------------------------------
@@ -229,8 +221,8 @@ b / b
 a + b
 b * a
 
-# exercícios:
-# 1) crie um vetor 'mpg2' que receba a coluna 'mpg' do mtcars, mas com seus valores ao quadrado
+# exercícios: crie um vetor 'mpg2' que receba a coluna 
+# 'mpg' do mtcars, mas com seus valores ao quadrado.
 
 
 # Coerção ------------------------------------------------------------------
@@ -238,16 +230,17 @@ class(c(1, 2, 3))
 class(c("a", "b", "c"))
 class(c(TRUE, TRUE, FALSE))
 
-# misturando diferentes classes...
+# Misturando diferentes classes
 c(1, 2, 3, "a")
 c(TRUE, FALSE, "a")
 c(1L, "a", "2")
 c(TRUE, FALSE, 1, 100)
 
+# Ordem de coerção
 # logico < inteiro < numerico < caracter
 
-#-----------------------------------------------------------------------
-# uma das coerções mais importantes: lógico para numérico
+
+# Uma das coerções mais importantes: lógico para numérico
 x <- 1:10
 
 x < 4
@@ -259,11 +252,12 @@ sum(x[x < 4])
 # exemplo mais complexo!
 mtcars$mpg[mtcars$wt >= 3]
 
-# logico < inteiro < numerico < caracter
 
-# exercícios:
-# 1) crie um vetor lógico 'maior_que_300' que indique se o vetor mpg2 é maior que 300.
+# Exercícios:
+# 1) crie um vetor lógico 'maior_que_300' que indique 
+# se o vetor mpg2 é maior que 300.
 
-# 2) calcule a soma de maior_que_300 (utilize a função sum()).
+# 2) Calcule a soma do objeto maior_que_300 
+# (utilize a função sum()).
 
 
