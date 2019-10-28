@@ -229,7 +229,7 @@ image_read("https://jeroen.github.io/images/frink.png") %>%
   image_rotate(270) %>%
   image_background("blue", flatten = TRUE) %>%
   image_border("red", "10x10") %>%
-  image_annotate("Liguagens de programação ainda\nsão linguagens!", 
+  image_annotate("Linguagens de programação ainda\nsão linguagens!", 
                  color = "white", size = 30)
 ```
 ]
