@@ -211,7 +211,7 @@ image_read("https://jeroen.github.io/images/frink.png") %>%
   image_rotate(270) %>%
   image_background("blue", flatten = TRUE) %>%
   image_border("red", "10x10") %>%
-  image_annotate("Liguagens de programação ainda\nsão linguagens!", 
+  image_annotate("Linguagens de programação ainda\nsão linguagens!", 
                  color = "white", size = 30)
 ```
 
@@ -244,7 +244,7 @@ Todas as linguagens de programação modernas são livres e abertas:
 
 - Todos podem usar as melhores ferramentas independentemente do poder financeiro.
 
-- O código facilita a reproducibilidade das análises.
+- O código facilita a reprodutibilidade das análises.
 
 - Você pode corrigir problemas.
 
@@ -288,7 +288,7 @@ class: middle, center
 
 - Google
 
-- Stakoverflow
+- Stack Overflow
 ]
 
 .pull-right[
@@ -304,7 +304,7 @@ class: middle, center
 
 - Boas práticas: recomenda-se seguir para a criação de códigos legíveis (espaçamento, nomes, organização)
 
-- Estilo: cada um pode escolher aquele com o qual se sentir mais à vontade (tipos de identação, formatação)
+- Estilo: cada um pode escolher aquele com o qual se sentir mais à vontade (tipos de indentação, formatação)
 
 
 ---
