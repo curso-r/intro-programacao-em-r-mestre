@@ -10,13 +10,17 @@ imdb <- read_rds("dados/imdb.rds")
 
 # exemplo 1
 
+select(imdb, titulo)
+
+# exemplo 2
+
 select(imdb, titulo, ano, orcamento)
 
-# exemplo 2 
+# exemplo 3
 
 select(imdb, starts_with("ator"))
 
-# exemplo 3
+# exemplo 4
 
 select(imdb, -starts_with("ator"), -titulo)
 
@@ -49,7 +53,7 @@ df <- tibble(x = c(NA, 2, 1), y = c(1, 2, 3))
 arrange(df, x)
 
 # exercício 1
-# Ordene os filmes em ordem crescente de ano e decrescente de lucro e salve 
+# Ordene os filmes em ordem crescente de ano e decrescente de receita e salve 
 # em um objeto chamado filmes_ordenados
 
 # Exercício 2 
@@ -202,50 +206,19 @@ imdb %>% mutate(duracao_horas = duracao/60)
 library(gender)
 
 gender(c("William"), years = 2012)
+gender(c("Amanda"), years = 2012)
 gender(c("Robin"), years = 2012)
 
 gender(c("Madison", "Hillary"), years = 1930, method = "ssa")
 gender(c("Madison", "Hillary"), years = 2010, method = "ssa")
 
 gender("Matheus", years = 1920)
+gender("Matheus", years = 2012)
 
-obter_genero <- function(nome, ano) {
-  
-  if (is.na(nome) | is.na(ano)) {
-    return(NA_character_)
-  }
-  
-  ano_min <- ano - 60
-  ano_max <- ano - 30
-  
-  if (ano_min < 1880) {
-    ano_min <- 1880
-  }
-  
-  genero <- gender(nome, years = c(ano_min, ano_max), method = "ssa")$gender
-  
-  if(length(genero) == 0) {
-    genero <- NA_character_
-  }
-  
-  genero
-}
-
-obter_genero("Madison", 1930)
-obter_genero("Matheus", 1930)
-
-# demora +- 10 min.
-imdb_generos <- imdb %>%
-  select(diretor, ano) %>%
-  distinct() %>%
-  mutate(
-    diretor_primeiro_nome = str_extract(diretor, ".* ") %>% str_trim(),
-    genero = map2_chr(diretor_primeiro_nome, ano, obter_genero)
-  )
-
-# saveRDS(imdb_generos, "data/imdb_generos.rds")
+# Base com o gênero dos diretores
 imdb_generos <- read_rds("dados/imdb_generos.rds")
 
+# Pacote análogo para nomes brasileiros
 # https://github.com/meirelesff/genderBR
 
 # summarise ---------------------------------------------------------------
@@ -324,8 +297,10 @@ imdb %>%
 
 # exemplo 1
 
-imdb_generos2 <- imdb %>%
+imdb_completa <- imdb %>%
   left_join(imdb_generos, by = c("diretor", "ano"))
+
+View(imdb_completa)
 
 # exemplo 2
 
@@ -336,10 +311,9 @@ depara_cores <- tibble(
 
 imdb_cor <- left_join(imdb, depara_cores, by = c("cor"))
 
-
 # exercicio 1
 # Calcule a média dos orçamentos e receitas para filmes feitos por
-# genero do diretor.
+# gênero do diretor.
 
 # gather ------------------------------------------------------------------
 
