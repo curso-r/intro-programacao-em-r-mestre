@@ -1,5 +1,5 @@
 ---
-title: "Introdução à programação em R"
+title: "R para Ciência de Dados I"
 author: "<img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>"
 date: ""
 output:
@@ -30,13 +30,55 @@ class: middle, center
 </center>
 
 ---
-class: middle, center
 
 ## Nossos cursos
 
-<center>
-<img src="cursos.png"></img>
-</center>
+.pull-left[
+<div class="container center">
+  <div class="card">
+    <h2>Programação em R</h2>
+    <hr style = "background-color: #3bb44a;"/>
+    <p><a href = "https://www.curso-r.com/cursos/r4ds-1/">R para Ciência de dados I</a></p>
+        <p><a href = "https://www.curso-r.com/cursos/r4ds-2/">R para Ciência de dados II</a></p>
+  </div>
+</div>
+
+<br>
+
+<div class="container center">
+  <div class="card">
+    <h2>Modelagem</h2>
+    <hr style = "background-color: #996699;"/>
+    <p><a href = "https://www.curso-r.com/cursos/regressao/">Regressão Linear</a></p>
+    <p><a href = "https://www.curso-r.com/cursos/intro-machine-learning/">Machine Learning</a></p>
+    <p><a href = "https://www.curso-r.com/cursos/xgboost/">XGBoost</a></p>
+    <p><a href = "https://www.curso-r.com/cursos/deep-learning/">Deep Learning</a></p>
+  </div>
+</div>
+]
+
+
+.pull-right[
+<div class="container center">
+  <div class="card">
+    <h2>Extração de dados</h2>
+    <hr style = "background-color: #eeba30;"/>
+    <p><a href = "https://www.curso-r.com/cursos/web-scraping-1/">Web scraping I</a></p>
+        <p><a href = "https://www.curso-r.com/cursos/web-scraping-2/">Web scraping II</a></p>
+  </div>
+</div>
+
+<br>
+
+<div class="container center">
+  <div class="card">
+    <h2>Comunicação e automação</h2>
+    <hr style = "background-color: #ff6699;"/>
+    <p><a href = "https://www.curso-r.com/cursos/dashboards/">Dashboards com R</a></p>
+        <p><a href = "https://www.curso-r.com/cursos/deploy/">Deploy</a></p>
+  </div>
+</div>
+]
 
 ---
 class: middle, center
@@ -44,7 +86,6 @@ class: middle, center
 # Sobre o curso
 
 ---
-
 ## Conteúdo
 
 - Introdução ao R
@@ -182,30 +223,50 @@ Também temos um blog:
 ---
 class: middle, center
 
-# Introdução: por que programar?
+# Introdução
+
+### As vantagens de analisar dados usando linguagens de programação
 
 ---
 class: middle, center
 
-## O computador é a ferramenta do cientista de dados
+### As principais linguagens de programação para ciência de dados são
+# Código Aberto
+
+---
+# O que significa ser código aberto?
+
+<br>
+
+1. Acesso gratuito.
+
+2. Todos podem usar as melhores ferramentas independentemente do poder financeiro.
+
+3. Estudantes podem usar as mesmas ferramentas que os profissionais.
+
+4. Possibilita a existência de uma comunidade ativa.
+
+5. Você pode corrigir problemas e aprimorar a linguagem.
+
+6. Você pode desenvovler suas próprias ferramentas.
 
 ---
 class: middle, center
-
-## Precisamos nos comunicar com o computador
-
-<img src="img/diagrama-programacao.png" style="display: block; margin-left: auto; margin-right: auto; width: 70%"> 
+# O código é texto
 
 ---
-class: middle, center
-## O código é texto
+# Podemos copiar e colar
 
-### Podemos copiar e colar
-
+<br>
+<center>
 <img src="img/copy-paste.png" style="width: 70%">
+</center>
+---
+class: middle, center
+# O código é uma linguagem
 
 ---
-## O código documenta a nossa análise
+# Podemos documentar a nossa análise
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library(magrittr)
@@ -227,13 +288,15 @@ image_read("https://jeroen.github.io/images/frink.png") %>%
 --
 
 .pull-left[
-<img src = "https://jeroen.github.io/images/frink.png" style="width:35%">
+#### Entrada
+<img src = "https://jeroen.github.io/images/frink.png" style="width:25%">
 ]
 
 --
 
 .pull-right[
-```{r, eval = TRUE, echo = FALSE}
+#### Saída
+```{r, eval = TRUE, echo = FALSE, out.width=260, out.height=110}
 image_read("https://jeroen.github.io/images/frink.png") %>%
   image_rotate(270) %>%
   image_background("blue", flatten = TRUE) %>%
@@ -243,26 +306,11 @@ image_read("https://jeroen.github.io/images/frink.png") %>%
 ```
 ]
 
-
----
-# Código é aberto
-
-Todas as linguagens de programação modernas são livres e abertas:
-
-- Estudantes podem usar as mesmas ferramentas que os profissionais.
-
-- Todos podem usar as melhores ferramentas independentemente do poder financeiro.
-
-- O código facilita a reprodutibilidade das análises.
-
-- Você pode corrigir problemas.
-
-- Você pode desenvolver suas próprias ferramentas.
-
 ---
 class: middle, center
 
-# Por que utilizar o R?
+# Introdução
+### Por que o R?
 
 ---
 
@@ -279,10 +327,11 @@ class: middle, center
 ---
 class: middle, center
 
-# Informações importantes
+# Introdução
+### Guia do mochileiro
 
 ---
-# Aprendizado
+# Pratique
 
 ### O objetivo do curso é ajudar a quebrar inércia da etapa inicial de aprendizado. Assim como um idioma, o único jeito de aprender uma linguagem de programação é praticando.
 
@@ -295,7 +344,7 @@ class: middle, center
 <br>
 
 - Documentação do R
-- Discourse Curso-r (**NOVO!**)
+- Discourse Curso-r
 - Google
 - Stack Overflow
 ]
@@ -308,6 +357,8 @@ class: middle, center
 # Regras, boas práticas e estilo
 
 <br>
+
+Na grande maioria das vezes, você poderá resolver uma tarefa de diversas maneiras. Isso porque, apesar de existirem várias **regras**, linguagens de programação também possuem **boas práticas** e **estilos**.
 
 - Regras: devem ser seguidas para o código funcionar (sintaxe, vocabulário)
 

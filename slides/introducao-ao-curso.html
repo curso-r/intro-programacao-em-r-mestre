@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
   <head>
-    <title>Introdução à programação em R</title>
+    <title>R para Ciência de Dados I</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css\custom-intro.css" type="text/css" />
+    <link rel="stylesheet" href="css/custom-intro.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Introdução à programação em R
+# R para Ciência de Dados I
 ### <img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>
 
 ---
@@ -36,13 +36,55 @@ class: middle, center
 &lt;/center&gt;
 
 ---
-class: middle, center
 
 ## Nossos cursos
 
-&lt;center&gt;
-&lt;img src="cursos.png"&gt;&lt;/img&gt;
-&lt;/center&gt;
+.pull-left[
+&lt;div class="container center"&gt;
+  &lt;div class="card"&gt;
+    &lt;h2&gt;Programação em R&lt;/h2&gt;
+    &lt;hr style = "background-color: #3bb44a;"/&gt;
+    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/r4ds-1/"&gt;R para Ciência de dados I&lt;/a&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/r4ds-2/"&gt;R para Ciência de dados II&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;br&gt;
+
+&lt;div class="container center"&gt;
+  &lt;div class="card"&gt;
+    &lt;h2&gt;Modelagem&lt;/h2&gt;
+    &lt;hr style = "background-color: #996699;"/&gt;
+    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/regressao/"&gt;Regressão Linear&lt;/a&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/intro-machine-learning/"&gt;Machine Learning&lt;/a&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/xgboost/"&gt;XGBoost&lt;/a&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/deep-learning/"&gt;Deep Learning&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+]
+
+
+.pull-right[
+&lt;div class="container center"&gt;
+  &lt;div class="card"&gt;
+    &lt;h2&gt;Extração de dados&lt;/h2&gt;
+    &lt;hr style = "background-color: #eeba30;"/&gt;
+    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/web-scraping-1/"&gt;Web scraping I&lt;/a&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/web-scraping-2/"&gt;Web scraping II&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;br&gt;
+
+&lt;div class="container center"&gt;
+  &lt;div class="card"&gt;
+    &lt;h2&gt;Comunicação e automação&lt;/h2&gt;
+    &lt;hr style = "background-color: #ff6699;"/&gt;
+    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/dashboards/"&gt;Dashboards com R&lt;/a&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/deploy/"&gt;Deploy&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+]
 
 ---
 class: middle, center
@@ -50,7 +92,6 @@ class: middle, center
 # Sobre o curso
 
 ---
-
 ## Conteúdo
 
 - Introdução ao R
@@ -188,30 +229,50 @@ Também temos um blog:
 ---
 class: middle, center
 
-# Introdução: por que programar?
+# Introdução
+
+### As vantagens de analisar dados usando linguagens de programação
 
 ---
 class: middle, center
 
-## O computador é a ferramenta do cientista de dados
+### As principais linguagens de programação para ciência de dados são
+# Código Aberto
+
+---
+# O que significa ser código aberto?
+
+&lt;br&gt;
+
+1. Acesso gratuito.
+
+2. Todos podem usar as melhores ferramentas independentemente do poder financeiro.
+
+3. Estudantes podem usar as mesmas ferramentas que os profissionais.
+
+4. Possibilita a existência de uma comunidade ativa.
+
+5. Você pode corrigir problemas e aprimorar a linguagem.
+
+6. Você pode desenvovler suas próprias ferramentas.
 
 ---
 class: middle, center
-
-## Precisamos nos comunicar com o computador
-
-&lt;img src="img/diagrama-programacao.png" style="display: block; margin-left: auto; margin-right: auto; width: 70%"&gt; 
+# O código é texto
 
 ---
-class: middle, center
-## O código é texto
+# Podemos copiar e colar
 
-### Podemos copiar e colar
-
+&lt;br&gt;
+&lt;center&gt;
 &lt;img src="img/copy-paste.png" style="width: 70%"&gt;
+&lt;/center&gt;
+---
+class: middle, center
+# O código é uma linguagem
 
 ---
-## O código documenta a nossa análise
+# Podemos documentar a nossa análise
 
 
 
@@ -228,35 +289,22 @@ image_read("https://jeroen.github.io/images/frink.png") %&gt;%
 --
 
 .pull-left[
-&lt;img src = "https://jeroen.github.io/images/frink.png" style="width:35%"&gt;
+#### Entrada
+&lt;img src = "https://jeroen.github.io/images/frink.png" style="width:25%"&gt;
 ]
 
 --
 
 .pull-right[
-&lt;img src="introducao-ao-curso_files/figure-html/unnamed-chunk-3-1.png" width="620" /&gt;
+#### Saída
+&lt;img src="introducao-ao-curso_files/figure-html/unnamed-chunk-3-1.png" width="260" height="110" /&gt;
 ]
-
-
----
-# Código é aberto
-
-Todas as linguagens de programação modernas são livres e abertas:
-
-- Estudantes podem usar as mesmas ferramentas que os profissionais.
-
-- Todos podem usar as melhores ferramentas independentemente do poder financeiro.
-
-- O código facilita a reprodutibilidade das análises.
-
-- Você pode corrigir problemas.
-
-- Você pode desenvolver suas próprias ferramentas.
 
 ---
 class: middle, center
 
-# Por que utilizar o R?
+# Introdução
+### Por que o R?
 
 ---
 
@@ -273,10 +321,11 @@ class: middle, center
 ---
 class: middle, center
 
-# Informações importantes
+# Introdução
+### Guia do mochileiro
 
 ---
-# Aprendizado
+# Pratique
 
 ### O objetivo do curso é ajudar a quebrar inércia da etapa inicial de aprendizado. Assim como um idioma, o único jeito de aprender uma linguagem de programação é praticando.
 
@@ -289,7 +338,7 @@ class: middle, center
 &lt;br&gt;
 
 - Documentação do R
-- Discourse Curso-r (**NOVO!**)
+- Discourse Curso-r
 - Google
 - Stack Overflow
 ]
@@ -302,6 +351,8 @@ class: middle, center
 # Regras, boas práticas e estilo
 
 &lt;br&gt;
+
+Na grande maioria das vezes, você poderá resolver uma tarefa de diversas maneiras. Isso porque, apesar de existirem várias **regras**, linguagens de programação também possuem **boas práticas** e **estilos**.
 
 - Regras: devem ser seguidas para o código funcionar (sintaxe, vocabulário)
 
@@ -360,9 +411,25 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
-
-<script>
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
 (function() {
   var links = document.getElementsByTagName('a');
   for (var i = 0; i < links.length; i++) {
@@ -371,7 +438,23 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
   }
 })();
-</script>
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 slideshow._releaseMath = function(el) {
