@@ -26,7 +26,16 @@ class: middle, center
 ## Linha do tempo
 
 <center>
-<img src="img/linha_do_tempo.jpg" width = 45%></img>
+<img src="linha_do_tempo.png" width = 45%></img>
+</center>
+
+---
+class: middle, center
+
+## Nossos cursos
+
+<center>
+<img src="cursos.png"></img>
 </center>
 
 ---
@@ -284,10 +293,10 @@ class: middle, center
 
 .pull-left[
 <br>
+
 - Documentação do R
-
+- Discourse Curso-r (**NOVO!**)
 - Google
-
 - Stack Overflow
 ]
 
