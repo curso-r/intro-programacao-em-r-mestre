@@ -1,0 +1,35 @@
+---
+title: "R para Ciência de Dados I"
+author: "<img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>"
+date: ""
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "css/custom-intro.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include=FALSE}
+blue <- function(x) {
+  glue::glue(
+    '<span style="color:#6495ed; font-weight: bold;">{x}</span>'
+  ) %>% 
+    htmltools::HTML()
+}
+```
+
+
+```{r, child="01-introducao-ao-curso.Rmd"}
+
+```
+
+```{r, child="02-rstudio.Rmd"}
+
+```
+
+```{r, child="03-introducao-ao-r.Rmd"}
+
+```

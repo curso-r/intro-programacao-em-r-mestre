@@ -17,6 +17,11 @@ class: center, middle, inverse, title-slide
 
 ---
 
+
+
+
+
+
 class: middle, center
 
 # Sobre a Curso-R
@@ -32,7 +37,7 @@ class: middle, center
 ## Linha do tempo
 
 &lt;center&gt;
-&lt;img src="linha_do_tempo.png" width = 45%&gt;&lt;/img&gt;
+&lt;img src="img/linha_do_tempo.png" width = 45%&gt;&lt;/img&gt;
 &lt;/center&gt;
 
 ---
@@ -229,7 +234,7 @@ Também temos um blog:
 ---
 class: middle, center
 
-# Introdução
+# <span style="color:#6495ed; font-weight: bold;">Introdução</span>
 
 ### As vantagens de analisar dados usando linguagens de programação
 
@@ -297,13 +302,13 @@ image_read("https://jeroen.github.io/images/frink.png") %&gt;%
 
 .pull-right[
 #### Saída
-&lt;img src="introducao-ao-curso_files/figure-html/unnamed-chunk-3-1.png" width="260" height="110" /&gt;
+&lt;img src="slides_files/figure-html/unnamed-chunk-7-1.png" width="260" height="110" /&gt;
 ]
 
 ---
 class: middle, center
 
-# Introdução
+# <span style="color:#6495ed; font-weight: bold;">Introdução</span>
 ### Por que o R?
 
 ---
@@ -321,7 +326,7 @@ class: middle, center
 ---
 class: middle, center
 
-# Introdução
+# <span style="color:#6495ed; font-weight: bold;">Introdução</span>
 ### Guia do mochileiro
 
 ---
@@ -360,11 +365,140 @@ Na grande maioria das vezes, você poderá resolver uma tarefa de diversas manei
 
 - Estilo: cada um pode escolher aquele com o qual se sentir mais à vontade (tipos de indentação, formatação)
 
-
 ---
+
+
 class: middle, center
 
-# Vamos ao R!
+# <span style="color:#6495ed; font-weight: bold;">RStudio</span>
+
+---
+# Painéis
+
+Ao abrir o RStudio, você verá 4 quadrantes:
+
+&lt;img src="img/rstudio-editor.png" width="500" height="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Painéis
+
+Esses quadrantes representam o **editor**, o **console**, o **environment** e o **output**. Eles vêm nesta ordem, mas você pode organizá-los da forma que preferir acessando a seção *Pane Layout* da opção `Global options...` no menu `Tools`.
+
+O editor e o console são os dois principais painéis do RStudio. Passaremos a maior parte do tempo neles:
+
+- **Editor/Scripts**: é onde escrevemos nossos códigos. Repare que o RStudio colore algumas palavras e símbolos para facilitar a leitura do código.
+
+- **Console**: é onde rodamos o código e recebemos as saídas. <span style="color:#6495ed; font-weight: bold;">O R vive aqui!</span>
+
+---
+
+# Painéis
+
+Os demais painéis são auxiliares. O objetivo deles é facilitar pequenas tarefas que fazem parte tanto da programação quanto da análise de dados:
+
+- **Environment**: painel com todos os objetos criados na sessão.
+
+- **History**: painel com um histórico dos comandos rodados.
+
+- **Files**: mostra os arquivos no diretório de trabalho. É possível navegar entre diretórios.
+
+- **Plots**: painel onde os gráficos serão apresentados.
+
+- **Packages**: apresenta todos os pacotes instalados e carregados.
+
+- **Help**: janela onde a documentação das funções serão apresentadas.
+
+- **Viewer**: painel onde relatórios e dashboards serão apresentados.
+
+---
+# Atalhos
+
+Conhecer os atalhos do teclado ajuda bastante quando estamos programando no RStudio. Veja os principais:
+
+- **CTRL+ENTER**: avalia/roda a linha selecionada no script. O atalho mais utilizado.
+
+- **ALT+-**: cria no script um sinal de atribuição (&lt;-). Você o usará o tempo todo.
+
+- **CTRL+SHIFT+M**: (%&gt;%) operador *pipe*. Guarde esse atalho, será bastante utilizado.
+
+- **CTRL+1**: altera cursor para o script.
+
+- **CTRL+2**: altera cursor para o console.
+
+- **ALT+SHIFT+K**: janela com todos os atalhos disponíveis.
+
+No MacOS, substitua **CTRL** por **command** e **ALT** por **option**.
+
+---
+# Projetos
+
+Uma funcionalidade muito importante do RStudio é a possibilidade de criar **projetos**. 
+
+Um projeto nada mais é do que uma pasta no seu computador. Nessa pasta, estarão todos os arquivos que você usurá ou criará na sua análise. 
+
+A principal razão de utilizarmos projetos é **organização**. Com eles, fica muito mais fácil importar bases de dados para dentro do R, criar análises reprodutíveis e compartilhar o nosso trabalho.
+
+&lt;br&gt;
+
+<span style="color:#6495ed; font-weight: bold;">Habitue-se desde a cedo a criar um projeto para cada nova análise que for fazer.</span>
+
+---
+# Projetos
+
+Para criar um projeto, clique em `New Project...` no Menu `File`. Na caixa de diálogo que aparecerá, clique em `New Directory` para criar o projeto em uma nova pasta ou `Existing Directory` para criar em uma pasta existente. 
+
+Se você tiver o `Git` instalado, você também pode usar projetos para conectar com repositórios do Github e outras plataformas de desenvolvimento. Para isso, basta clicar em `Version Control`.
+
+Se você não sabe o que é Git, Github ou versionamento, veja [este material](https://beatrizmilz.github.io/RLadies-Git-RStudio-2019/#1) da maravilhosa [Beatriz Milz](https://twitter.com/BeaMilz), ou [este post](https://www.curso-r.com/blog/2019-07-23-zen-do-r-4/) no nosso blog.
+
+Criando um projeto, o RStudio criará na pasta escolhida um arquivo `nome-do-projeto.Rproj`. Você pode usar esse arquivo para iniciar o RStudio já com o respectivo projeto aberto.
+
+---
+# RStudio com um projeto aberto
+
+&lt;img src="img/exemplo-projeto-aberto.png" width="3840" style="display: block; margin: auto;" /&gt;
+---
+# Navegando entre projetos
+
+&lt;img src="img/exemplo-lista-projetos.png" width="3840" style="display: block; margin: auto;" /&gt;
+
+---
+# Cheatsheets
+
+O RStudio tem à disposição algumas *folhas de cola*, as **cheatsheets**. Elas trazem um resumão de como utilizar diversos pacotes e até o próprio RStudio. 
+Para acessá-las, basta clicar no menu `Help` e então em `Cheatsheets`.
+
+&lt;img src="img/cheatsheet-rstudio.png" width="600" height="370" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+class: middle, center
+
+# <span style="color:#6495ed; font-weight: bold;">Introdução ao R</span>
+
+---
+# R como calculadora
+
+O papel do **Console** no R é executar os nossos comandos. Ele avalia o código que passamos para ele e devolve a saída correspondente (se tudo der certo) ou uma mensagem de erro (se o seu código tiver algum problema).
+
+&gt; Para rodar um código, escreva o código no script e, com o cursor em cima da linha que você quer rodar, use o atalho "CTRL+ENTER". Você não precisa selecionar o código, a não ser que queria rodar várias linhas de uma única vez.
+
+Vamos começar com o exemplo mais simples possível:
+
+
+```r
+1 + 1
+```
+
+```
+## [1] 2
+```
+
+Nesse caso, o nosso comando foi o código `1 + 1` e a saída foi o valor `2`.
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -1,16 +1,3 @@
----
-title: "R para Ciência de Dados I"
-author: "<img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>"
-date: ""
-output:
-  xaringan::moon_reader:
-    css: ["default", "default-fonts", "css/custom-intro.css"]
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
----
 class: middle, center
 
 # Sobre a Curso-R
@@ -26,7 +13,7 @@ class: middle, center
 ## Linha do tempo
 
 <center>
-<img src="linha_do_tempo.png" width = 45%></img>
+<img src="img/linha_do_tempo.png" width = 45%></img>
 </center>
 
 ---
@@ -223,7 +210,7 @@ Também temos um blog:
 ---
 class: middle, center
 
-# Introdução
+# `r blue("Introdução")`
 
 ### As vantagens de analisar dados usando linguagens de programação
 
@@ -309,7 +296,7 @@ image_read("https://jeroen.github.io/images/frink.png") %>%
 ---
 class: middle, center
 
-# Introdução
+# `r blue("Introdução")`
 ### Por que o R?
 
 ---
@@ -327,7 +314,7 @@ class: middle, center
 ---
 class: middle, center
 
-# Introdução
+# `r blue("Introdução")`
 ### Guia do mochileiro
 
 ---
@@ -366,10 +353,4 @@ Na grande maioria das vezes, você poderá resolver uma tarefa de diversas manei
 
 - Estilo: cada um pode escolher aquele com o qual se sentir mais à vontade (tipos de indentação, formatação)
 
-
 ---
-class: middle, center
-
-# Vamos ao R!
-
-

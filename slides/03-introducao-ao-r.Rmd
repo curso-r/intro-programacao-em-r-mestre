@@ -1,0 +1,20 @@
+class: middle, center
+
+# `r blue("Introdução ao R")`
+
+---
+# R como calculadora
+
+O papel do **Console** no R é executar os nossos comandos. Ele avalia o código que passamos para ele e devolve a saída correspondente (se tudo der certo) ou uma mensagem de erro (se o seu código tiver algum problema).
+
+> Para rodar um código, escreva o código no script e, com o cursor em cima da linha que você quer rodar, use o atalho "CTRL+ENTER". Você não precisa selecionar o código, a não ser que queria rodar várias linhas de uma única vez.
+
+Vamos começar com o exemplo mais simples possível:
+
+```{r}
+1 + 1
+```
+
+Nesse caso, o nosso comando foi o código `1 + 1` e a saída foi o valor `2`.
+
+---
