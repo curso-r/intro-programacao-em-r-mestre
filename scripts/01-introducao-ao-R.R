@@ -216,7 +216,7 @@ vetor1 + vetor2
 # b. Use subsetting para fazer o R devolver o primeiro número dessa sequência.
 # Em seguida, faça o R devolver o último número da sequência.
 
-# c. Multiplique todos os valores do seu vetor por -1. Guarde o resultado em
+# c. Multiplique todos os valores do vetor por -1. Guarde o resultado em
 # um novo objeto.
 
 # Comparações lógicas ------------------------------------------------------
@@ -283,47 +283,6 @@ vetor <- c(4, 8, 15, 16, 23, 42)
 
 3 %% 2
 
-# Funções -----------------------------------------------------------------
-
-# Argumentos e ordem
-
-seq(to = 10, from = 1, by = 2)
-seq(1, 10, 2)
-
-# Funções dentro de funções
-
-mean(seq(1, 10, 2))
-
-# Guardando as saídas
-
-y <- seq(1, 10, length.out = 5)
-y
-
-# Exercícios
-
-# 1) use a funcao 'sum' para somar os valores de 1 a 100
-
-# 2) agora some os valores da coluna mpg do banco 
-# de dados mtcars (dica: use o $)
-
-
-# Criando funções
-
-minha_soma <- function(x, y) {
-  
-  soma <- x + y
-  
-  return(soma)
-  
-}
-
-minha_soma(2, 3)
-
-# Exercício: crie uma função que recebe 2 números
-# e devolve a raiz quadrada da soma desses números.
-# Dica: sqrt() é a função para raiz quadrada.
-
-
 # Valores especiais -------------------------------------------------------
 
 # Existem valores reservados para representar dados faltantes, 
@@ -339,8 +298,19 @@ Inf  # (Infinito) é um número muito grande ou o limite matemático, por exempl
 
 NULL # representa a ausência de informação.
 
+# Comparações lógicas
 
-# Comparação lógica com valores especiais --------------------------------
+5 == NA
+
+idade_ana <- 30
+idade_beto <- NA
+idade_carla <- NA
+
+idade_ana == idade_beto
+
+idade_beto == idade_carla
+
+
 # Use as funções is.na(), is.nan(), is.infinite() e is.null() 
 # para testar se um objeto é um desses valores.
 
@@ -350,23 +320,138 @@ is.na(x)
 0/0 == NaN
 is.nan(0/0)
 
-a <- c(1, 2, 3, NA, 5)
-is.na(a)
 
-# família de funções que começam com is.*()
-is.numeric()
-is.character()
-is.data.frame()
-is.logical()
-is.na()
-is.nan()
-is.null()
+minha_coluna <- c(1, 2, 3, NA, 5)
+is.na(minha_coluna)
 
-# Identação ---------------------------------------------------------------
+is.nan(NaN)
+is.infinite(10^309)
+is.null(NULL)
 
-funcao_com_muitos_argumentos(argumento_1 = 10, argumento_2 = 14, argumento_3 = 30, argumento_4 = 11)
 
-# ATALHO: CTRL+I
+# Data frames, o retorno --------------------------------------------------
+
+mtcars
+
+# Selecionando uma coluna do data frame
+
+mtcars$mpg
+mtcars$cyl
+
+# A classe data frame tem uma característica especial: dimensão
+
+dim(mtcars)
+
+vetor <- c(1, 2)
+dim(vetor)
+
+# Subsetting em objetos com 2 dimensões
+
+# Sinxtaxe: data_frame[indice_linha, indice_coluna]
+
+mtcars[1,1]
+mtcars[,1]
+mtcars[1,]
+
+# Selecionando colunas
+
+mtcars[, c(1, 2)]
+mtcars[, c("mpg", "am")]
+
+# Filtrando linhas
+
+mtcars[mtcars$cyl == 4, ]
+
+mtcars[mtcars$mpg > 25, ]
+
+# Funções -----------------------------------------------------------------
+
+# Funções são nomes que guardam um código de R. Esse código é
+# avaliado quando rodamos uma função.
+
+# a função `c()` foi utilizada para criar vetores;
+# a função `class()` foi utilizada para descobrir a classe de um objeto;
+
+# Argumentos
+
+# Argumentos são sempre separados por vírgulas
+
+c(1, 3, 5)
+
+# A ordem é importante se você não nomear os argumentos
+
+seq(from = 4, to = 10, by = 2)
+seq(4, 10, 2)
+
+seq(by = 2, to = 10, from = 4)
+seq(2, 10, 4)
+
+help(seq)
+
+# Funções têm personalidade. Cada uma pode funcionar de um jeito
+# diferente das demais.
+
+# Exemplo 1
+
+sum(1, 2)
+sum(c(1, 2))
+
+mean(1, 2)
+mean(c(1, 2))
+
+# Exemplo 2
+
+mean(c(1, 2, NA))
+mean(c(1, 2, NA), rm = TRUE)
+
+cor(mtcars$mpg, mtcars$wt)
+
+cor(c(1, 3, 2), c(3, NA, 10), na.rm = TRUE)
+
+cor(c(1, 3, 2, 8), c(3, NA, 10, 9), use = "complete.obs")
+cor(c(1, 2, 8), c(3, 10, 9))
+
+log(5)
+
+log(c(3, 5))
+
+log(c(3, 5, NA))
+
+# Colunas de data frames são vetores
+
+mean(mtcars$mpg)
+
+# Funções dentro de funções
+
+sample(1:10, 100, replace = TRUE)
+
+mean(log(sample(1:10, 100, replace = TRUE)))
+
+# Criando funções
+
+minha_soma <- function(x, y) {
+  
+  soma <- x + y
+  
+  return(soma)
+  
+}
+
+minha_soma(2, 3)
+
+# Exercícios --------------------------------------------------------------
+
+# 1. Use a funcao 'sum' para somar os valores de 1 a 100
+
+# 2. A função colMeans serve para tirar a média das colunas 
+# de um data frame. Use essa função para calcular a média de
+# todas as colunas do mtcars.
+# Dica: veja a documentação da função colMeans se você não
+# souber como utilizá-la.
+
+# DESAFIO. Crie uma função que recebe 2 números
+# e devolve a raiz quadrada da soma desses números.
+# Dica: sqrt() é a função para raiz quadrada.
 
 # Pacotes -----------------------------------------------------------------
 
@@ -376,70 +461,9 @@ install.packages(c("tidyverse", "rmarkdown", "devtools"))
 
 # Para carregar pacotes
 
-library(dplyr)
+library(tidyverse)
 
 # Também é possível acessar as funções usando ::
 
 dplyr::select()
-
-
-# Categorização ------------------------------------------------------------
-
-x <- -10:30
-
-x_categorizado <- ifelse(x < 0, "negativo", "positivo")
-
-
-# Operações vetoriais  -----------------------------------------------------
-
-a <- 1:4
-b <- 4:9
-
-a + 1
-a ^ 2
-b * 5
-b / b
-
-a + b
-b * a
-
-# exercícios: crie um vetor 'mpg2' que receba a coluna 
-# 'mpg' do mtcars, mas com seus valores ao quadrado.
-
-
-# Coerção ------------------------------------------------------------------
-class(c(1, 2, 3))
-class(c("a", "b", "c"))
-class(c(TRUE, TRUE, FALSE))
-
-# Misturando diferentes classes
-c(1, 2, 3, "a")
-c(TRUE, FALSE, "a")
-c(1L, "a", "2")
-c(TRUE, FALSE, 1, 100)
-
-# Ordem de coerção
-# logico < inteiro < numerico < caracter
-
-
-# Uma das coerções mais importantes: lógico para numérico
-x <- 1:10
-
-x < 4
-as.numeric(x < 4)
-sum(x < 4)
-x[x < 4]
-sum(x[x < 4])
-
-# exemplo mais complexo!
-mtcars$mpg[mtcars$wt >= 3]
-
-
-# Exercícios:
-# 1) crie um vetor lógico 'maior_que_300' que indique 
-# se o vetor mpg2 é maior que 300.
-
-# 2) Calcule a soma do objeto maior_que_300 
-# (utilize a função sum()).
-
 
