@@ -827,3 +827,35 @@ resultado
 
 
 É como se, por trás das cortinas, o R estivesse fazendo `resultado <- soma <- x + y`, mas apenas o objeto `resultado` continua existindo, já que os objetos `soma`, `x`e `y` são descartados após a função ser executada.
+
+---
+# Pacotes
+
+Um pacote no R nada mais é do que um conjunto de funções que visam resolver um problema em específico. O R já vem com alguns pacotes instalados. Geralmente chamamos esses pacotes de *base R*.
+
+Mas a força do R está na gigantesca variedade de pacotes desenvolvidos pela comunidade, em especial, pelos criadores do `tidyverse`.
+
+---
+# Tidyverse
+
+---
+# Instalando e carregando pacotes
+
+Para instalar um pacote, usamos a função `install.packages`.
+
+```{r, eval=FALSE}
+# Instalando um pacote
+install.packages("tidyverse")
+
+# Instalando vários pacotes de uma vez
+install.packages(c("tidyverse", "rmarkdown", "devtools"))
+```
+
+Para usar as funções de um pacote, precisamos carregá-lo. Fazemos isso usando a função `library()`.
+
+```{r, eval=FALSE}
+library(tidyverse)
+```
+
+---
+
