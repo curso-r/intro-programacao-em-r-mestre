@@ -145,3 +145,15 @@ a, a > code {
     color: #339999;
     text-decoration: none;
 }
+
+.remark-code, .remark-inline-code {
+  background: #f0f0f0;
+}
+
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+
+.tiny .remark-code { /*Change made here*/
+  font-size: 70% !important;
+}

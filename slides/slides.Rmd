@@ -19,6 +19,8 @@ blue <- function(x) {
   ) %>% 
     htmltools::HTML()
 }
+
+options(width = 85)
 ```
 
 

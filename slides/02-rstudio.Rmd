@@ -3,6 +3,17 @@ class: middle, center
 # `r blue("RStudio")`
 
 ---
+# Objetivo desta seção
+
+Você estará pronta(o) para seguir para a seção de `r blue('Introdução ao R')` quando tiver cumprido os objetivos abaixo.
+
+- Ficar confortável com a utilização do RStudio para programação em R, isto é:
+    - souber a diferença entre o R e o RStudio;
+    - entender para que serve o Console;
+    - entender para que serve o Script.
+- Entender a importância de se utilizar os projetos do RStudio para organizar sua análise.
+
+---
 # Painéis
 
 Ao abrir o RStudio, você verá 4 quadrantes:
