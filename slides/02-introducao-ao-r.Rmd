@@ -1,3 +1,144 @@
+---
+title: "R para Ciência de Dados I"
+subtitle: "Introdução ao R e RStudio"
+author: "<img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>"
+date: ""
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "css/custom-intro.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, child="00-preamble.Rmd"}
+
+```
+
+class: middle, center
+
+# `r blue("RStudio")`
+
+---
+# Objetivo desta seção
+
+Você estará pronta(o) para seguir para a seção de `r blue('Introdução ao R')` quando tiver cumprido os objetivos abaixo.
+
+- Ficar confortável com a utilização do RStudio para programação em R, isto é:
+    - souber a diferença entre o R e o RStudio;
+    - entender para que serve o Console;
+    - entender para que serve o Script.
+- Entender a importância de se utilizar os projetos do RStudio para organizar sua análise.
+
+---
+# Painéis
+
+Ao abrir o RStudio, você verá 4 quadrantes:
+
+```{r echo=FALSE, fig.align='center', out.width=500, out.height=400}
+knitr::include_graphics(rep("img/rstudio-editor.png"))
+```
+
+---
+<br><br>
+
+Esses quadrantes representam o **editor**, o **console**, o **environment** e o **output**. Eles vêm nesta ordem, mas você pode organizá-los da forma que preferir acessando a seção *Pane Layout* da opção `Global options...` no menu `Tools`.
+
+O editor e o console são os dois principais painéis do RStudio. Passaremos a maior parte do tempo neles:
+
+- **Editor/Scripts**: é onde escrevemos nossos códigos. Repare que o RStudio colore algumas palavras e símbolos para facilitar a leitura do código.
+
+- **Console**: é onde rodamos o código e recebemos as saídas. `r blue("O R vive aqui!")`
+
+---
+<br><br>
+
+Os demais painéis são auxiliares. O objetivo deles é facilitar pequenas tarefas que fazem parte tanto da programação quanto da análise de dados:
+
+- **Environment**: painel com todos os objetos criados na sessão.
+
+- **History**: painel com um histórico dos comandos rodados.
+
+- **Files**: mostra os arquivos no diretório de trabalho. É possível navegar entre diretórios.
+
+- **Plots**: painel onde os gráficos serão apresentados.
+
+- **Packages**: apresenta todos os pacotes instalados e carregados.
+
+- **Help**: janela onde a documentação das funções serão apresentadas.
+
+- **Viewer**: painel onde relatórios e dashboards serão apresentados.
+
+---
+# Atalhos
+
+Conhecer os atalhos do teclado ajuda bastante quando estamos programando no RStudio. Veja os principais:
+
+- **CTRL+ENTER**: avalia/roda a linha selecionada no script. O atalho mais utilizado.
+
+- **ALT+-**: cria no script um sinal de atribuição (<-). Você o usará o tempo todo.
+
+- **CTRL+SHIFT+M**: (%>%) operador *pipe*. Guarde esse atalho, será bastante utilizado.
+
+- **CTRL+1**: altera cursor para o script.
+
+- **CTRL+2**: altera cursor para o console.
+
+- **ALT+SHIFT+K**: janela com todos os atalhos disponíveis.
+
+No MacOS, substitua **CTRL** por **command** e **ALT** por **option**.
+
+---
+# Projetos
+
+Uma funcionalidade muito importante do RStudio é a possibilidade de criar **projetos**. 
+
+Um projeto nada mais é do que uma pasta no seu computador. Nessa pasta, estarão todos os arquivos que você usurá ou criará na sua análise. 
+
+A principal razão de utilizarmos projetos é **organização**. Com eles, fica muito mais fácil importar bases de dados para dentro do R, criar análises reprodutíveis e compartilhar o nosso trabalho.
+
+<br>
+
+`r blue("Habitue-se desde a cedo a criar um projeto para cada nova análise que for fazer.")`
+
+---
+<br><br>
+
+Para criar um projeto, clique em `New Project...` no Menu `File`. Na caixa de diálogo que aparecerá, clique em `New Directory` para criar o projeto em uma nova pasta ou `Existing Directory` para criar em uma pasta existente. 
+
+Se você tiver o `Git` instalado, você também pode usar projetos para conectar com repositórios do Github e outras plataformas de desenvolvimento. Para isso, basta clicar em `Version Control`.
+
+Se você não sabe o que é Git, Github ou versionamento, veja [este material](https://beatrizmilz.github.io/RLadies-Git-RStudio-2019/#1) da maravilhosa [Beatriz Milz](https://twitter.com/BeaMilz), ou [este post](https://www.curso-r.com/blog/2019-07-23-zen-do-r-4/) no nosso blog.
+
+Criando um projeto, o RStudio criará na pasta escolhida um arquivo `nome-do-projeto.Rproj`. Você pode usar esse arquivo para iniciar o RStudio já com o respectivo projeto aberto.
+
+---
+## RStudio com um projeto aberto
+
+```{r echo=FALSE, fig.align='center'}
+knitr::include_graphics(rep("img/exemplo-projeto-aberto.png"))
+```
+
+---
+## Navegando entre projetos
+
+```{r echo=FALSE, fig.align='center'}
+knitr::include_graphics(rep("img/exemplo-lista-projetos.png"))
+```
+
+---
+# Cheatsheets
+
+O RStudio tem à disposição algumas *folhas de cola*, as **cheatsheets**. Elas trazem um resumão de como utilizar diversos pacotes e até o próprio RStudio. 
+Para acessá-las, basta clicar no menu `Help` e então em `Cheatsheets`.
+
+```{r echo=FALSE, fig.align='center', out.width=600, out.height=370}
+knitr::include_graphics(rep("img/cheatsheet-rstudio.png"))
+```
+
+---
 class: middle, center
 
 # `r blue("Introdução ao R")`
@@ -836,9 +977,6 @@ Um pacote no R nada mais é do que um conjunto de funções que visam resolver u
 Mas a força do R está na gigantesca variedade de pacotes desenvolvidos pela comunidade, em especial, pelos criadores do `tidyverse`.
 
 ---
-# Tidyverse
-
----
 # Instalando e carregando pacotes
 
 Para instalar um pacote, usamos a função `install.packages`.
@@ -858,4 +996,28 @@ library(tidyverse)
 ```
 
 ---
+class:: center
+<br><br>
+
+`r blue('Instale uma vez, carregue várias vezes!')`
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/instalar_carregar.png")
+```
+
+---
+# Tidyverse
+
+O `tidyverse` é uma coleção de pacotes de R desenvolvidos para Ciência de Dados. 
+
+Os pacotes do `tidyverse` compartilham uma mesma filosia, gramática e estrutura de dados.
+
+Isso significa que:
+
+- As funções, na medida do possível, funcionam da mesma forma. Aprender uma função ajuda a aprender usar outras.
+
+- As funções do mesmo pacote e de pacotes diferente se comunicam umas com as outras.
+
+- Existe uma versão retrabalhada do *data frame* e todos os pacotes giram em torno dessa nova classe.
+
  

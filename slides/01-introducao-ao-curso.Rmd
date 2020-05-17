@@ -1,3 +1,21 @@
+---
+title: "R para Ciência de Dados I"
+author: "<img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>"
+date: ""
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "css/custom-intro.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, child="00-preamble.Rmd"}
+
+```
+
 class: middle, center
 
 # Sobre a Curso-R
@@ -75,16 +93,9 @@ class: middle, center
 ---
 ## Conteúdo
 
-- Introdução ao R
-
-- Importação de dados
-
-- Manipulação de dados
-
-- Visualização de dados
-
-- Comunicação
-   
+<center>
+<img src = "img/conteudo.png" width = "80%">
+</center>   
 ---
 ## Introdução ao R
 
@@ -100,7 +111,10 @@ class: middle, center
 ]
 
 .pull-right[
+<center>
 <img src="img/arte_comunidade.png">
+<a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"> <img src = "img/ref_horst.png" width = "75%" style = "margin-top: -30px;"> </a>
+</center>
 ]
 
 ---
@@ -119,7 +133,10 @@ class: middle, center
 
 .pull-right[
 <br>
+<center>
 <img src="img/arte_janitor.png">
+<a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"> <img src = "img/ref_horst.png" width = "75%" style = "margin-top: -30px;"> </a>
+</center>
 ]
 
 ---
@@ -139,14 +156,18 @@ class: middle, center
 ]
 
 .pull-right[
+<center>
 <img src="img/arte_dplyr.png">
+<a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"> <img src = "img/ref_horst.png" width = "75%" style = "margin-top: -30px;"> </a>
+</center>
 ]
 
 ---
 ## Visualização
 
 <center>
-<img src="img/arte_ggplot2.png" width = 80%>
+<img src="img/arte_ggplot2.png" width = 70%>
+<a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"> <img src = "img/ref_horst.png" width = "35%" style = "margin-top: -30px;"> </a>
 </center>
 
 ---
@@ -157,6 +178,7 @@ class: middle, center
 
 <center>
 <img src="img/arte_rmarkdown.png" width = 70%>
+<a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"> <img src = "img/ref_horst.png" width = "35%" style = "margin-top: -30px;"> </a>
 </center>
 
 ---
@@ -352,5 +374,3 @@ Na grande maioria das vezes, você poderá resolver uma tarefa de diversas manei
 - Boas práticas: recomenda-se seguir para a criação de códigos legíveis (espaçamento, nomes, organização)
 
 - Estilo: cada um pode escolher aquele com o qual se sentir mais à vontade (tipos de indentação, formatação)
-
----

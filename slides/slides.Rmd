@@ -12,17 +12,9 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r, include=FALSE}
-blue <- function(x) {
-  glue::glue(
-    '<span style="color:#6495ed; font-weight: bold;">{x}</span>'
-  ) %>% 
-    htmltools::HTML()
-}
+```{r, child="00-preamble.Rmd"}
 
-options(width = 85)
 ```
-
 
 ```{r, child="01-introducao-ao-curso.Rmd"}
 

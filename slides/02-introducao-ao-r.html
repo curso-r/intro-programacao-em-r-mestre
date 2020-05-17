@@ -13,6 +13,7 @@
 class: center, middle, inverse, title-slide
 
 # R para Ciência de Dados I
+## Introdução ao R e RStudio
 ### <img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>
 
 ---
@@ -20,356 +21,6 @@ class: center, middle, inverse, title-slide
 
 
 
-
-
-class: middle, center
-
-# Sobre a Curso-R
-
----
-
-## Curso-R
-
-&lt;img src="img/professores.png" style=" display: block; margin-left: auto; margin-right: auto;"&gt;&lt;/img&gt;
-
----
-
-## Linha do tempo
-
-&lt;center&gt;
-&lt;img src="img/linha_do_tempo.png" width = 45%&gt;&lt;/img&gt;
-&lt;/center&gt;
-
----
-
-## Nossos cursos
-
-.pull-left[
-&lt;div class="container center"&gt;
-  &lt;div class="card"&gt;
-    &lt;h2&gt;Programação em R&lt;/h2&gt;
-    &lt;hr style = "background-color: #3bb44a;"/&gt;
-    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/r4ds-1/"&gt;R para Ciência de dados I&lt;/a&gt;&lt;/p&gt;
-        &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/r4ds-2/"&gt;R para Ciência de dados II&lt;/a&gt;&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;br&gt;
-
-&lt;div class="container center"&gt;
-  &lt;div class="card"&gt;
-    &lt;h2&gt;Modelagem&lt;/h2&gt;
-    &lt;hr style = "background-color: #996699;"/&gt;
-    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/regressao/"&gt;Regressão Linear&lt;/a&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/intro-machine-learning/"&gt;Machine Learning&lt;/a&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/xgboost/"&gt;XGBoost&lt;/a&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/deep-learning/"&gt;Deep Learning&lt;/a&gt;&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-]
-
-
-.pull-right[
-&lt;div class="container center"&gt;
-  &lt;div class="card"&gt;
-    &lt;h2&gt;Extração de dados&lt;/h2&gt;
-    &lt;hr style = "background-color: #eeba30;"/&gt;
-    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/web-scraping-1/"&gt;Web scraping I&lt;/a&gt;&lt;/p&gt;
-        &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/web-scraping-2/"&gt;Web scraping II&lt;/a&gt;&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;br&gt;
-
-&lt;div class="container center"&gt;
-  &lt;div class="card"&gt;
-    &lt;h2&gt;Comunicação e automação&lt;/h2&gt;
-    &lt;hr style = "background-color: #ff6699;"/&gt;
-    &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/dashboards/"&gt;Dashboards com R&lt;/a&gt;&lt;/p&gt;
-        &lt;p&gt;&lt;a href = "https://www.curso-r.com/cursos/deploy/"&gt;Deploy&lt;/a&gt;&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-]
-
----
-class: middle, center
-
-# Sobre o curso
-
----
-## Conteúdo
-
-&lt;center&gt;
-&lt;img src = "img/conteudo.png" width = "80%"&gt;
-&lt;/center&gt;   
----
-## Introdução ao R
-
-.pull-left[
-&lt;br&gt;
-- R e RStudio
-
-- Trabalhando com projetos
-
-- Objetos e funções
-
-- Pacotes
-]
-
-.pull-right[
-&lt;center&gt;
-&lt;img src="img/arte_comunidade.png"&gt;
-&lt;a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"&gt; &lt;img src = "img/ref_horst.png" width = "75%" style = "margin-top: -30px;"&gt; &lt;/a&gt;
-&lt;/center&gt;
-]
-
----
-## Importação
-
-.pull-left[
-&lt;br&gt;
-- Arquivos de texto
-
-- Arquivos do excel
-
-- Arquivos de outros softwares (SAS, SPSS)
-
-- Conexão com banco de dados
-]
-
-.pull-right[
-&lt;br&gt;
-&lt;center&gt;
-&lt;img src="img/arte_janitor.png"&gt;
-&lt;a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"&gt; &lt;img src = "img/ref_horst.png" width = "75%" style = "margin-top: -30px;"&gt; &lt;/a&gt;
-&lt;/center&gt;
-]
-
----
-## Manipulação
-
-.pull-left[
-&lt;br&gt;
-- Selecionar colunas
-
-- Filtrar linhas
-
-- Criar ou modificar colunas
-
-- Agrupar e sumarizar
-
-- Juntar tabelas
-]
-
-.pull-right[
-&lt;center&gt;
-&lt;img src="img/arte_dplyr.png"&gt;
-&lt;a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"&gt; &lt;img src = "img/ref_horst.png" width = "75%" style = "margin-top: -30px;"&gt; &lt;/a&gt;
-&lt;/center&gt;
-]
-
----
-## Visualização
-
-&lt;center&gt;
-&lt;img src="img/arte_ggplot2.png" width = 70%&gt;
-&lt;a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"&gt; &lt;img src = "img/ref_horst.png" width = "35%" style = "margin-top: -30px;"&gt; &lt;/a&gt;
-&lt;/center&gt;
-
----
-## Comunicação
-
-- Relatórios automatizados
-- Dashboards estáticos
-
-&lt;center&gt;
-&lt;img src="img/arte_rmarkdown.png" width = 70%&gt;
-&lt;a href = "https://github.com/allisonhorst/stats-illustrations" target = "blank_"&gt; &lt;img src = "img/ref_horst.png" width = "35%" style = "margin-top: -30px;"&gt; &lt;/a&gt;
-&lt;/center&gt;
-
----
-
-## Material
-
-&lt;center&gt;
-
-&lt;br&gt;
-
-Temos um material em português disponível nesta página:
-
-&lt;br&gt;
-
-&lt;a href='https://curso-r.com/material'&gt;https://curso-r.com/material&lt;/a&gt;
-
-&lt;br&gt;
-&lt;br&gt;
-
-Também temos um blog: 
-
-&lt;br&gt;
-
-&lt;a href='http://curso-r.com/blog/'&gt;http://curso-r.com/blog/ &lt;/a&gt;
-
-&lt;/center&gt;
-
-&lt;a href="https://www.curso-r.com/blog/2019-07-15-comunidade/"&gt;
-&lt;img src="img/post-comunidade.png" style="position: fixed; bottom: 80px; left: 180px" width = 170px height = 280px&gt;&lt;/img&gt;
-&lt;/a&gt;
-
-&lt;a href="https://www.curso-r.com/blog/2017-07-29-segundo-menor-dl/"&gt;
-&lt;img src="img/post-deep-learning.png" style="position: fixed; bottom: 78px; left: 380px" width = 170px height = 275px&gt;&lt;/img&gt;
-&lt;/a&gt;
-
-&lt;a href="https://www.curso-r.com/blog/2017-05-01-as-paletas-de-cores-da-marvel-vs-dc/"&gt;
-&lt;img src="img/post-marvel.png" style="position: fixed; bottom: 82px; left: 570px" width = 170px height = 277px&gt;&lt;/img&gt;
-&lt;/a&gt;
-
----
-
-## Referência
-
-&lt;br&gt;
-&lt;center&gt;
-&lt;a href = "https://r4ds.had.co.nz"&gt;
-&lt;img src="img/r4ds.png" width = 40%&gt; 
-&lt;/a&gt;
-&lt;/center&gt;
-
----
-class: middle, center
-
-# <span style="color:#6495ed; font-weight: bold;">Introdução</span>
-
-### As vantagens de analisar dados usando linguagens de programação
-
----
-class: middle, center
-
-### As principais linguagens de programação para ciência de dados são
-# Código Aberto
-
----
-# O que significa ser código aberto?
-
-&lt;br&gt;
-
-1. Acesso gratuito.
-
-2. Todos podem usar as melhores ferramentas independentemente do poder financeiro.
-
-3. Estudantes podem usar as mesmas ferramentas que os profissionais.
-
-4. Possibilita a existência de uma comunidade ativa.
-
-5. Você pode corrigir problemas e aprimorar a linguagem.
-
-6. Você pode desenvovler suas próprias ferramentas.
-
----
-class: middle, center
-# O código é texto
-
----
-# Podemos copiar e colar
-
-&lt;br&gt;
-&lt;center&gt;
-&lt;img src="img/copy-paste.png" style="width: 70%"&gt;
-&lt;/center&gt;
----
-class: middle, center
-# O código é uma linguagem
-
----
-# Podemos documentar a nossa análise
-
-
-
-
-```r
-image_read("https://jeroen.github.io/images/frink.png") %&gt;%
-  image_rotate(270) %&gt;%
-  image_background("blue", flatten = TRUE) %&gt;%
-  image_border("red", "10x10") %&gt;%
-  image_annotate("Linguagens de programação ainda\nsão linguagens!", 
-                 color = "white", size = 30)
-```
-
---
-
-.pull-left[
-#### Entrada
-&lt;img src = "https://jeroen.github.io/images/frink.png" style="width:25%"&gt;
-]
-
---
-
-.pull-right[
-#### Saída
-&lt;img src="slides_files/figure-html/unnamed-chunk-7-1.png" width="260" height="110" /&gt;
-]
-
----
-class: middle, center
-
-# <span style="color:#6495ed; font-weight: bold;">Introdução</span>
-### Por que o R?
-
----
-
-## O ciclo da ciência de dados
-
-&lt;img src="img/ciclo-ciencia-de-dados.png" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
-
----
-
-## O ciclo da ciência de dados com o R
-
-&lt;img src="img/ciclo-ciencia-de-dados-pacotes.png" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
-
----
-class: middle, center
-
-# <span style="color:#6495ed; font-weight: bold;">Introdução</span>
-### Guia do mochileiro
-
----
-# Pratique
-
-### O objetivo do curso é ajudar a quebrar inércia da etapa inicial de aprendizado. Assim como um idioma, o único jeito de aprender uma linguagem de programação é praticando.
-
-&lt;img src="https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif" style = "display: block; margin-left: auto; margin-right: auto;"&gt;
-
----
-# Pedindo ajuda
-
-.pull-left[
-&lt;br&gt;
-
-- Documentação do R
-- Discourse Curso-r
-- Google
-- Stack Overflow
-]
-
-.pull-right[
-&lt;img src="img/stack.png"&gt;
-]
-
----
-# Regras, boas práticas e estilo
-
-&lt;br&gt;
-
-Na grande maioria das vezes, você poderá resolver uma tarefa de diversas maneiras. Isso porque, apesar de existirem várias **regras**, linguagens de programação também possuem **boas práticas** e **estilos**.
-
-- Regras: devem ser seguidas para o código funcionar (sintaxe, vocabulário)
-
-- Boas práticas: recomenda-se seguir para a criação de códigos legíveis (espaçamento, nomes, organização)
-
-- Estilo: cada um pode escolher aquele com o qual se sentir mais à vontade (tipos de indentação, formatação)
-
----
 
 
 class: middle, center
@@ -395,8 +46,7 @@ Ao abrir o RStudio, você verá 4 quadrantes:
 &lt;img src="img/rstudio-editor.png" width="500" height="400" style="display: block; margin: auto;" /&gt;
 
 ---
-
-# Painéis
+&lt;br&gt;&lt;br&gt;
 
 Esses quadrantes representam o **editor**, o **console**, o **environment** e o **output**. Eles vêm nesta ordem, mas você pode organizá-los da forma que preferir acessando a seção *Pane Layout* da opção `Global options...` no menu `Tools`.
 
@@ -407,8 +57,7 @@ O editor e o console são os dois principais painéis do RStudio. Passaremos a m
 - **Console**: é onde rodamos o código e recebemos as saídas. <span style="color:#6495ed; font-weight: bold;">O R vive aqui!</span>
 
 ---
-
-# Painéis
+&lt;br&gt;&lt;br&gt;
 
 Os demais painéis são auxiliares. O objetivo deles é facilitar pequenas tarefas que fazem parte tanto da programação quanto da análise de dados:
 
@@ -459,7 +108,7 @@ A principal razão de utilizarmos projetos é **organização**. Com eles, fica 
 <span style="color:#6495ed; font-weight: bold;">Habitue-se desde a cedo a criar um projeto para cada nova análise que for fazer.</span>
 
 ---
-# Projetos
+&lt;br&gt;&lt;br&gt;
 
 Para criar um projeto, clique em `New Project...` no Menu `File`. Na caixa de diálogo que aparecerá, clique em `New Directory` para criar o projeto em uma nova pasta ou `Existing Directory` para criar em uma pasta existente. 
 
@@ -470,11 +119,12 @@ Se você não sabe o que é Git, Github ou versionamento, veja [este material](h
 Criando um projeto, o RStudio criará na pasta escolhida um arquivo `nome-do-projeto.Rproj`. Você pode usar esse arquivo para iniciar o RStudio já com o respectivo projeto aberto.
 
 ---
-# RStudio com um projeto aberto
+## RStudio com um projeto aberto
 
 &lt;img src="img/exemplo-projeto-aberto.png" style="display: block; margin: auto;" /&gt;
+
 ---
-# Navegando entre projetos
+## Navegando entre projetos
 
 &lt;img src="img/exemplo-lista-projetos.png" style="display: block; margin: auto;" /&gt;
 
@@ -487,8 +137,6 @@ Para acessá-las, basta clicar no menu `Help` e então em `Cheatsheets`.
 &lt;img src="img/cheatsheet-rstudio.png" width="600" height="370" style="display: block; margin: auto;" /&gt;
 
 ---
-
-
 class: middle, center
 
 # <span style="color:#6495ed; font-weight: bold;">Introdução ao R</span>
@@ -1828,9 +1476,6 @@ Um pacote no R nada mais é do que um conjunto de funções que visam resolver u
 Mas a força do R está na gigantesca variedade de pacotes desenvolvidos pela comunidade, em especial, pelos criadores do `tidyverse`.
 
 ---
-# Tidyverse
-
----
 # Instalando e carregando pacotes
 
 Para instalar um pacote, usamos a função `install.packages`.
@@ -1852,6 +1497,27 @@ library(tidyverse)
 ```
 
 ---
+class:: center
+&lt;br&gt;&lt;br&gt;
+
+<span style="color:#6495ed; font-weight: bold;">Instale uma vez, carregue várias vezes!</span>
+
+![](img/instalar_carregar.png)&lt;!-- --&gt;
+
+---
+# Tidyverse
+
+O `tidyverse` é uma coleção de pacotes de R desenvolvidos para Ciência de Dados. 
+
+Os pacotes do `tidyverse` compartilham uma mesma filosia, gramática e estrutura de dados.
+
+Isso significa que:
+
+- As funções, na medida do possível, funcionam da mesma forma. Aprender uma função ajuda a aprender usar outras.
+
+- As funções do mesmo pacote e de pacotes diferente se comunicam umas com as outras.
+
+- Existe uma versão retrabalhada do *data frame* e todos os pacotes giram em torno dessa nova classe.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
