@@ -159,6 +159,11 @@ vetor[c(1, 2, 4)]
 
 vetor[5]
 
+# Você também pode "não selecionar" elementos de um vetor
+
+vetor[-1]
+vetor[-c(2, 3)]
+
 # Um vetor só pode guardar um tipo de objeto e ele terá sempre 
 # a mesma classe dos objetos que guarda
 
@@ -457,7 +462,7 @@ minha_soma(2, 3)
 
 # Para instalar pacotes
 
-install.packages(c("tidyverse", "rmarkdown", "devtools"))
+install.packages(c("tidyverse", "rmarkdown", "writexl"))
 
 # Para carregar pacotes
 

@@ -8,60 +8,131 @@ library(tidyverse)
 # 2. Podem ser relativos ao diretório de trabalho
 getwd()
 
-# Leitura de dados --------------------------------------------------------
 
-# Arquivos de texto
-imdb <- read_csv(file = "dados/imdb.csv")
-imdb2 <- read_csv2(file = "dados/imdb2.csv")
+# Tibbles -----------------------------------------------------------------
 
-imdb2 <- read_delim("dados/imdb.csv", delim = ",")
+mtcars
+as_tibble(mtcars)
 
+# Lendo arquivos de texto -------------------------------------------------
 
+# CSV, separado por vírgula
+imdb_csv <- read_csv(file = "dados/imdb.csv")
 
-# Excel
+# CSV, separado por ponto-e-vírgula
+imdb_csv2 <- read_csv2(file = "dados/imdb2.csv")
+
+# Qualquer tipo de separador
+imdb_delim <- read_delim("dados/imdb.csv", delim = ",")
+imdb_delim <- read_delim("dados/imdb2.csv", delim = ",")
+
+# Lendo arquivos do Excel -------------------------------------------------
+
 library(readxl)
+
 imdb_excel <- read_excel("dados/imdb.xlsx")
 
 
+# Parâmetros úteis --------------------------------------------------------
 
-# SQL
-# install.packages("RSQLite")
+# col_types: para definir a classe das colunas
+# skip: para pular linhas
+# na: indica quais strings devem ser interpretadas como NA
 
-conexao <- src_sqlite("dados/imdb.sqlite", create = TRUE)
-# copy_to(conexao, imdb, temporary = FALSE)
+# Primeira tentativa
+readxl::read_excel(
+  "dados/mtcars_desconfigurado.xlsx"
+)
 
-imdb_sqlite <- tbl(conexao, "imdb")
-imdb_select <- tbl(conexao, sql("SELECT titulo, ano, diretor FROM imdb"))
+# Lendo aba certa
+readxl::read_excel(
+  "dados/mtcars_desconfigurado.xlsx",
+  sheet = 2
+)
 
-# trazer para a memória
-collect(imdb_sqlite)
-collect(imdb_select)
+# Pulando linhas com sujeira
+readxl::read_excel(
+  "dados/mtcars_desconfigurado.xlsx",
+  sheet = 2,
+  skip = 2
+)
 
-# Mais informações: db.rstudio.com
+# Especificando NAs
+readxl::read_excel(
+  "dados/mtcars_desconfigurado.xlsx",
+  sheet = 2,
+  skip = 2,
+  na = c("", "NT")
+)
 
+# Arrumando classe da coluna mpg
+readxl::read_excel(
+  "dados/mtcars_desconfigurado.xlsx",
+  sheet = 2,
+  skip = 2,
+  na = c("", "NT"),
+  col_types = c(
+    "numeric", 
+    "guess", 
+    "guess", 
+    "guess", 
+    "guess", 
+    "guess",
+    "guess", 
+    "guess", 
+    "guess", 
+    "guess", 
+    "guess"
+  )
+)
 
-
-# Outros formatos
+# Outros formatos ---------------------------------------------------------
 
 library(jsonlite)
 imdb_json <- read_json("dados/imdb.json")
 
 library(haven)
-
 imdb_sas <- read_sas("dados/imdb.sas7bdat")
 imdb_spss <- read_spss("dados/imdb.sav")
 
-
-# Gravando dados------------------------------------------------------------
+# Gravando dados ----------------------------------------------------------
 
 # As funções iniciam com 'write'
 
-# csv
+# CSV
 write_csv(imdb, path = "imdb.csv")
 
 # Excel
 library(writexl)
 write_xlsx(imdb, path = "imdb.xlsx")
 
-# rds
-write_rds(imdb, path = "imdb.rds")
+# O formato rds -----------------------------------------------------------
+
+# .rds são arquivos binários do R
+# Você pode salvar qualquer objeto do R em formato .rds
+
+imdb_rds <- readr::read_rds("dados/imdb.rds")
+
+readr::write_rds(imdb_rds, path = "dados/imdb_compacto.rds", compress = "gz")
+
+# Conexão com banco de dados e SQL ----------------------------------------
+
+install.packages("RSQLite")
+
+# Fazendo conexão com banco de dados
+conexao <- RSQLite::dbConnect(RSQLite::SQLite(), "dados/imdb.sqlite")
+
+# Criando uma tabela a partir do banco de dados
+imdb_sqlite <- dplyr::tbl(conexao, "imdb")
+
+# Criando uma tabela usando instruções em SQL
+
+instrucao <- dplyr::sql("SELECT titulo, ano, diretor FROM imdb")
+
+imdb_select <- dplyr::tbl(conexao, instrucao)
+
+# Trazer para a memória
+dplyr::collect(imdb_sqlite)
+dplyr::collect(imdb_select)
+
+# Mais informações: db.rstudio.com

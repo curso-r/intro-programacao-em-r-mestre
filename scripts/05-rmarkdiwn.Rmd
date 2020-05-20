@@ -1,0 +1,28 @@
+---
+title: "0-relatorio-exemplo"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introdução
+
+Esse relatório tem o objetivo de te mostrar um exemplo de relatório feito em R! Ele vai usar uma base de dados que já está sempre dentro do R, chamada `mtcars`. Ela registra várias informações sobre modelos de carros americanos.
+
+O comando abaixo coloca um sumário dessa base no nosso relatório.
+
+```{r cars}
+summary(mtcars)
+```
+
+## Incluindo gráficos
+
+Uma coisa muito legal que dá para fazer aqui é incluir gráficos no meio do relatório:
+
+```{r pressure, echo=FALSE}
+plot(mtcars$mpg, mtcars$hp)
+```
+
+O parâmetro `echo = FALSE` faz com que o código que gerou esse gráfico não apareça no código final. Se você quiser que o leitor veja como você fez o gráfico, basta mudar para `echo = TRUE`.
