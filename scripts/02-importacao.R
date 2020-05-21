@@ -25,7 +25,10 @@ imdb_csv <- read_csv(file = "dados/imdb.csv")
 # CSV, separado por ponto-e-vírgula
 imdb_csv2 <- read_csv2(file = "dados/imdb2.csv")
 
-# Qualquer tipo de separador
+# TXT, separado por tabulação (tecla TAB)
+imdb_txt <- read_delim(file = "dados/imdb.txt", delim = "\t")
+
+# A função read_delim funciona para qualquer tipo de separador
 imdb_delim <- read_delim("dados/imdb.csv", delim = ",")
 imdb_delim <- read_delim("dados/imdb2.csv", delim = ",")
 
@@ -144,7 +147,7 @@ dplyr::collect(imdb_select)
 
 # Escrevendo
 
-RSQLite::dbWriteTable(conexao, "imdb2", imdb_rds)
+RSQLite::dbWriteTable(conexao, "mtcars", mtcars)
 
 RSQLite::dbListTables(conexao)
 
