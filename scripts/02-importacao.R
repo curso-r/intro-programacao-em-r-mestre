@@ -2,11 +2,14 @@ library(tidyverse)
 
 # Caminhos até o arquivo --------------------------------------------------
 
-# 1. Podem ser absolutos
+# Diretório de trabalho
+getwd()
+
+# Caminhos absolutos
 "/home/william/Documents/Curso-R/intro-programacao-em-r-mestre/dados/imdb.csv"
 
-# 2. Podem ser relativos ao diretório de trabalho
-getwd()
+# Caminhos relativos
+"dados/imdb.csv"
 
 
 # Tibbles -----------------------------------------------------------------
@@ -103,7 +106,9 @@ imdb_spss <- read_spss("dados/imdb.sav")
 write_csv(imdb, path = "imdb.csv")
 
 # Excel
+
 library(writexl)
+
 write_xlsx(imdb, path = "imdb.xlsx")
 
 # O formato rds -----------------------------------------------------------
@@ -122,6 +127,8 @@ install.packages("RSQLite")
 # Fazendo conexão com banco de dados
 conexao <- RSQLite::dbConnect(RSQLite::SQLite(), "dados/imdb.sqlite")
 
+RSQLite::dbListTables(conexao)
+
 # Criando uma tabela a partir do banco de dados
 imdb_sqlite <- dplyr::tbl(conexao, "imdb")
 
@@ -134,5 +141,11 @@ imdb_select <- dplyr::tbl(conexao, instrucao)
 # Trazer para a memória
 dplyr::collect(imdb_sqlite)
 dplyr::collect(imdb_select)
+
+# Escrevendo
+
+RSQLite::dbWriteTable(conexao, "imdb2", imdb_rds)
+
+RSQLite::dbListTables(conexao)
 
 # Mais informações: db.rstudio.com

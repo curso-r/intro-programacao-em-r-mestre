@@ -157,3 +157,7 @@ a, a > code {
 .tiny .remark-code { /*Change made here*/
   font-size: 70% !important;
 }
+
+.remark-slide-content code {
+    font-size: 16px;
+}
