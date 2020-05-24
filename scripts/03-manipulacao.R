@@ -8,65 +8,80 @@ imdb <- read_rds("dados/imdb.rds")
 
 # select ------------------------------------------------------------------
 
-# exemplo 1
+# Selcionando uma coluna da base
 
 select(imdb, titulo)
 
-# exemplo 2
+# A operação NÃO MODIFICA O OBJETO imdb
+
+imdb
+
+# Selecionando várias colunas
 
 select(imdb, titulo, ano, orcamento)
 
-# exemplo 3
+# Funções auxiliares
 
 select(imdb, starts_with("ator"))
 
-# exemplo 4
+# Principais funções auxiliares
+
+# starts_with(): começa com um prefixo
+# ends_with(): termina com um prefixo
+# contains(): contém uma string (texto)
+
+# Selecionando colunas por exclusão
 
 select(imdb, -starts_with("ator"), -titulo)
 
-# Exercício 1
-# Crie uma tabela com apenas as colunas titulo, diretor, e orcamento. Salve em um
-# objeto chamado imdb_simples.
 
-# Exercício 2
-# Remova as colunas ator_1, ator_2 e ator_3 de três formas diferentes. Salve em um
-# objeto chamado imdb_sem_ator.
+# Exercícios --------------------------------------------------------------
+
+# 1. Crie uma tabela com apenas as colunas titulo, diretor, 
+# e orcamento. Salve em um objeto chamado imdb_simples.
+
+# 2. Remova as colunas ator_1, ator_2 e ator_3 de três 
+# formas diferentes. Salve em um objeto chamado imdb_sem_ator.
 
 # arrange -----------------------------------------------------------------
 
-# exemplo 1
+# Ordenando linhas de forma crescente de acordo com 
+# os valores de uma coluna
 
 arrange(imdb, orcamento)
 
-# exemplo 2
+# Agora de forma decrescente
 
 arrange(imdb, desc(orcamento))
 
-# exemplo 3
+# Ordenando de acordo com os valores 
+# de duas variáveis
 
 arrange(imdb, desc(ano), titulo)
 
-# exemplo 4
-# NA
+# O que acontece com o NA?
 
 df <- tibble(x = c(NA, 2, 1), y = c(1, 2, 3))
 arrange(df, x)
 
-# exercício 1
-# Ordene os filmes em ordem crescente de ano e decrescente de receita e salve 
-# em um objeto chamado filmes_ordenados
+# Exercícios --------------------------------------------------------------
 
-# Exercício 2 
-# Selecione apenas as colunas título e orçamento 
+# 1. Ordene os filmes em ordem crescente de ano e 
+# decrescente de receita e salve em um objeto 
+# chamado filmes_ordenados.
+
+# 2. Selecione apenas as colunas título e orçamento 
 # e então ordene de forma decrescente pelo orçamento.
-
-
 
 # Pipe (%>%) --------------------------------------------------------------
 
+# Transforma funçõe aninhadas em funções
+# sequenciais
+
 # g(f(x)) = x %>% f() %>% g()
 
-# Receita de bolo sem pipe. Tente entender o que é preciso fazer.
+# Receita de bolo sem pipe. 
+# Tente entender o que é preciso fazer.
 
 esfrie(
   asse(
@@ -91,7 +106,8 @@ esfrie(
   "geladeira", "20min"
 )
 
-# Veja como o código acima pode ser reescrito utilizando-se o pipe. 
+# Veja como o código acima pode ser reescrito 
+# utilizando-se o pipe. 
 # Agora realmente se parece com uma receita de bolo.
 
 recipiente(rep("farinha", 2), "água", "fermento", "leite", "óleo") %>%
@@ -101,82 +117,80 @@ recipiente(rep("farinha", 2), "água", "fermento", "leite", "óleo") %>%
   asse(duração = "50min") %>%
   esfrie("geladeira", "20min")
 
-# ATALHO: CTRL + SHIFT + M
+# ATALHO DO %>%: CTRL (command) + SHIFT + M
 
-# Exercício
-# Refaça o exercício 2 do arrange utilizando o %>% 
 
+# Exercício ---------------------------------------------------------------
+
+# Refaça o exercício 2 do arrange utilizando o %>%.
 
 # filter ------------------------------------------------------------------
 
-# exemplo 1
-imdb %>% filter(nota_imdb > 9)
+# Filtrando uma coluna da base
 
-# exemplo 2
+imdb %>% filter(nota_imdb > 9)
 imdb %>% filter(diretor == "Quentin Tarantino")
 
-# exercício 1
-# Criar uma variável chamada `filmes_baratos` com filmes com orçamento menor do 
-# que 1 milhão de dólares.
+# Vendo categorias de uma variável
 
-# exemplo 3
+unique(imdb$cor) # saída é um vetor
+imdb %>% distinct(cor) # saída é uma tibble
+
+# Filtrando duas colunas da base
+
+## Recentes e com nota alta
 imdb %>% filter(ano > 2010 & nota_imdb > 8.5)
+
+## Gastaram menos de 100 mil, faturaram mais de 1 milhão
 imdb %>% filter(orcamento < 100000, receita > 1000000)
-imdb %>% filter(receita > orcamento + 500000000 | nota_imdb > 9)
 
-# exemplo 4
-imdb %>% filter(receita > orcamento)
-imdb %>% filter(receita > orcamento + 500000000)
+## Lucraram
+imdb %>% filter(receita - orcamento > 0)
 
-# exemplo 5
+## Lucraram mais de 500 milhões OU têm nota muito alta
+imdb %>% filter(receita - orcamento > 500000000 | nota_imdb > 9)
+
+
+# Negação
 imdb %>% filter(ano > 2010)
 imdb %>% filter(!ano > 2010)
 
-# exercício 2
-# Criar um objeto chamado bons_baratos com filmes que tiveram nota no imdb 
-# maior do que 8.5 e um orcamento menor do que 1 milhão de dólares.
-
-# exercício 3
-# Criar um objeto chamado curtos_legais com filmes de 1h30 ou menos de duração 
-# e nota no imdb maior do que 8.5.
-
-# exercício 4
-# Criar um objeto antigo_colorido com filmes anteriores a 1950 que são 
-# coloridos. Crie também um objeto antigo_bw com filmes antigos que não são coloridos.
-
-# exercício 5
-# Criar um objeto ww com filmes do Wes Anderson ou do Woody Allen.
-
-# Exercício 6
-# Crie uma tabela apenas com filmes do Woody Allen e apenas as colunas titulo e ano,
-# ordenada por ano.
-
-# exemplo 6
-# %in%
-
+# O operador %in%
 pitts <- imdb %>% filter(ator_1 %in% c('Angelina Jolie Pitt', "Brad Pitt"))
 
-# exercicio 6
-# Refaça o exercício 5 usando o %in%.
-
-# exemplo 7
+# O que acontece com o NA?
 df <- tibble(x = c(1, NA, 3))
+
 filter(df, x > 1)
 filter(df, is.na(x) | x > 1)
 
-# exercício 7
-# Identifique os filmes que não possuem informação tanto de receita quanto de orcamento
-# e salve em um objeto com nome sem_info.
+# Filtrando texto sem correspondência exata
+# A função str_detect()
 
+str_detect(
+  string = c("a", "aa","abc", "bc", "A", NA), 
+  pattern = "a"
+)
 
-# exemplo 8
-# str_detect
+## Pegando os seis primeiros valores da coluna "generos"
+imdb$generos[1:6]
 
+str_detect(
+  string = imdb$generos[1:6],
+  pattern = "Action"
+)
+
+## Pegando apenas os filmes que 
+## tenham o gênero ação
 imdb %>% filter(str_detect(generos, "Action"))
 
-# exercício 8
-# Salve em um objeto os filmes de Ação e Comédia com nota no imdb maior do que 8.
+# Exercícios --------------------------------------------------------------
 
+# 1. Criar um objeto chamado `filmes_pb` apenas com filmes 
+# oreto e branco.
+
+# 2. Criar um objeto chamado curtos_legais com filmes 
+# de 1h30 ou menos de duração e nota no imdb maior do que 8.5.
 
 # mutate ------------------------------------------------------------------
 
