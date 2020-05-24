@@ -194,58 +194,71 @@ imdb %>% filter(str_detect(generos, "Action"))
 
 # mutate ------------------------------------------------------------------
 
-# exemplo 1
+# Modificando uma coluna
 
-imdb %>% mutate(duracao = duracao/60)
+imdb %>% 
+  mutate(duracao = duracao/60) %>% 
+  View()
 
-# exemplo 2
+# Criando uma nova coluna
 
-imdb %>% mutate(duracao_horas = duracao/60)
+imdb %>% 
+  mutate(duracao_horas = duracao/60) %>% 
+  View()
 
-# exercício 1
-# Crie uma variável chamada lucro. Salve em um objeto chamado imdb_lucro.
+imdb %>% 
+  mutate(lucro = receita - orcamento) %>% 
+  View()
 
-# exercicio 2
-# Modifique a variável lucro para ficar na escala de milhões de dólares.
+# A função ifelse é uma ótima ferramenta
+# para fazermos classificação binária
 
-# exercício 3
-# Filtre apenas os filmes com prejuízo maior do que 3 milhões de dólares. 
-# Deixe essa tabela ordenada com o maior prejuízo primeiro. Salve o resultado em 
-# um objeto chamado filmes_prejuizo.
+imdb %>% mutate(
+  lucro = receita - orcamento,
+  houve_lucro = ifelse(lucro > 0, "Sim", "Não")
+) %>% 
+  View()
 
-# exemplo 3
-# gêneros
 
-# install.packages("gender")
-library(gender)
+# Exercícios --------------------------------------------------------------
 
-gender(c("William"), years = 2012)
-gender(c("Amanda"), years = 2012)
-gender(c("Robin"), years = 2012)
+# 1. Crie uma coluna chamada prejuizo (orcamento - receita)
+# e salve a nova tabela em um objeto chamado imdb_prejuizo.
+# Em seguida, filtre apenas os filmes que deram prejuízo
+# e ordene a tabela por ordem crescente de prejuízo.
 
-gender(c("Madison", "Hillary"), years = 1930, method = "ssa")
-gender(c("Madison", "Hillary"), years = 2010, method = "ssa")
-
-gender("Matheus", years = 1920)
-gender("Matheus", years = 2012)
-
-# Base com o gênero dos diretores
-imdb_generos <- read_rds("dados/imdb_generos.rds")
-
-# Pacote análogo para nomes brasileiros
-# https://github.com/meirelesff/genderBR
+# 2. Crie uma nova coluna que classifique o filme em 
+# "recente" (posterior a 2000) e "antigo" de 2000 para trás.
 
 # summarise ---------------------------------------------------------------
 
-# exemplo 1
+# Sumarizando uma coluna
 
 imdb %>% summarise(media_orcamento = mean(orcamento, na.rm = TRUE))
 
-# exemplo 2
+# repare que a saída ainda é uma
+
+# Sumarizando várias colunas
+
+imdb %>% summarise(
+  media_orcamento = mean(orcamento, na.rm = TRUE),
+  media_receita = mean(receita, na.rm = TRUE),
+  media_lucro = mean(receita - orcamento, na.rm = TRUE)
+)
+
+# Diversas sumarizações da mesma coluna
 
 imdb %>% summarise(
   media_orcamento = mean(orcamento, na.rm = TRUE),
   mediana_orcamento = median(orcamento, na.rm = TRUE),
+  variancia_orcamento = var(orcamento, na.rm = TRUE)
+)
+
+# Tabela descritiva
+
+imdb %>% summarise(
+  media_orcamento = mean(orcamento, na.rm = TRUE),
+  media_receita = mean(receita, na.rm = TRUE),
   qtd = n(),
   qtd_diretores = n_distinct(diretor)
 )
