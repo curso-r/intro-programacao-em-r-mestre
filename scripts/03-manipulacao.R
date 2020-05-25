@@ -20,6 +20,8 @@ imdb
 
 select(imdb, titulo, ano, orcamento)
 
+select(imdb, titulo:cor)
+
 # Funções auxiliares
 
 select(imdb, starts_with("ator"))
@@ -40,8 +42,8 @@ select(imdb, -starts_with("ator"), -titulo)
 # 1. Crie uma tabela com apenas as colunas titulo, diretor, 
 # e orcamento. Salve em um objeto chamado imdb_simples.
 
-# 2. Remova as colunas ator_1, ator_2 e ator_3 de três 
-# formas diferentes. Salve em um objeto chamado imdb_sem_ator.
+# 2. Selecione apenas as colunas ator_1, ator_2 e ator_3 usando
+# o ajudante contains().
 
 # arrange -----------------------------------------------------------------
 
@@ -263,94 +265,104 @@ imdb %>% summarise(
   qtd_diretores = n_distinct(diretor)
 )
 
-# exemplo 3
-
-imdb_generos %>%
-  summarise(n_diretora = sum(genero == "female", na.rm = TRUE))
-
-# exercício 1
-# Use o `summarise` para calcular a proporção de filmes com diretoras.
-
-# exercício 2
-# Calcule a duração média e mediana dos filmes da base.
-
-# exercício 3
-# Calcule o lucro médio dos filmes com duracao < 60 minutos. E o lucro médio dos filmes com
-# mais de 2 horas.
-
 # group_by + summarise ----------------------------------------------------
 
-# exemplo 1
+# Agrupando a base por uma variável.
 
 imdb %>% group_by(ano)
 
-# exemplo 2
+# Agrupando e sumarizando
 
 imdb %>% 
-  group_by(ano) %>% 
+  group_by(cor) %>% 
   summarise(qtd_filmes = n())
-
-# exemplo 3
 
 imdb %>% 
   group_by(diretor) %>% 
-  summarise(qtd_filmes = n())
-
-# exercício 1
-# Crie uma tabela com apenas o nome dos diretores com mais de 10 filmes.
-
-# exercício 2
-# Crie uma tabela com a receita média e mediana dos filmes por ano.
-
-# exercício 3
-# Crie uma tabela com a nota média do imdb dos filmes por tipo de classificacao.
-
-# exemplo 4
-
-imdb %>%
-  filter(str_detect(generos, "Action"), !is.na(diretor)) %>%
-  group_by(diretor) %>%
-  summarise(qtd_filmes = n()) %>%
+  summarise(qtd_filmes = n()) %>% 
   arrange(desc(qtd_filmes))
 
-# exemplo 5
 
-imdb %>% 
-  filter(ator_1 %in% c("Brad Pitt", "Angelina Jolie Pitt")) %>%
-  group_by(ator_1) %>%
-  summarise(orcamento = mean(orcamento), receita = mean(receita), qtd = n())
+# Exercícios --------------------------------------------------------------
+
+# 1. Calcule a duração média e mediana dos filmes 
+# da base.
+
+# 2. Calcule o lucro médio dos filmes com duracao 
+# menor que 60 minutos. 
+
+# 3. Apresente na mesma tabela o lucro médio 
+# dos filmes com duracao menor que 60 minutos
+# e o lucro médio dos filmes com duracao maior 
+# ou igual a 60 minutos.
 
 # left join ---------------------------------------------------------------
 
-# exemplo 1
+# A função left join serve para juntarmos duas
+# tabelas a partir de uma chave. 
+# Vamos ver um exemplo.
 
-imdb_completa <- imdb %>%
-  left_join(imdb_generos, by = c("diretor", "ano"))
+# Vamos calcular a média do lucro dos filmes
+# por diretor.
 
-View(imdb_completa)
+tab_lucro_diretor <- imdb %>% 
+  mutate(lucro = receita - orcamento) %>% 
+  group_by(diretor) %>% 
+  summarise(lucro_medio = mean(lucro, na.rm = TRUE))
 
-# exemplo 2
+# E se quisermos colocar essa informação na base
+# original? Para sabermos, por exemplo, o quanto
+# o lucro de cada filme de um diretor se afasta da 
+# média do próprio diretor.
+
+# Usamos a funçõa left join para trazer a
+# coluna lucro_medio para a base imdb, associando
+# cada valor de lucro_medio ao respectivo diretor
+left_join(imdb, tab_lucro_diretor, by = "diretor")
+
+# Salvando em um objeto
+imdb_com_lucro_medio <- imdb %>% 
+  left_join(tab_lucro_diretor, by = "diretor")
+
+# Calculando o lucro relativo. Vamos usar a
+# função scales::percent() para formatar o
+# nosso resultado.
+
+scales::percent(0.05)
+scales::percent(0.5)
+scales::percent(1)
+
+imdb_com_lucro_medio %>% 
+  mutate(
+    lucro = receita - orcamento,
+    lucro_relativo = (lucro - lucro_medio)/lucro_medio,
+    lucro_relativo = scales::percent(lucro_relativo)
+  ) %>% 
+  View()
+
+# Fazendo de-para
 
 depara_cores <- tibble(
   cor = c("Color", "Black and White"),
-  cor2 = c("colorido", "pretoEbranco")
+  cor_em_ptBR = c("colorido", "preto e branco")
 )
 
-imdb_cor <- left_join(imdb, depara_cores, by = c("cor"))
+left_join(imdb, depara_cores, by = c("cor")) 
 
-# exercicio 1
-# Calcule a média dos orçamentos e receitas para filmes feitos por
-# gênero do diretor.
+imdb %>% 
+  left_join(depara_cores, by = c("cor")) %>% 
+  select(cor, cor_em_ptBR) %>% 
+  View()
 
-# gather ------------------------------------------------------------------
 
-# exemplo 1
+# Exercícios --------------------------------------------------------------
 
-imdb_gather <- gather(imdb, "importancia_ator", "nome_ator", starts_with("ator"))
+# 1. Salve em um novo objeto uma tabela com a 
+# nota média dos filmes de cada diretor. Essa tabela
+# deve conter duas colunas (diretor e nota_imdb_media)
+# e cada linha deve ser um diretor diferente.
 
-# spread ------------------------------------------------------------------
-
-# exemplo 1
-
-imdb <- spread(imdb_gather, importancia_ator, nome_ator)
+# 2. Use o left_join para trazer a coluna 
+# nota_imdb_media da tabela do exercício 1
+# para a tabela imdb original.
 
