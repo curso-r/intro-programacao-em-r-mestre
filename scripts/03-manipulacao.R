@@ -301,7 +301,18 @@ imdb %>%
 
 # A função left join serve para juntarmos duas
 # tabelas a partir de uma chave. 
-# Vamos ver um exemplo.
+# Vamos ver um exemplo bem simples.
+
+band_members
+band_instruments
+
+band_members %>% left_join(band_instruments)
+band_instruments %>% left_join(band_members)
+
+# o argumento 'by'
+band_members %>% left_join(band_instruments, by = "name")
+
+# De volta ao imdb...
 
 # Vamos calcular a média do lucro dos filmes
 # por diretor.
@@ -354,6 +365,13 @@ imdb %>%
   left_join(depara_cores, by = c("cor")) %>% 
   select(cor, cor_em_ptBR) %>% 
   View()
+
+# OBS: existe uma família de joins
+
+band_instruments %>% left_join(band_members)
+band_instruments %>% right_join(band_members)
+band_instruments %>% inner_join(band_members)
+band_instruments %>% full_join(band_members)
 
 
 # Exercícios --------------------------------------------------------------
