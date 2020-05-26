@@ -28,9 +28,9 @@ select(imdb, starts_with("ator"))
 
 # Principais funções auxiliares
 
-# starts_with(): começa com um prefixo
-# ends_with(): termina com um prefixo
-# contains(): contém uma string (texto)
+# starts_with(): para colunas que começam com um texto padrão
+# ends_with(): para colunas que terminam com um texto padrão
+# contains():  para colunas que contêm um texto padrão
 
 # Selecionando colunas por exclusão
 
@@ -57,9 +57,9 @@ arrange(imdb, orcamento)
 arrange(imdb, desc(orcamento))
 
 # Ordenando de acordo com os valores 
-# de duas variáveis
+# de duas colunas
 
-arrange(imdb, desc(ano), titulo)
+arrange(imdb, desc(ano), orcamento)
 
 # O que acontece com o NA?
 
@@ -141,6 +141,8 @@ imdb %>% distinct(cor) # saída é uma tibble
 # Filtrando duas colunas da base
 
 ## Recentes e com nota alta
+imdb %>% filter(ano > 2010, nota_imdb > 8.5)
+
 imdb %>% filter(ano > 2010 & nota_imdb > 8.5)
 
 ## Gastaram menos de 100 mil, faturaram mais de 1 milhão
@@ -152,13 +154,12 @@ imdb %>% filter(receita - orcamento > 0)
 ## Lucraram mais de 500 milhões OU têm nota muito alta
 imdb %>% filter(receita - orcamento > 500000000 | nota_imdb > 9)
 
-
 # Negação
 imdb %>% filter(ano > 2010)
 imdb %>% filter(!ano > 2010)
 
 # O operador %in%
-pitts <- imdb %>% filter(ator_1 %in% c('Angelina Jolie Pitt', "Brad Pitt"))
+imdb %>% filter(ator_1 %in% c('Angelina Jolie Pitt', "Brad Pitt"))
 
 # O que acontece com o NA?
 df <- tibble(x = c(1, NA, 3))
