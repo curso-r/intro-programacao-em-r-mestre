@@ -239,7 +239,7 @@ imdb %>% mutate(
 
 imdb %>% summarise(media_orcamento = mean(orcamento, na.rm = TRUE))
 
-# repare que a saída ainda é uma
+# repare que a saída ainda é uma tibble
 
 # Sumarizando várias colunas
 
@@ -270,13 +270,13 @@ imdb %>% summarise(
 
 # Agrupando a base por uma variável.
 
-imdb %>% group_by(ano)
+imdb %>% group_by(cor)
 
 # Agrupando e sumarizando
 
 imdb %>% 
   group_by(cor) %>% 
-  summarise(qtd_filmes = n())
+  summarise(receita_media = mean(receita, na.rm = TRUE))
 
 imdb %>% 
   group_by(diretor) %>% 
@@ -313,8 +313,8 @@ tab_lucro_diretor <- imdb %>%
 
 # E se quisermos colocar essa informação na base
 # original? Para sabermos, por exemplo, o quanto
-# o lucro de cada filme de um diretor se afasta da 
-# média do próprio diretor.
+# o lucro de cada filme se afasta do lucro médio
+# do diretor que o dirigiu.
 
 # Usamos a funçõa left join para trazer a
 # coluna lucro_medio para a base imdb, associando

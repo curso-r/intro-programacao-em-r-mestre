@@ -23,15 +23,11 @@ class: center, middle, inverse, title-slide
 
 
 
-
-```r
-options(width = 80)
-```
-
-
 class: middle, center
 
 # <span style="color:#6495ed; font-weight: bold;">Manipulando bases de dados</span>
+
+
 
 ---
 # O pacote dplyr
@@ -690,13 +686,227 @@ imdb %&gt;%
 ---
 # Sumarizando colunas
 
+Sumarização é a técnica de se resumir um conjunto de dados utilizando alguma métrica de interesse. A média, a mediana, a variância, a frequência, a proporção, por exemplo, são tipos de sumarização que trazem diferentes informações sobre uma variável. 
 
+Para sumarizar uma coluna da base, utilizamos a função `summarize()`. O código abaixo resume a coluna orçamento pela sua média.
+
+
+```r
+imdb %&gt;% summarize(media_orcamento = mean(orcamento, na.rm = TRUE))
+```
+
+```
+## # A tibble: 1 x 1
+##   media_orcamento
+##             &lt;dbl&gt;
+## 1       35237114.
+```
+
+Repare que a saída da função continua sendo uma tibble.
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Podemos calcular diversas sumarizações diferentes em um mesmo `summarize`. Cada sumarização será uma coluna da nova base.
+
+
+```r
+imdb %&gt;% summarise(
+  media_orcamento = mean(orcamento, na.rm = TRUE),
+  mediana_orcamento = median(orcamento, na.rm = TRUE),
+  variancia_orcamento = var(orcamento, na.rm = TRUE)
+)
+```
+
+```
+## # A tibble: 1 x 3
+##   media_orcamento mediana_orcamento variancia_orcamento
+##             &lt;dbl&gt;             &lt;dbl&gt;               &lt;dbl&gt;
+## 1       35237114.          20000000   1769050050704338.
+```
+
+---
+&lt;br&gt;&lt;br&gt;
+
+E também sumarizar diversas colunas.
+
+
+```r
+imdb %&gt;% summarize(
+  media_orcamento = mean(orcamento, na.rm = TRUE),
+  media_receita = mean(receita, na.rm = TRUE),
+  media_lucro = mean(receita - orcamento, na.rm = TRUE)
+)
+```
+
+```
+## # A tibble: 1 x 3
+##   media_orcamento media_receita media_lucro
+##             &lt;dbl&gt;         &lt;dbl&gt;       &lt;dbl&gt;
+## 1       35237114.     54530550.   17161639.
+```
 
 ---
 # Sumarizando colunas agrupadas
 
+Muitas vezes queremos sumarizar uma coluna agrupada pelas categorias de uma segunda coluna. Para isso, além do `summarize`, utilizamos também a função `group_by()`.
+
+O código a seguir calcula a receita média dos filmes para cada categoria da coluna "cor".
+
+
+```r
+imdb %&gt;% 
+  group_by(cor) %&gt;% 
+  summarise(receita_media = mean(receita, na.rm = TRUE))
+```
+
+```
+## # A tibble: 3 x 2
+##   cor             receita_media
+##   &lt;chr&gt;                   &lt;dbl&gt;
+## 1 Black and White     36124154.
+## 2 Color               55094030.
+## 3 &lt;NA&gt;                80014842
+```
+
+---
+&lt;br&gt;&lt;br&gt;
+
+A única alteração que a função `group_by()` faz na base é a marcação de que a base está agrupada.
+
+.tiny[
+
+```r
+imdb %&gt;% group_by(cor)
+```
+
+```
+## # A tibble: 3,713 x 15
+## # Groups:   cor [3]
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avatar  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## # … with 3,703 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
 ---
 # Juntando bases a patir de uma chave
+
+Podemos juntar duas tabelas a partir de uma (coluna) chave utilizando a função `left_join()`. Como exempo, vamos inicialmente calcular o lucro médio dos filmes de cada diretor e salvar no objeto `tab_lucro_diretor`.
+
+.tiny[
+
+```r
+tab_lucro_diretor &lt;- imdb %&gt;%
+  group_by(diretor) %&gt;% 
+  summarise(lucro_medio = mean(receita - orcamento, na.rm = TRUE))
+
+tab_lucro_diretor
+```
+
+```
+## # A tibble: 1,813 x 2
+##    diretor          lucro_medio
+##    &lt;chr&gt;                  &lt;dbl&gt;
+##  1 A. Raven Cruz            NaN
+##  2 Aaron Hann               NaN
+##  3 Aaron Schneider      1676553
+##  4 Aaron Seltzer       28546578
+##  5 Abel Ferrara       -11272676
+##  6 Adam Carolla        -1394057
+##  7 Adam Goldberg       -1647420
+##  8 Adam Green               NaN
+##  9 Adam Jay Epstein         NaN
+## 10 Adam Marcus         13435068
+## # … with 1,803 more rows
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+E se quisermos colocar essa informação na base original? Basta usar a função `left_join()` utilizando a coluna `diretor` como chave. Observe que a coluna `lucro_medio` aparece agora no fim da tabela.
+
+.tiny[
+
+```r
+imdb_com_lucro_medio &lt;- left_join(imdb, tab_lucro_diretor, by = "diretor")
+
+imdb_com_lucro_medio
+```
+
+```
+## # A tibble: 3,713 x 16
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avatar  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## # … with 3,703 more rows, and 7 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;,
+## #   lucro_medio &lt;dbl&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Na tabela `imdb_com_lucro_medio`, como na tabela `imdb`, cada linha continua a representar um filme diferente, mas agora temos também a informação do lucro médio do diretor de cada filme. 
+
+A primeira linha, por exemplo, traz as informações do filme Avatar. O valor do `lucro_medio` nessa linha representa o lucro médio de todos os filmes do James Cameron, que é o diretor de Avatar. Com essa informação, podemos calcular o quanto o lucro do Avatar se afasta do lucro médio do James Cameron.
+
+---
+&lt;br&gt;&lt;br&gt;
+
+.tiny[
+
+```r
+imdb_com_lucro_medio %&gt;% 
+  mutate(
+    lucro = receita - orcamento,
+    lucro_relativo = (lucro - lucro_medio)/lucro_medio,
+    lucro_relativo = scales::percent(lucro_relativo)
+  ) %&gt;% 
+  select(titulo, diretor, lucro, lucro_medio, lucro_relativo)
+```
+
+```
+## # A tibble: 3,713 x 5
+##    titulo                      diretor          lucro lucro_medio lucro_relativo
+##    &lt;chr&gt;                       &lt;chr&gt;            &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;         
+##  1 Avatar                      James Cameron   5.24e8  194620985  168.987359%   
+##  2 Pirates of the Caribbean: … Gore Verbins…   9.40e6   36942999. -74.544157%   
+##  3 The Dark Knight Rises       Christopher …   1.98e8  101028447  96.113716%    
+##  4 John Carter                 Andrew Stant…  -1.91e8   46668146  -508.504167%  
+##  5 Spider-Man 3                Sam Raimi       7.85e7   66820940. 17.523494%    
+##  6 Tangled                     Nathan Greno   -5.92e7  -59192738  0.000000%     
+##  7 Avengers: Age of Ultron     Joss Whedon     2.09e8  199202360. 4.914218%     
+##  8 Batman v Superman: Dawn of… Zack Snyder     8.02e7   33186745. 141.810582%   
+##  9 Superman Returns            Bryan Singer   -8.93e6   -2887024. 209.335596%   
+## 10 Pirates of the Caribbean: … Gore Verbins…   1.98e8   36942999. 436.049135%   
+## # … with 3,703 more rows
+```
+]
+
+Observamos então que o Avatar obteve um lucro aproximadamente 169% maior que a média dos filmes do James Cameron.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
