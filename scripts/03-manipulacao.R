@@ -6,6 +6,16 @@ library(tidyverse)
 
 imdb <- read_rds("dados/imdb.rds")
 
+# Jeito de ver a base -----------------------------------------------------
+
+glimpse(imdb)
+names(imdb)
+View(imdb)
+
+# install.packages("skimr")
+library(skimr)
+skim(imdb)
+
 # select ------------------------------------------------------------------
 
 # Selcionando uma coluna da base
@@ -190,10 +200,10 @@ imdb %>% filter(str_detect(generos, "Action"))
 # Exercícios --------------------------------------------------------------
 
 # 1. Criar um objeto chamado `filmes_pb` apenas com filmes 
-# oreto e branco.
+# preto e branco.
 
 # 2. Criar um objeto chamado curtos_legais com filmes 
-# de 1h30 ou menos de duração e nota no imdb maior do que 8.5.
+# de 90 minutos ou menos de duração e nota no imdb maior do que 8.5.
 
 # mutate ------------------------------------------------------------------
 

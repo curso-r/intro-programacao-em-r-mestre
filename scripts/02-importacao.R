@@ -30,7 +30,7 @@ imdb_txt <- read_delim(file = "dados/imdb.txt", delim = "\t")
 
 # A função read_delim funciona para qualquer tipo de separador
 imdb_delim <- read_delim("dados/imdb.csv", delim = ",")
-imdb_delim <- read_delim("dados/imdb2.csv", delim = ",")
+imdb_delim <- read_delim("dados/imdb2.csv", delim = ";")
 
 # Lendo arquivos do Excel -------------------------------------------------
 
@@ -91,6 +91,20 @@ readxl::read_excel(
     "guess"
   )
 )
+
+# Arrumando classe da coluna mpg depois de carregar
+mtcars_cru <- readxl::read_excel(
+  "dados/mtcars_desconfigurado.xlsx",
+  sheet = 2,
+  skip = 2,
+  na = c("", "NT")
+)
+
+mtcars$mpg <- as.numeric(mtcars$mpg)
+
+# as.numeric()
+# as.character()
+# as.Date()
 
 # Outros formatos ---------------------------------------------------------
 
