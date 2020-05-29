@@ -1,0 +1,475 @@
+---
+title: "R para Ciência de Dados I"
+subtitle: "Manipulando bases de dados"
+author: "<img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>"
+date: ""
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "css/custom-intro.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, child="00-preamble.Rmd"}
+
+```
+
+class: middle, center
+
+# `r blue("Manipulando bases de dados")`
+
+```{r, include=FALSE}
+options(width = 80)
+```
+
+---
+# O pacote dplyr
+
+O `dplyr` é o pacote mais útil para realizar manipulação de dados, pois possui funções para fazer virtualmente qualquer tipo de transformação nas linhas e colunas da base.
+
+As principais funções do dplyr são:
+
+- `filter()`: filtra linhas
+- `select()`: seleciona colunas
+- `arrange()`: ordena as linhas conforme os valores de uma coluna
+- `mutate()`: modifica ou cria novas colunas
+- `group_by()`: agrupa a base conforme uma coluna
+- `summarise()`: sumariza colunas
+
+Todas essas funções seguem as seguintes características:
+
+- A função sempre recebe uma `tibble` e sempre devolve uma `tibble`.
+
+- Colocamos o `tibble` no primeiro argumento e o que queremos fazer nos demais argumentos.
+
+---
+<br><br>
+
+Os exemplos apresentados aqui continuarão a usar a base IMDB. Não se esqueça de carregar o pacote `tidyverse` e carregar a base de dados.
+
+```{r, include=FALSE}
+library(tidyverse)
+
+imdb <- read_rds("../dados/imdb.rds")
+```
+
+
+```{r, eval=FALSE}
+library(tidyverse)
+
+imdb <- read_rds("dados/imdb.rds")
+```
+
+---
+
+# Selecionando colunas
+
+Para selecionar colunas, utilizamos a função `select()`.
+
+O primeiro argumento da função é a base de dados e os demais argumentos são os nomes das colunas que você gostaria de selecionar. Repare que você não precisa colocar o nome da coluna entre aspas.
+
+.tiny[
+```{r}
+select(imdb, titulo)
+```
+]
+
+---
+<br><br>
+
+Você também pode selecionar várias colunas.
+
+```{r}
+select(imdb, titulo, ano, orcamento)
+```
+
+---
+<br><br>
+
+Um operador `:` é muito útil para selecionar colunas consecutivas.
+
+.tiny[
+```{r}
+select(imdb, titulo:cor)
+```
+]
+
+---
+<br><br>
+
+O `dplyr` possui o conjunto de funções auxiliares muito úteis para seleção de colunas. As principais são:
+
+- `starts_with()`: para colunas que começam com um texto padrão
+- `ends_with()`: para colunas que terminam com um texto padrão
+- `contains()`: para colunas que contêm um texto padrão
+
+Selecionamos a seguir todas as colunas que começam com o texto "ator".
+
+.tiny[
+```{r}
+select(imdb, starts_with("ator"))
+```
+]
+
+---
+# Ordenando linhas
+
+Para ordenar linhas, utilizamos a função `arrange()`. O primeiro argumento é a base de dados. Os demais argumentos são as colunas pelas quais queremos ordenar as linhas. No exemplo a seguir, ordenamos as linhas da base por ordem crescente de orçamento.
+
+.tiny[
+```{r}
+arrange(imdb, orcamento)
+```
+]
+
+---
+<br><br>
+
+Também podemos ordenar de forma decrescente usando a função `desc()`.
+
+.tiny[
+```{r}
+arrange(imdb, desc(orcamento))
+```
+]
+
+---
+<br><br>
+
+E claro, ordenar segundo duas ou mais colunas.
+
+.tiny[
+```{r}
+arrange(imdb, desc(ano), desc(orcamento))
+```
+]
+
+---
+# Aplicando mais de uma operação
+
+Na grande maioria dos casos, vamos aplicar mais de uma função de manipulação em uma base para obtermos a tabela que desejamos. Poderíamos, por exemplo, querer uma tabela apenas com o título e ano dos filmes, ordenada de forma crescente de lançamento. Para fazer isso, poderíamos aninhar as funções
+
+```{r, eval=FALSE}
+arrange(select(imdb, titulo, ano), ano)
+```
+
+ou criar um objeto intermediário 
+
+```{r, eval=FALSE}
+tab_titulo_ano <- select(imdb, titulo, ano)
+
+arrange(tab_titulo_ano, ano)
+```
+
+Os dois códigos funcionam e levam ao mesmo resultado, mas não são eficientes.
+
+---
+<br><br>
+
+A primeira alternativa é ruim de escrever, já que pricisamos escrever primeiro a função que roda por último, e de ler, pois é difícil identificar qual argumento pertence a qual função.
+
+A segunda alternativa é ruim pois exige a criação de objetos auxiliares. Se quiséssimos aplicar 10 operações na base, precisaríamos criar 9 objetos intermediários.
+
+A solução para aplicar diversas operações de manipulação em uma base de dados é aplicar o operador pipe: %>%.
+---
+## O operador pipe %>% 
+
+A ideia do operador pipe é muito simples: ele vai aplicar a função do lado direito ao objeto do lado esquerdo.
+
+No exemplo a seguir, estamos aplicando a função `sum()` (lado direito) no objeto `vetor` (lado esquerdo).
+
+```{r}
+vetor <- c(1, 2, 3)
+
+vetor %>% sum()
+```
+
+O código acima é equivalente a:
+
+```{r}
+sum(vetor)
+```
+
+---
+<br><br>
+
+Na prática, o pipe coloca o objeto do lado esquerdo no primeiro argumento da função no lado direito. Se precisarmos passar mais argumentos para a função, podemos fazer isso normalmente. É como se estivêssesmo escrevendo a função, omitindo o primeiro argumento.
+
+```{r}
+vetor <- c(1, 2, 3, NA)
+
+vetor %>% sum(na.rm = TRUE)
+```
+
+O código acima é equivalente a
+
+```{r}
+sum(vetor, na.rm = TRUE)
+```
+
+
+---
+<br><br>
+
+Quando estamos aplicando apenas uma função, o pipe não parece trazer vantagens. Mas vamos ver como fica o nosso exemplo do imdb utilizando esse operador:
+
+```{r, eval = FALSE}
+# Sem pipe
+arrange(select(imdb, titulo, ano), ano)
+
+# Com pipe
+imdb %>% 
+  select(titulo, ano) %>% 
+  arrange(ano)
+```
+
+O que está sendo feito no código com pipe? Da primeira para a segunda linha, estamos aplicando a função `select()` à base imdb. Da segunda para a terceira, estamos aplicando a função `arrange()` à base resultante da função `select()`.
+
+O resultado desse código é identico às tentativas sem pipe, com a vantagem de termos escrito o código na ordem em que as funções são aplicadas, de termos um código muito mais legível e de não precisarmos utilizar objetos intermediários.
+
+---
+# Filtrando linhas
+
+Para filtrar valores de uma coluna da base, utilizamos a função `filter()`.
+
+.tiny[
+```{r}
+imdb %>% filter(nota_imdb > 9)
+```
+]
+
+---
+<br><br>
+
+Podemos selecionar apenas as colunas título e nota para visualizarmos as notas:
+
+.tiny[
+```{r}
+imdb %>% 
+  filter(nota_imdb > 9) %>% 
+  select(titulo, nota_imdb)
+```
+]
+
+---
+<br><br>
+
+Podemos estender o filtro para duas ou mais colunas. Para isso, separamos cada operação por uma vírgula.
+
+.tiny[
+```{r}
+imdb %>% filter(ano > 2010, nota_imdb > 8.5)
+```
+]
+
+---
+<br><br>
+
+Também podemos fazer operações com as colunas da base dentro da função filter. O código abaixo devolve uma tabela apenas com os filmes que lucraram.
+
+.tiny[
+```{r}
+imdb %>% filter(receita - orcamento > 0)
+```
+]
+
+---
+<br><br>
+
+Naturalmente, podemos filtrar colunas categóricas. O exemplo abaixo retorna uma tabela apenas com os filmes com a Angelina Jolie Pitt ou o Brad Pitt no papel principal.
+
+.tiny[
+```{r}
+imdb %>%
+  filter(ator_1 %in% c('Angelina Jolie Pitt', "Brad Pitt"))
+```
+]
+
+---
+<br><br>
+
+Para filtrar textos sem correspondência exata, podemos utilizar a função auxiliar `str_detect()`. Ela serve para verificar se cada string de um vetor contém um determinado padrão de texto.
+
+```{r}
+str_detect(
+  string = c("a", "aa","abc", "bc", "A", NA), 
+  pattern = "a"
+)
+``` 
+
+Podemos utilizá-la para filtrar apenas os filmes que contêm o gênero ação.
+
+```{r}
+# A coluna gêneros apresenta todos os gêneros dos filmes concatenados
+imdb$generos[1:6]
+```
+
+
+---
+<br><br>
+
+.tiny[
+```{r}
+# Podemos detectar se o gênero Action aparece na string
+str_detect(
+  string = imdb$generos[1:6],
+  pattern = "Action"
+)
+# Aplicamos essa lógica dentro da função filter, para a coluna completa
+imdb %>% filter(str_detect(generos, "Action"))
+```
+]
+
+---
+# Modificando e criando novas colunas
+
+Para modificar uma coluna existente ou criar uma nova coluna, utilizamos a função `mutate()`. O código abaixo divide os valores da coluna duração por 60, mudando a unidade de medida dessa variável de minutos para horas.
+
+.tiny[
+```{r}
+imdb %>% mutate(duracao = duracao/60)
+```
+]
+
+---
+<br><br>
+
+Também poderíamos ter criado essa variável em uma nova coluna. Repare que a nova coluna `duracao_horas` é colocada no final da tabela.
+
+.tiny[
+```{r}
+imdb %>% mutate(duracao_horas = duracao/60)
+```
+]
+
+---
+<br><br>
+
+Podemos fazer qualquer operação com uma ou mais colunas. A única regra é que o resultado da operação retorne um vetor com comprimento igual ao número de linhas da base (ou com comprimento 1 para distribuir um mesmo valor em todas as linhas). Você também pode criar/modificar quantas colunas quiser dentro de um mesmo `mutate`.
+
+.tiny[
+```{r}
+imdb %>% 
+  mutate(lucro = receita - orcamento, pais = "Estados Unidos") %>% 
+  select(titulo, lucro, pais)
+```
+]
+
+---
+# Sumarizando colunas
+
+Sumarização é a técnica de se resumir um conjunto de dados utilizando alguma métrica de interesse. A média, a mediana, a variância, a frequência, a proporção, por exemplo, são tipos de sumarização que trazem diferentes informações sobre uma variável. 
+
+Para sumarizar uma coluna da base, utilizamos a função `summarize()`. O código abaixo resume a coluna orçamento pela sua média.
+
+```{r}
+imdb %>% summarize(media_orcamento = mean(orcamento, na.rm = TRUE))
+```
+
+Repare que a saída da função continua sendo uma tibble.
+
+---
+<br><br>
+
+Podemos calcular diversas sumarizações diferentes em um mesmo `summarize`. Cada sumarização será uma coluna da nova base.
+
+```{r}
+imdb %>% summarise(
+  media_orcamento = mean(orcamento, na.rm = TRUE),
+  mediana_orcamento = median(orcamento, na.rm = TRUE),
+  variancia_orcamento = var(orcamento, na.rm = TRUE)
+)
+```
+
+---
+<br><br>
+
+E também sumarizar diversas colunas.
+
+```{r}
+imdb %>% summarize(
+  media_orcamento = mean(orcamento, na.rm = TRUE),
+  media_receita = mean(receita, na.rm = TRUE),
+  media_lucro = mean(receita - orcamento, na.rm = TRUE)
+)
+```
+
+---
+# Sumarizando colunas agrupadas
+
+Muitas vezes queremos sumarizar uma coluna agrupada pelas categorias de uma segunda coluna. Para isso, além do `summarize`, utilizamos também a função `group_by()`.
+
+O código a seguir calcula a receita média dos filmes para cada categoria da coluna "cor".
+
+```{r}
+imdb %>% 
+  group_by(cor) %>% 
+  summarise(receita_media = mean(receita, na.rm = TRUE))
+```
+
+---
+<br><br>
+
+A única alteração que a função `group_by()` faz na base é a marcação de que a base está agrupada.
+
+.tiny[
+```{r}
+imdb %>% group_by(cor)
+```
+]
+
+---
+# Juntando bases a patir de uma chave
+
+Podemos juntar duas tabelas a partir de uma (coluna) chave utilizando a função `left_join()`. Como exempo, vamos inicialmente calcular o lucro médio dos filmes de cada diretor e salvar no objeto `tab_lucro_diretor`.
+
+.tiny[
+```{r}
+tab_lucro_diretor <- imdb %>%
+  group_by(diretor) %>% 
+  summarise(lucro_medio = mean(receita - orcamento, na.rm = TRUE))
+
+tab_lucro_diretor
+```
+]
+
+---
+<br><br>
+
+E se quisermos colocar essa informação na base original? Basta usar a função `left_join()` utilizando a coluna `diretor` como chave. Observe que a coluna `lucro_medio` aparece agora no fim da tabela.
+
+.tiny[
+```{r}
+imdb_com_lucro_medio <- left_join(imdb, tab_lucro_diretor, by = "diretor")
+
+imdb_com_lucro_medio
+```
+]
+
+---
+<br><br>
+
+Na tabela `imdb_com_lucro_medio`, como na tabela `imdb`, cada linha continua a representar um filme diferente, mas agora temos também a informação do lucro médio do diretor de cada filme. 
+
+A primeira linha, por exemplo, traz as informações do filme Avatar. O valor do `lucro_medio` nessa linha representa o lucro médio de todos os filmes do James Cameron, que é o diretor de Avatar. Com essa informação, podemos calcular o quanto o lucro do Avatar se afasta do lucro médio do James Cameron.
+
+---
+<br><br>
+
+.tiny[
+```{r}
+imdb_com_lucro_medio %>% 
+  mutate(
+    lucro = receita - orcamento,
+    lucro_relativo = (lucro - lucro_medio)/lucro_medio,
+    lucro_relativo = scales::percent(lucro_relativo)
+  ) %>% 
+  select(titulo, diretor, lucro, lucro_medio, lucro_relativo)
+```
+]
+
+Observamos então que o Avatar obteve um lucro aproximadamente 169% maior que a média dos filmes do James Cameron.
+
