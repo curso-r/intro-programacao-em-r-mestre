@@ -64,6 +64,16 @@ imdb %>%
   ggplot() +
   geom_point(aes(x = orcamento, y = receita, color = lucrou))
 
+# Salvando um gráfico em um arquivo
+imdb %>%
+  mutate(
+    lucrou = ifelse(lucro <= 0, "Não", "Sim")
+  ) %>%
+  ggplot() +
+  geom_point(aes(x = orcamento, y = receita, color = lucrou))
+
+ggsave("meu_grafico.png")
+
 
 # Exercícios --------------------------------------------------------------
 

@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R para Ciência de Dados I</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/custom-intro.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# R para Ciência de Dados I
+## Manipulando bases de dados
+### <img src = 'https://d33wubrfki0l68.cloudfront.net/9b0699f18268059bdd2e5c21538a29eade7cbd2b/67e5c/img/logo/cursor1-5.png' width = '20%'>
+
+---
+
+
+
+
+
+
+class: middle, center
+
+# <span style="color:#6495ed; font-weight: bold;">Manipulando bases de dados</span>
+
+
+
+---
+# O pacote dplyr
+
+O `dplyr` é o pacote mais útil para realizar manipulação de dados, pois possui funções para fazer virtualmente qualquer tipo de transformação nas linhas e colunas da base.
+
+As principais funções do dplyr são:
+
+- `filter()`: filtra linhas
+- `select()`: seleciona colunas
+- `arrange()`: ordena as linhas conforme os valores de uma coluna
+- `mutate()`: modifica ou cria novas colunas
+- `group_by()`: agrupa a base conforme uma coluna
+- `summarise()`: sumariza colunas
+
+Todas essas funções seguem as seguintes características:
+
+- A função sempre recebe uma `tibble` e sempre devolve uma `tibble`.
+
+- Colocamos o `tibble` no primeiro argumento e o que queremos fazer nos demais argumentos.
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Os exemplos apresentados aqui continuarão a usar a base IMDB. Não se esqueça de carregar o pacote `tidyverse` e carregar a base de dados.
+
+
+
+
+
+```r
+library(tidyverse)
+
+imdb &lt;- read_rds("dados/imdb.rds")
+```
+
+---
+
+# Selecionando colunas
+
+Para selecionar colunas, utilizamos a função `select()`.
+
+O primeiro argumento da função é a base de dados e os demais argumentos são os nomes das colunas que você gostaria de selecionar. Repare que você não precisa colocar o nome da coluna entre aspas.
+
+.tiny[
+
+```r
+select(imdb, titulo)
+```
+
+```
+## # A tibble: 3,713 x 1
+##    titulo                                    
+##    &lt;chr&gt;                                     
+##  1 Avatar                                    
+##  2 Pirates of the Caribbean: At World's End  
+##  3 The Dark Knight Rises                     
+##  4 John Carter                               
+##  5 Spider-Man 3                              
+##  6 Tangled                                   
+##  7 Avengers: Age of Ultron                   
+##  8 Batman v Superman: Dawn of Justice        
+##  9 Superman Returns                          
+## 10 Pirates of the Caribbean: Dead Man's Chest
+## # … with 3,703 more rows
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Você também pode selecionar várias colunas.
+
+
+```r
+select(imdb, titulo, ano, orcamento)
+```
+
+```
+## # A tibble: 3,713 x 3
+##    titulo                                       ano orcamento
+##    &lt;chr&gt;                                      &lt;int&gt;     &lt;int&gt;
+##  1 Avatar                                      2009 237000000
+##  2 Pirates of the Caribbean: At World's End    2007 300000000
+##  3 The Dark Knight Rises                       2012 250000000
+##  4 John Carter                                 2012 263700000
+##  5 Spider-Man 3                                2007 258000000
+##  6 Tangled                                     2010 260000000
+##  7 Avengers: Age of Ultron                     2015 250000000
+##  8 Batman v Superman: Dawn of Justice          2016 250000000
+##  9 Superman Returns                            2006 209000000
+## 10 Pirates of the Caribbean: Dead Man's Chest  2006 225000000
+## # … with 3,703 more rows
+```
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Um operador `:` é muito útil para selecionar colunas consecutivas.
+
+.tiny[
+
+```r
+select(imdb, titulo:cor)
+```
+
+```
+## # A tibble: 3,713 x 5
+##    titulo                                     ano diretor          duracao cor  
+##    &lt;chr&gt;                                    &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;
+##  1 Avatar                                    2009 James Cameron        178 Color
+##  2 Pirates of the Caribbean: At World's End  2007 Gore Verbinski       169 Color
+##  3 The Dark Knight Rises                     2012 Christopher Nol…     164 Color
+##  4 John Carter                               2012 Andrew Stanton       132 Color
+##  5 Spider-Man 3                              2007 Sam Raimi            156 Color
+##  6 Tangled                                   2010 Nathan Greno         100 Color
+##  7 Avengers: Age of Ultron                   2015 Joss Whedon          141 Color
+##  8 Batman v Superman: Dawn of Justice        2016 Zack Snyder          183 Color
+##  9 Superman Returns                          2006 Bryan Singer         169 Color
+## 10 Pirates of the Caribbean: Dead Man's Ch…  2006 Gore Verbinski       151 Color
+## # … with 3,703 more rows
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+O `dplyr` possui o conjunto de funções auxiliares muito úteis para seleção de colunas. As principais são:
+
+- `starts_with()`: para colunas que começam com um texto padrão
+- `ends_with()`: para colunas que terminam com um texto padrão
+- `contains()`: para colunas que contêm um texto padrão
+
+Selecionamos a seguir todas as colunas que começam com o texto "ator".
+
+.tiny[
+
+```r
+select(imdb, starts_with("ator"))
+```
+
+```
+## # A tibble: 3,713 x 3
+##    ator_1          ator_2            ator_3              
+##    &lt;chr&gt;           &lt;chr&gt;             &lt;chr&gt;               
+##  1 CCH Pounder     Joel David Moore  Wes Studi           
+##  2 Johnny Depp     Orlando Bloom     Jack Davenport      
+##  3 Tom Hardy       Christian Bale    Joseph Gordon-Levitt
+##  4 Daryl Sabara    Samantha Morton   Polly Walker        
+##  5 J.K. Simmons    James Franco      Kirsten Dunst       
+##  6 Brad Garrett    Donna Murphy      M.C. Gainey         
+##  7 Chris Hemsworth Robert Downey Jr. Scarlett Johansson  
+##  8 Henry Cavill    Lauren Cohan      Alan D. Purwin      
+##  9 Kevin Spacey    Marlon Brando     Frank Langella      
+## 10 Johnny Depp     Orlando Bloom     Jack Davenport      
+## # … with 3,703 more rows
+```
+]
+
+---
+# Ordenando linhas
+
+Para ordenar linhas, utilizamos a função `arrange()`. O primeiro argumento é a base de dados. Os demais argumentos são as colunas pelas quais queremos ordenar as linhas. No exemplo a seguir, ordenamos as linhas da base por ordem crescente de orçamento.
+
+.tiny[
+
+```r
+arrange(imdb, orcamento)
+```
+
+```
+## # A tibble: 3,713 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Tarna…  2003 Jonath…      88 Color Biogra… USA   Outros              218
+##  2 My Da…  2004 Jon Gu…      90 Color Docume… USA   Livre              1100
+##  3 A Pla…  2013 Benjam…      76 Color Drama|… USA   Outros             1400
+##  4 The M…  2005 Anthon…      84 Color Crime|… USA   A partir de …      3250
+##  5 Primer  2004 Shane …      77 Color Drama|… USA   A partir de …      7000
+##  6 El Ma…  1992 Robert…      81 Color Action… USA   A partir de …      7000
+##  7 Newly…  2011 Edward…      95 Color Comedy… USA   Outros             9000
+##  8 Pink …  1972 John W…     108 Color Comedy… USA   A partir de …     10000
+##  9 The T…  2007 Jane C…       7 Color Romanc… USA   Outros            13000
+## 10 Paran…  2007 Oren P…      84 Color Horror  USA   A partir de …     15000
+## # … with 3,703 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Também podemos ordenar de forma decrescente usando a função `desc()`.
+
+.tiny[
+
+```r
+arrange(imdb, desc(orcamento))
+```
+
+```
+## # A tibble: 3,713 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  2 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  3 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  4 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  5 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  6 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  7 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  8 Pirat…  2011 Rob Ma…     136 Color Action… USA   A partir de … 250000000
+##  9 Capta…  2016 Anthon…     147 Color Action… USA   A partir de … 250000000
+## 10 Avatar  2009 James …     178 Color Action… USA   A partir de … 237000000
+## # … with 3,703 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+E claro, ordenar segundo duas ou mais colunas.
+
+.tiny[
+
+```r
+arrange(imdb, desc(ano), desc(orcamento))
+```
+
+```
+## # A tibble: 3,713 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  2 Capta…  2016 Anthon…     147 Color Action… USA   A partir de … 250000000
+##  3 Star …  2016 Justin…     122 Color Action… USA   A partir de … 185000000
+##  4 The L…  2016 David …     110 Color Action… USA   A partir de … 180000000
+##  5 X-Men…  2016 Bryan …     144 Color Action… USA   A partir de … 178000000
+##  6 Suici…  2016 David …     123 Color Action… USA   A partir de … 175000000
+##  7 Alice…  2016 James …     113 Color Advent… USA   Livre         170000000
+##  8 Indep…  2016 Roland…     120 Color Action… USA   A partir de … 165000000
+##  9 Warcr…  2016 Duncan…     123 Color Action… USA   A partir de … 160000000
+## 10 Kung …  2016 Alessa…      95 Color Action… USA   Livre         145000000
+## # … with 3,703 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+# Aplicando mais de uma operação
+
+Na grande maioria dos casos, vamos aplicar mais de uma função de manipulação em uma base para obtermos a tabela que desejamos. Poderíamos, por exemplo, querer uma tabela apenas com o título e ano dos filmes, ordenada de forma crescente de lançamento. Para fazer isso, poderíamos aninhar as funções
+
+
+```r
+arrange(select(imdb, titulo, ano), ano)
+```
+
+ou criar um objeto intermediário 
+
+
+```r
+tab_titulo_ano &lt;- select(imdb, titulo, ano)
+
+arrange(tab_titulo_ano, ano)
+```
+
+Os dois códigos funcionam e levam ao mesmo resultado, mas não são eficientes.
+
+---
+&lt;br&gt;&lt;br&gt;
+
+A primeira alternativa é ruim de escrever, já que pricisamos escrever primeiro a função que roda por último, e de ler, pois é difícil identificar qual argumento pertence a qual função.
+
+A segunda alternativa é ruim pois exige a criação de objetos auxiliares. Se quiséssimos aplicar 10 operações na base, precisaríamos criar 9 objetos intermediários.
+
+A solução para aplicar diversas operações de manipulação em uma base de dados é aplicar o operador pipe: %&gt;%.
+---
+## O operador pipe %&gt;% 
+
+A ideia do operador pipe é muito simples: ele vai aplicar a função do lado direito ao objeto do lado esquerdo.
+
+No exemplo a seguir, estamos aplicando a função `sum()` (lado direito) no objeto `vetor` (lado esquerdo).
+
+
+```r
+vetor &lt;- c(1, 2, 3)
+
+vetor %&gt;% sum()
+```
+
+```
+## [1] 6
+```
+
+O código acima é equivalente a:
+
+
+```r
+sum(vetor)
+```
+
+```
+## [1] 6
+```
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Na prática, o pipe coloca o objeto do lado esquerdo no primeiro argumento da função no lado direito. Se precisarmos passar mais argumentos para a função, podemos fazer isso normalmente. É como se estivêssesmo escrevendo a função, omitindo o primeiro argumento.
+
+
+```r
+vetor &lt;- c(1, 2, 3, NA)
+
+vetor %&gt;% sum(na.rm = TRUE)
+```
+
+```
+## [1] 6
+```
+
+O código acima é equivalente a
+
+
+```r
+sum(vetor, na.rm = TRUE)
+```
+
+```
+## [1] 6
+```
+
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Quando estamos aplicando apenas uma função, o pipe não parece trazer vantagens. Mas vamos ver como fica o nosso exemplo do imdb utilizando esse operador:
+
+
+```r
+# Sem pipe
+arrange(select(imdb, titulo, ano), ano)
+
+# Com pipe
+imdb %&gt;% 
+  select(titulo, ano) %&gt;% 
+  arrange(ano)
+```
+
+O que está sendo feito no código com pipe? Da primeira para a segunda linha, estamos aplicando a função `select()` à base imdb. Da segunda para a terceira, estamos aplicando a função `arrange()` à base resultante da função `select()`.
+
+O resultado desse código é identico às tentativas sem pipe, com a vantagem de termos escrito o código na ordem em que as funções são aplicadas, de termos um código muito mais legível e de não precisarmos utilizar objetos intermediários.
+
+---
+# Filtrando linhas
+
+Para filtrar valores de uma coluna da base, utilizamos a função `filter()`.
+
+.tiny[
+
+```r
+imdb %&gt;% filter(nota_imdb &gt; 9)
+```
+
+```
+## # A tibble: 3 x 15
+##   titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##   &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+## 1 The S…  1994 Frank …     142 Color Crime|… USA   A partir de …  25000000
+## 2 The G…  1972 Franci…     175 Color Crime|… USA   A partir de …   6000000
+## 3 Kickb…  2016 John S…      90 &lt;NA&gt;  Action  USA   Outros         17000000
+## # … with 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Podemos selecionar apenas as colunas título e nota para visualizarmos as notas:
+
+.tiny[
+
+```r
+imdb %&gt;% 
+  filter(nota_imdb &gt; 9) %&gt;% 
+  select(titulo, nota_imdb)
+```
+
+```
+## # A tibble: 3 x 2
+##   titulo                   nota_imdb
+##   &lt;chr&gt;                        &lt;dbl&gt;
+## 1 The Shawshank Redemption       9.3
+## 2 The Godfather                  9.2
+## 3 Kickboxer: Vengeance           9.1
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Podemos estender o filtro para duas ou mais colunas. Para isso, separamos cada operação por uma vírgula.
+
+.tiny[
+
+```r
+imdb %&gt;% filter(ano &gt; 2010, nota_imdb &gt; 8.5)
+```
+
+```
+## # A tibble: 5 x 15
+##   titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##   &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+## 1 Inter…  2014 Christ…     169 Color Advent… USA   A partir de … 165000000
+## 2 Runni…  2015 Mike M…      88 Color Family  USA   Outros          5000000
+## 3 A Beg…  2016 Mitche…      87 Color Comedy… USA   Outros               NA
+## 4 Kickb…  2016 John S…      90 &lt;NA&gt;  Action  USA   Outros         17000000
+## 5 Butte…  2014 Cary B…      78 Color Docume… USA   Outros           180000
+## # … with 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Também podemos fazer operações com as colunas da base dentro da função filter. O código abaixo devolve uma tabela apenas com os filmes que lucraram.
+
+.tiny[
+
+```r
+imdb %&gt;% filter(receita - orcamento &gt; 0)
+```
+
+```
+## # A tibble: 1,710 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avatar  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  5 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  6 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  7 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+##  8 Man o…  2013 Zack S…     143 Color Action… USA   A partir de … 225000000
+##  9 The A…  2012 Joss W…     173 Color Action… USA   A partir de … 220000000
+## 10 The A…  2012 Marc W…     153 Color Action… USA   A partir de … 230000000
+## # … with 1,700 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Naturalmente, podemos filtrar colunas categóricas. O exemplo abaixo retorna uma tabela apenas com os filmes com a Angelina Jolie Pitt ou o Brad Pitt no papel principal.
+
+.tiny[
+
+```r
+imdb %&gt;%
+  filter(ator_1 %in% c('Angelina Jolie Pitt', "Brad Pitt"))
+```
+
+```
+## # A tibble: 29 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Malef…  2014 Robert…      97 Color Action… USA   Livre         180000000
+##  2 The C…  2008 David …     166 Color Drama|… USA   A partir de … 150000000
+##  3 Kung …  2011 Jennif…      90 Color Action… USA   Livre         150000000
+##  4 Troy    2004 Wolfga…     196 Color Advent… USA   A partir de … 175000000
+##  5 Kung …  2008 Mark O…      92 Color Action… USA   Livre         130000000
+##  6 Salt    2010 Philli…     101 Color Action… USA   A partir de … 110000000
+##  7 Ocean…  2004 Steven…     125 Color Crime|… USA   A partir de … 110000000
+##  8 Mr. &amp;…  2005 Doug L…     126 Color Action… USA   A partir de … 120000000
+##  9 Lara …  2001 Simon …     100 Color Action… USA   A partir de … 115000000
+## 10 Ocean…  2001 Steven…     116 Color Crime|… USA   A partir de …  85000000
+## # … with 19 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Para filtrar textos sem correspondência exata, podemos utilizar a função auxiliar `str_detect()`. Ela serve para verificar se cada string de um vetor contém um determinado padrão de texto.
+
+
+```r
+str_detect(
+  string = c("a", "aa","abc", "bc", "A", NA), 
+  pattern = "a"
+)
+```
+
+```
+## [1]  TRUE  TRUE  TRUE FALSE FALSE    NA
+```
+
+Podemos utilizá-la para filtrar apenas os filmes que contêm o gênero ação.
+
+
+```r
+# A coluna gêneros apresenta todos os gêneros dos filmes concatenados
+imdb$generos[1:6]
+```
+
+```
+## [1] "Action|Adventure|Fantasy|Sci-Fi"                          
+## [2] "Action|Adventure|Fantasy"                                 
+## [3] "Action|Thriller"                                          
+## [4] "Action|Adventure|Sci-Fi"                                  
+## [5] "Action|Adventure|Romance"                                 
+## [6] "Adventure|Animation|Comedy|Family|Fantasy|Musical|Romance"
+```
+
+
+---
+&lt;br&gt;&lt;br&gt;
+
+.tiny[
+
+```r
+# Podemos detectar se o gênero Action aparece na string
+str_detect(
+  string = imdb$generos[1:6],
+  pattern = "Action"
+)
+```
+
+```
+## [1]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+```
+
+```r
+# Aplicamos essa lógica dentro da função filter, para a coluna completa
+imdb %&gt;% filter(str_detect(generos, "Action"))
+```
+
+```
+## # A tibble: 832 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avatar  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  7 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  8 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+##  9 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## 10 The L…  2013 Gore V…     150 Color Action… USA   A partir de … 215000000
+## # … with 822 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+# Modificando e criando novas colunas
+
+Para modificar uma coluna existente ou criar uma nova coluna, utilizamos a função `mutate()`. O código abaixo divide os valores da coluna duração por 60, mudando a unidade de medida dessa variável de minutos para horas.
+
+.tiny[
+
+```r
+imdb %&gt;% mutate(duracao = duracao/60)
+```
+
+```
+## # A tibble: 3,713 x 15
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avatar  2009 James …    2.97 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…    2.82 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…    2.73 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…    2.2  Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…    2.6  Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…    1.67 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…    2.35 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…    3.05 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …    2.82 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…    2.52 Color Action… USA   A partir de … 225000000
+## # … with 3,703 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Também poderíamos ter criado essa variável em uma nova coluna. Repare que a nova coluna `duracao_horas` é colocada no final da tabela.
+
+.tiny[
+
+```r
+imdb %&gt;% mutate(duracao_horas = duracao/60)
+```
+
+```
+## # A tibble: 3,713 x 16
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avatar  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## # … with 3,703 more rows, and 7 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;,
+## #   duracao_horas &lt;dbl&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Podemos fazer qualquer operação com uma ou mais colunas. A única regra é que o resultado da operação retorne um vetor com comprimento igual ao número de linhas da base (ou com comprimento 1 para distribuir um mesmo valor em todas as linhas). Você também pode criar/modificar quantas colunas quiser dentro de um mesmo `mutate`.
+
+.tiny[
+
+```r
+imdb %&gt;% 
+  mutate(lucro = receita - orcamento, pais = "Estados Unidos") %&gt;% 
+  select(titulo, lucro, pais)
+```
+
+```
+## # A tibble: 3,713 x 3
+##    titulo                                          lucro pais          
+##    &lt;chr&gt;                                           &lt;int&gt; &lt;chr&gt;         
+##  1 Avatar                                      523505847 Estados Unidos
+##  2 Pirates of the Caribbean: At World's End      9404152 Estados Unidos
+##  3 The Dark Knight Rises                       198130642 Estados Unidos
+##  4 John Carter                                -190641321 Estados Unidos
+##  5 Spider-Man 3                                 78530303 Estados Unidos
+##  6 Tangled                                     -59192738 Estados Unidos
+##  7 Avengers: Age of Ultron                     208991599 Estados Unidos
+##  8 Batman v Superman: Dawn of Justice           80249062 Estados Unidos
+##  9 Superman Returns                             -8930592 Estados Unidos
+## 10 Pirates of the Caribbean: Dead Man's Chest  198032628 Estados Unidos
+## # … with 3,703 more rows
+```
+]
+
+---
+# Sumarizando colunas
+
+Sumarização é a técnica de se resumir um conjunto de dados utilizando alguma métrica de interesse. A média, a mediana, a variância, a frequência, a proporção, por exemplo, são tipos de sumarização que trazem diferentes informações sobre uma variável. 
+
+Para sumarizar uma coluna da base, utilizamos a função `summarize()`. O código abaixo resume a coluna orçamento pela sua média.
+
+
+```r
+imdb %&gt;% summarize(media_orcamento = mean(orcamento, na.rm = TRUE))
+```
+
+```
+## # A tibble: 1 x 1
+##   media_orcamento
+##             &lt;dbl&gt;
+## 1       35237114.
+```
+
+Repare que a saída da função continua sendo uma tibble.
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Podemos calcular diversas sumarizações diferentes em um mesmo `summarize`. Cada sumarização será uma coluna da nova base.
+
+
+```r
+imdb %&gt;% summarise(
+  media_orcamento = mean(orcamento, na.rm = TRUE),
+  mediana_orcamento = median(orcamento, na.rm = TRUE),
+  variancia_orcamento = var(orcamento, na.rm = TRUE)
+)
+```
+
+```
+## # A tibble: 1 x 3
+##   media_orcamento mediana_orcamento variancia_orcamento
+##             &lt;dbl&gt;             &lt;dbl&gt;               &lt;dbl&gt;
+## 1       35237114.          20000000   1769050050704338.
+```
+
+---
+&lt;br&gt;&lt;br&gt;
+
+E também sumarizar diversas colunas.
+
+
+```r
+imdb %&gt;% summarize(
+  media_orcamento = mean(orcamento, na.rm = TRUE),
+  media_receita = mean(receita, na.rm = TRUE),
+  media_lucro = mean(receita - orcamento, na.rm = TRUE)
+)
+```
+
+```
+## # A tibble: 1 x 3
+##   media_orcamento media_receita media_lucro
+##             &lt;dbl&gt;         &lt;dbl&gt;       &lt;dbl&gt;
+## 1       35237114.     54530550.   17161639.
+```
+
+---
+# Sumarizando colunas agrupadas
+
+Muitas vezes queremos sumarizar uma coluna agrupada pelas categorias de uma segunda coluna. Para isso, além do `summarize`, utilizamos também a função `group_by()`.
+
+O código a seguir calcula a receita média dos filmes para cada categoria da coluna "cor".
+
+
+```r
+imdb %&gt;% 
+  group_by(cor) %&gt;% 
+  summarise(receita_media = mean(receita, na.rm = TRUE))
+```
+
+```
+## # A tibble: 3 x 2
+##   cor             receita_media
+##   &lt;chr&gt;                   &lt;dbl&gt;
+## 1 Black and White     36124154.
+## 2 Color               55094030.
+## 3 &lt;NA&gt;                80014842
+```
+
+---
+&lt;br&gt;&lt;br&gt;
+
+A única alteração que a função `group_by()` faz na base é a marcação de que a base está agrupada.
+
+.tiny[
+
+```r
+imdb %&gt;% group_by(cor)
+```
+
+```
+## # A tibble: 3,713 x 15
+## # Groups:   cor [3]
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avatar  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## # … with 3,703 more rows, and 6 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;
+```
+]
+
+---
+# Juntando bases a patir de uma chave
+
+Podemos juntar duas tabelas a partir de uma (coluna) chave utilizando a função `left_join()`. Como exempo, vamos inicialmente calcular o lucro médio dos filmes de cada diretor e salvar no objeto `tab_lucro_diretor`.
+
+.tiny[
+
+```r
+tab_lucro_diretor &lt;- imdb %&gt;%
+  group_by(diretor) %&gt;% 
+  summarise(lucro_medio = mean(receita - orcamento, na.rm = TRUE))
+
+tab_lucro_diretor
+```
+
+```
+## # A tibble: 1,813 x 2
+##    diretor          lucro_medio
+##    &lt;chr&gt;                  &lt;dbl&gt;
+##  1 A. Raven Cruz            NaN
+##  2 Aaron Hann               NaN
+##  3 Aaron Schneider      1676553
+##  4 Aaron Seltzer       28546578
+##  5 Abel Ferrara       -11272676
+##  6 Adam Carolla        -1394057
+##  7 Adam Goldberg       -1647420
+##  8 Adam Green               NaN
+##  9 Adam Jay Epstein         NaN
+## 10 Adam Marcus         13435068
+## # … with 1,803 more rows
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+E se quisermos colocar essa informação na base original? Basta usar a função `left_join()` utilizando a coluna `diretor` como chave. Observe que a coluna `lucro_medio` aparece agora no fim da tabela.
+
+.tiny[
+
+```r
+imdb_com_lucro_medio &lt;- left_join(imdb, tab_lucro_diretor, by = "diretor")
+
+imdb_com_lucro_medio
+```
+
+```
+## # A tibble: 3,713 x 16
+##    titulo   ano diretor duracao cor   generos pais  classificacao orcamento
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;
+##  1 Avatar  2009 James …     178 Color Action… USA   A partir de … 237000000
+##  2 Pirat…  2007 Gore V…     169 Color Action… USA   A partir de … 300000000
+##  3 The D…  2012 Christ…     164 Color Action… USA   A partir de … 250000000
+##  4 John …  2012 Andrew…     132 Color Action… USA   A partir de … 263700000
+##  5 Spide…  2007 Sam Ra…     156 Color Action… USA   A partir de … 258000000
+##  6 Tangl…  2010 Nathan…     100 Color Advent… USA   Livre         260000000
+##  7 Aveng…  2015 Joss W…     141 Color Action… USA   A partir de … 250000000
+##  8 Batma…  2016 Zack S…     183 Color Action… USA   A partir de … 250000000
+##  9 Super…  2006 Bryan …     169 Color Action… USA   A partir de … 209000000
+## 10 Pirat…  2006 Gore V…     151 Color Action… USA   A partir de … 225000000
+## # … with 3,703 more rows, and 7 more variables: receita &lt;int&gt;, nota_imdb &lt;dbl&gt;,
+## #   likes_facebook &lt;int&gt;, ator_1 &lt;chr&gt;, ator_2 &lt;chr&gt;, ator_3 &lt;chr&gt;,
+## #   lucro_medio &lt;dbl&gt;
+```
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+
+Na tabela `imdb_com_lucro_medio`, como na tabela `imdb`, cada linha continua a representar um filme diferente, mas agora temos também a informação do lucro médio do diretor de cada filme. 
+
+A primeira linha, por exemplo, traz as informações do filme Avatar. O valor do `lucro_medio` nessa linha representa o lucro médio de todos os filmes do James Cameron, que é o diretor de Avatar. Com essa informação, podemos calcular o quanto o lucro do Avatar se afasta do lucro médio do James Cameron.
+
+---
+&lt;br&gt;&lt;br&gt;
+
+.tiny[
+
+```r
+imdb_com_lucro_medio %&gt;% 
+  mutate(
+    lucro = receita - orcamento,
+    lucro_relativo = (lucro - lucro_medio)/lucro_medio,
+    lucro_relativo = scales::percent(lucro_relativo)
+  ) %&gt;% 
+  select(titulo, diretor, lucro, lucro_medio, lucro_relativo)
+```
+
+```
+## # A tibble: 3,713 x 5
+##    titulo                      diretor          lucro lucro_medio lucro_relativo
+##    &lt;chr&gt;                       &lt;chr&gt;            &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;         
+##  1 Avatar                      James Cameron   5.24e8  194620985  168.987359%   
+##  2 Pirates of the Caribbean: … Gore Verbins…   9.40e6   36942999. -74.544157%   
+##  3 The Dark Knight Rises       Christopher …   1.98e8  101028447  96.113716%    
+##  4 John Carter                 Andrew Stant…  -1.91e8   46668146  -508.504167%  
+##  5 Spider-Man 3                Sam Raimi       7.85e7   66820940. 17.523494%    
+##  6 Tangled                     Nathan Greno   -5.92e7  -59192738  0.000000%     
+##  7 Avengers: Age of Ultron     Joss Whedon     2.09e8  199202360. 4.914218%     
+##  8 Batman v Superman: Dawn of… Zack Snyder     8.02e7   33186745. 141.810582%   
+##  9 Superman Returns            Bryan Singer   -8.93e6   -2887024. 209.335596%   
+## 10 Pirates of the Caribbean: … Gore Verbins…   1.98e8   36942999. 436.049135%   
+## # … with 3,703 more rows
+```
+]
+
+Observamos então que o Avatar obteve um lucro aproximadamente 169% maior que a média dos filmes do James Cameron.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
