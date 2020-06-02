@@ -13,13 +13,14 @@ imdb <- imdb %>% mutate(lucro = receita - orcamento)
 # Filosofia ---------------------------------------------------------------
 
 # Um gráfico estatístico é uma representação visual dos dados 
-# que utiliza os atributos estéticos (posição, cor, forma, 
+# por meio de atributos estéticos (posição, cor, forma, 
 # tamanho, ...) de formas geométricas (pontos, linhas,
-# barras, ...).
+# barras, ...). Leland Wilkinson, The Grammar of Graphics
 
 # Layered grammar of graphics: cada elemento do 
 # gráfico pode ser representado por uma camada e 
 # um gráfico seria a sobreposição dessas camadas.
+# Hadley Wickham, A layered grammar of graphics 
 
 # Gráfico de pontos (dispersão) -------------------------------------------
 
@@ -34,12 +35,12 @@ p <- imdb %>%
 # Gráfico de dispersão da receita contra o orçamento
 imdb %>% 
   ggplot() +
-  geom_point(mapping = aes(x = orcamento, y = receita))
+  geom_point(aes(x = orcamento, y = receita))
 
 # Inserindo a reta x = y
 imdb %>%
   ggplot() +
-  geom_point(mapping = aes(x = orcamento, y = receita)) +
+  geom_point(aes(x = orcamento, y = receita)) +
   geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Observe como cada elemento é uma camada do gráfico.
@@ -48,12 +49,12 @@ imdb %>%
 imdb %>%
   ggplot() +
   geom_abline(intercept = 0, slope = 1, color = "red") +
-  geom_point(mapping = aes(x = orcamento, y = receita))
+  geom_point(aes(x = orcamento, y = receita))
 
 # Atribuindo a variável lucro aos pontos
 imdb %>%
   ggplot() +
-  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro))
+  geom_point(aes(x = orcamento, y = receita, color = lucro))
 
 # Categorizando o lucro antes
 imdb %>%
@@ -61,7 +62,7 @@ imdb %>%
     lucrou = ifelse(lucro <= 0, "Não", "Sim")
   ) %>%
   ggplot() +
-  geom_point(mapping = aes(x = orcamento, y = receita, color = lucrou))
+  geom_point(aes(x = orcamento, y = receita, color = lucrou))
 
 
 # Exercícios --------------------------------------------------------------
@@ -137,7 +138,7 @@ imdb %>%
   count(diretor) %>%
   top_n(10, n) %>%
   ggplot() +
-  geom_bar(aes(x = diretor, y = n), stat = "identity")
+  geom_col(aes(x = diretor, y = n))
 
 # Tirando NA e pintando as barras
 imdb %>% 
@@ -145,9 +146,8 @@ imdb %>%
   filter(!is.na(diretor)) %>% 
   top_n(10, n) %>%
   ggplot() +
-  geom_bar(
-    aes(x = diretor, y = n, fill = diretor), 
-    stat = "identity",
+  geom_col(
+    aes(x = diretor, y = n, fill = diretor),
     show.legend = FALSE
   )
 
@@ -157,9 +157,8 @@ imdb %>%
   filter(!is.na(diretor)) %>% 
   top_n(10, n) %>%
   ggplot() +
-  geom_bar(
-    aes(x = diretor, y = n, fill = diretor), 
-    stat = "identity",
+  geom_col(
+    aes(x = diretor, y = n, fill = diretor),
     show.legend = FALSE
   ) +
   coord_flip()
@@ -174,9 +173,8 @@ imdb %>%
     diretor = forcats::fct_reorder(diretor, n)
   ) %>% 
   ggplot() +
-  geom_bar(
-    aes(x = diretor, y = n, fill = diretor), 
-    stat = "identity",
+  geom_col(
+    aes(x = diretor, y = n, fill = diretor),
     show.legend = FALSE
   ) +
   coord_flip()
@@ -190,9 +188,8 @@ imdb %>%
     diretor = forcats::fct_reorder(diretor, n)
   ) %>% 
   ggplot() +
-  geom_bar(
-    aes(x = diretor, y = n, fill = diretor), 
-    stat = "identity",
+  geom_col(
+    aes(x = diretor, y = n, fill = diretor),
     show.legend = FALSE
   ) +
   geom_label(aes(x = diretor, y = n/2, label = n)) +
@@ -324,7 +321,7 @@ imdb %>%
   geom_line(aes(x = ano, y = num_filmes, color = cor)) +
   scale_color_discrete(labels = c("Preto e branco", "Colorido"))
 
-# Setando cores das formas
+# Definiando cores das formas geométricas
 imdb %>% 
   ggplot() +
   geom_point(mapping = aes(x = orcamento, y = receita), color = "#ff7400")
