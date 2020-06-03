@@ -52,7 +52,7 @@ help(facet_wrap)
 # 3. Vamos fazer um gráfico de barras do número de
 # filmes com nota maior que 8 ao longo dos anos.
 
-# a. Crie uma nota coluna na base IMDB indicando
+# a. Crie uma nova coluna na base IMDB indicando
 # se a nota de um filme é maior que 8 ou não.
 
 # Dica: use a função ifelse.

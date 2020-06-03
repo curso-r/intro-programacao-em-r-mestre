@@ -83,7 +83,7 @@ ggsave("meu_grafico.png")
 
 # Gráfico de linhas -------------------------------------------------------
 
-# Média dos filmes ao longo dos anos
+# Nota média dos filmes ao longo dos anos
 
 imdb %>% 
   group_by(ano) %>% 

@@ -1,0 +1,94 @@
+---
+title: "Aula 6 - Flexdashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+imdb <- readr::read_rds("../dados/imdb.rds")
+```
+
+Bilheteria
+========================================
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Filmes com maior lucro
+
+```{r}
+imdb %>% 
+  mutate(lucro = receita - orcamento) %>% 
+  top_n(20, lucro) %>% 
+  arrange(desc(lucro)) %>% 
+  mutate(lucro = scales::dollar(lucro)) %>% 
+  select(titulo, lucro) %>% 
+  knitr::kable()
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Série orçamento
+
+```{r}
+imdb %>% 
+  filter(ano > 1970) %>% 
+  group_by(ano) %>% 
+  summarise(orcamento_medio = mean(orcamento, na.rm = TRUE)) %>% 
+  ggplot(aes(x = ano, y = orcamento_medio)) +
+  geom_line() +
+  labs(x = "Ano", y = "Orçamento") +
+  theme_minimal()
+```
+
+### Série receita
+
+```{r}
+imdb %>%
+  filter(!is.na(receita), ano > 1970) %>% 
+  group_by(ano) %>% 
+  summarise(receita_media = mean(receita, na.rm = TRUE)) %>%
+  ggplot(aes(x = ano, y = receita_media)) +
+  geom_line() +
+  labs(x = "Ano", y = "Receita") +
+  theme_minimal()
+```
+
+Notas {data-orientation=rows}
+========================================
+
+Row
+------------------------
+
+### Filmes com maiores notas
+
+```{r}
+imdb %>% 
+  top_n(10, nota_imdb) %>% 
+  arrange(desc(nota_imdb)) %>%
+  select(titulo, diretor, nota_imdb) %>% 
+  knitr::kable()
+```
+
+Row
+------------------------
+
+### Série notas
+
+```{r, fig.width=20}
+imdb %>% 
+  filter(ano > 1970) %>% 
+  group_by(ano) %>% 
+  summarise(nota_media = mean(nota_imdb, na.rm = TRUE)) %>% 
+  ggplot(aes(x = ano, y = nota_media)) +
+  geom_line() +
+  labs(x = "Ano", y = "Orçamento") +
+  theme_minimal()
+```
+
+
