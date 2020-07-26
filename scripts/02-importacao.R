@@ -11,11 +11,12 @@ getwd()
 # Caminhos relativos
 "dados/imdb.csv"
 
+# (caro professor, favor lembrar de falar da dica de navegação entre as aspas)
 
 # Tibbles -----------------------------------------------------------------
 
-mtcars
-as_tibble(mtcars)
+airquality
+class(as_tibble(airquality))
 
 # Lendo arquivos de texto -------------------------------------------------
 
@@ -32,11 +33,26 @@ imdb_txt <- read_delim(file = "dados/imdb.txt", delim = "\t")
 imdb_delim <- read_delim("dados/imdb.csv", delim = ",")
 imdb_delim <- read_delim("dados/imdb2.csv", delim = ";")
 
+# encoding
+# Natação UTF8
+# NataÃo!Â latin1
+tb_candidatura_csv <- read_csv2(
+  file = "dados/imdb2.csv", 
+  locale = locale(encoding = "UTF-8")
+)
+
+# direto da internet
+imdb_csv <- read_csv("https://raw.githubusercontent.com/curso-r/202005-r4ds-1/master/dados/imdb.csv")
+
+# Interface point and click do RStudio também é útil!
+
 # Lendo arquivos do Excel -------------------------------------------------
 
 library(readxl)
 
 imdb_excel <- read_excel("dados/imdb.xlsx")
+excel_sheets("dados/imdb.xlsx")
+
 
 
 # Parâmetros úteis --------------------------------------------------------
@@ -123,9 +139,7 @@ imdb_spss <- read_spss("dados/imdb.sav")
 write_csv(imdb, path = "imdb.csv")
 
 # Excel
-
 library(writexl)
-
 write_xlsx(imdb, path = "imdb.xlsx")
 
 # O formato rds -----------------------------------------------------------
@@ -134,25 +148,24 @@ write_xlsx(imdb, path = "imdb.xlsx")
 # Você pode salvar qualquer objeto do R em formato .rds
 
 imdb_rds <- readr::read_rds("dados/imdb.rds")
-
-readr::write_rds(imdb_rds, path = "dados/imdb_compacto.rds", compress = "gz")
+readr::write_rds(imdb_rds, path = "dados/imdb_rds.rds")
 
 # Conexão com banco de dados e SQL ----------------------------------------
 
-install.packages("RSQLite")
+# install.packages("RSQLite")
+library(RSQLite)
+library(dplyr)
 
 # Fazendo conexão com banco de dados
-conexao <- RSQLite::dbConnect(RSQLite::SQLite(), "dados/imdb.sqlite")
+conexao <- dbConnect(SQLite(), "dados/imdb.sqlite")
 
-RSQLite::dbListTables(conexao)
+dbListTables(conexao)
 
 # Criando uma tabela a partir do banco de dados
 imdb_sqlite <- dplyr::tbl(conexao, "imdb")
 
 # Criando uma tabela usando instruções em SQL
-
 instrucao <- dplyr::sql("SELECT titulo, ano, diretor FROM imdb")
-
 imdb_select <- dplyr::tbl(conexao, instrucao)
 
 # Trazer para a memória
@@ -160,9 +173,7 @@ dplyr::collect(imdb_sqlite)
 dplyr::collect(imdb_select)
 
 # Escrevendo
-
-RSQLite::dbWriteTable(conexao, "mtcars", mtcars)
-
-RSQLite::dbListTables(conexao)
+dbWriteTable(conexao, "mtcars", mtcars)
+dbListTables(conexao)
 
 # Mais informações: db.rstudio.com
