@@ -1,4 +1,4 @@
-# O objetivo desse exercício é construir um script em R para ler a base imdb_nao_estruturada.csv. 
+# O objetivo desse exercício é construir um script em R para ler a base imdb_nao_estruturada.xlsx. 
 
 # Essa base não está bem estruturada, então você não conseguir importá-la para o R apenas passando o 
 # argumento path do read_excel(). Assim como vimos em aula, utilize os argumentos da função read_excel() 

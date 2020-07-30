@@ -3,7 +3,7 @@
 
 library(nycflights13)
 
-# Traduzi os nomes do ingles para o portugues...
+# Traduz os nomes do ingles para o portugues...
 voos <- flights %>%
   rename(
     ano = year,
