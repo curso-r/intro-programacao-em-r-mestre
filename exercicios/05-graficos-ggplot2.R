@@ -13,8 +13,10 @@ imdb <- read_rds("dados/imdb.rds")
 
 # 1. Faça um gráfico de dispersão (gráfico de pontos) da nota imdb
 # contra o orçamento do filme.
+# dicas: ggplot() aes() geom_point()
 
 # Desafio: trace uma reta vertical indicando o orçamento médio.
+# dicas: geom_abline()
 
 # -------------------------------------------------------------------------
 
