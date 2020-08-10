@@ -10,18 +10,6 @@ imdb <- read_rds("dados/imdb.rds")
 imdb <- imdb %>% mutate(lucro = receita - orcamento)
 
 
-# Filosofia ---------------------------------------------------------------
-
-# Um gráfico estatístico é uma representação visual dos dados 
-# por meio de atributos estéticos (posição, cor, forma, 
-# tamanho, ...) de formas geométricas (pontos, linhas,
-# barras, ...). Leland Wilkinson, The Grammar of Graphics
-
-# Layered grammar of graphics: cada elemento do 
-# gráfico pode ser representado por uma camada e 
-# um gráfico seria a sobreposição dessas camadas.
-# Hadley Wickham, A layered grammar of graphics 
-
 # Gráfico de pontos (dispersão) -------------------------------------------
 
 # Apenas o canvas
@@ -75,11 +63,25 @@ imdb %>%
 ggsave("meu_grafico.png")
 
 
+
+# Filosofia ---------------------------------------------------------------
+
+# Um gráfico estatístico é uma representação visual dos dados 
+# por meio de atributos estéticos (posição, cor, forma, 
+# tamanho, ...) de formas geométricas (pontos, linhas,
+# barras, ...). Leland Wilkinson, The Grammar of Graphics
+
+# Layered grammar of graphics: cada elemento do 
+# gráfico pode ser representado por uma camada e 
+# um gráfico seria a sobreposição dessas camadas.
+# Hadley Wickham, A layered grammar of graphics 
+
 # Exercícios --------------------------------------------------------------
 
 # a. Crie um gráfico de dispersão da nota do imdb pelo orçamento.
+#dicas: ggplot() aes() geom_point()
 
-# b. Pinte todos os pontos do gráfico de azul.
+# b. Pinte todos os pontos do gráfico de azul. (potencial pegadinha =P)
 
 # Gráfico de linhas -------------------------------------------------------
 
@@ -100,7 +102,7 @@ imdb %>%
   ggplot() +
   geom_line(aes(x = ano, y = num_filmes, color = cor))
 
-# Nota média do Spielberg por ano
+# Nota média do Robert De Niro por ano
 imdb %>% 
   filter(ator_1 == "Robert De Niro") %>% 
   group_by(ano) %>% 
@@ -140,6 +142,7 @@ imdb %>%
 # Exercício ---------------------------------------------------------------
 
 # Faça um gráfico do orçamento médio dos filmes ao longo dos anos.
+# dicas: group_by() summarise() ggplot() aes() geom_line()
 
 # Gráfico de barras -------------------------------------------------------
 
@@ -157,7 +160,7 @@ imdb %>%
   top_n(10, n) %>%
   ggplot() +
   geom_col(
-    aes(x = diretor, y = n, fill = diretor),
+    aes(x = diretor, y = n),
     show.legend = FALSE
   )
 
@@ -168,10 +171,9 @@ imdb %>%
   top_n(10, n) %>%
   ggplot() +
   geom_col(
-    aes(x = diretor, y = n, fill = diretor),
+    aes(x = n, y = diretor),
     show.legend = FALSE
-  ) +
-  coord_flip()
+  ) 
   
 
 # Ordenando as barras
@@ -184,33 +186,84 @@ imdb %>%
   ) %>% 
   ggplot() +
   geom_col(
-    aes(x = diretor, y = n, fill = diretor),
+    aes(x = n, y = diretor, fill = diretor),
     show.legend = FALSE
-  ) +
-  coord_flip()
+  ) 
 
 # Colocando label nas barras
-imdb %>% 
+top_10_diretores <- imdb %>% 
   count(diretor) %>%
   filter(!is.na(diretor)) %>% 
-  top_n(10, n) %>%
+  top_n(10, n) 
+
+top_10_diretores %>%
   mutate(
     diretor = forcats::fct_reorder(diretor, n)
   ) %>% 
   ggplot() +
   geom_col(
-    aes(x = diretor, y = n, fill = diretor),
+    aes(x = n, y = diretor),
     show.legend = FALSE
   ) +
-  geom_label(aes(x = diretor, y = n/2, label = n)) +
-  coord_flip()
+  geom_label(aes(x = n/2, y = diretor, label = n)) 
 
 
 # Exercícios --------------------------------------------------------------
 
 # a. Transforme o gráfico do exercício anterior em um gráfico de barras.
 
-# b. Refaça o gráfico apenas para filmes de 1989 para cá.
+# b. Refaça o gráfico apenas para filmes de 1989 para cá.]]
+
+
+# [AVANÇADO] Gráfico de barras II: positions e labels ---------------------------------
+
+diretor_por_filme_de_drama <- imdb %>% 
+  mutate(filme_de_drama = str_detect(generos, "Drama")) %>%
+  count(diretor, filme_de_drama) %>%
+  filter(
+    !is.na(diretor), 
+    !is.na(filme_de_drama),
+    diretor %in% top_10_diretores$diretor
+  ) %>%
+  mutate(
+    diretor = forcats::fct_reorder(diretor, n)
+  ) 
+
+# Colocando cor nas barras com outra variável
+# coisas novas: fill = filme_de_drama e position = position_stack(vjust = 0.5)
+diretor_por_filme_de_drama %>% 
+  ggplot(aes(x = n, y = diretor, group = filme_de_drama)) +
+  geom_col(aes(fill = filme_de_drama)) +
+  geom_label(aes(label = n), position = position_stack(vjust = 0.5)) 
+
+# position dodge (lado a lado)
+diretor_por_filme_de_drama %>% 
+  ggplot(aes(x = n, y = diretor, group = filme_de_drama)) +
+  geom_col(aes(fill = filme_de_drama), position = position_dodge(width = 1, preserve = "single")) +
+  geom_text(aes(label = n), position = position_dodge(width = 1), hjust = -0.1) 
+
+# position fill (preenchido ate 100%)
+diretor_por_filme_de_drama %>%
+  ggplot(aes(x = n, y = diretor, group = filme_de_drama)) +
+  geom_col(aes(fill = filme_de_drama), position = position_fill()) +
+  geom_text(aes(label = n), position = position_fill(vjust = 0.5)) 
+
+# Ordenar eh um desafio =(
+diretor_por_filme_de_drama %>%
+  group_by(diretor) %>%
+  mutate(proporcao_de_drama = sum(n[filme_de_drama])/sum(n)) %>%
+  ungroup() %>%
+  mutate(diretor = forcats::fct_reorder(diretor, proporcao_de_drama)) %>% 
+  ggplot(aes(x = n, y = diretor, group = filme_de_drama)) +
+  geom_col(aes(fill = filme_de_drama), position = position_fill()) +
+  geom_text(aes(label = n), position = position_fill(vjust = 0.5)) 
+
+# Exercícios --------------------------------------------------------------
+
+# a. Faça um gráfico de barras empilhados cruzando cor e classificacao
+# dica: geom_col(position = "fill") 
+
+# b. adicione + scale_fill_brewer(palette = "Set3")  ao grafico
 
 # Histogramas e boxplots --------------------------------------------------
 
@@ -254,6 +307,7 @@ imdb %>%
 # Exercícios --------------------------------------------------------------
 
 #a. Descubra quais são os 5 atores que mais aparecem na coluna ator_1.
+# dica: count() top_n()
 
 #b. Faça um boxplot do lucro dos filmes desses atores.
 
@@ -299,12 +353,12 @@ imdb %>%
   top_n(5, n) %>%
   ggplot() +
   geom_bar(
-    aes(x = diretor, y = n, fill = diretor), 
+    aes(x = n, y = diretor, fill = diretor), 
     stat = "identity",
     show.legend = FALSE
   ) +
-  coord_flip() +
-  scale_fill_manual(values = c("red", "blue", "green", "pink", "purple"))
+  scale_fill_manual(values = c("orange", "royalblue", "purple", "salmon", "darkred"))
+# http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
 
 # Escolhendo pelo hexadecimal
 imdb %>% 
@@ -313,14 +367,15 @@ imdb %>%
   top_n(5, n) %>%
   ggplot() +
   geom_bar(
-    aes(x = diretor, y = n, fill = diretor), 
+    aes(x = n, y = diretor, fill = diretor), 
     stat = "identity",
     show.legend = FALSE
   ) +
-  coord_flip() +
   scale_fill_manual(
-    values = c("#ff4500", "#268b07", "#ff7400", "#0befff", "#a4bdba")
+    values = c("#ff4500", "#268b07", "#ff7400", "#abefaf", "#33baba")
   )
+
+
 
 # Mudando textos da legenda
 imdb %>% 
