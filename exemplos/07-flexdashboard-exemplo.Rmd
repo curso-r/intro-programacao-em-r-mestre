@@ -1,0 +1,175 @@
+---
+title: "pesqEle"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(flexdashboard)
+# para graficos com interação
+library(plotly)
+# para mapa
+library(leaflet)
+pesqEle <- read_csv("pesqEle.csv")
+```
+
+Visão Geral
+========================
+
+Row
+------------------------
+
+### Quantidade total de pesquisas {.value-box}
+
+```{r}
+valueBox(nrow(pesqEle), 
+         icon = "fa-file", color = "info")
+```
+
+### Valor médio das pesquisas {.value-box}
+
+```{r}
+valor_medio <- mean(pesqEle$pesq_val, na.rm = TRUE)
+valueBox(scales::dollar(valor_medio), 
+         icon = "fa-dollar", color = "success")
+```
+
+### Empresas {.value-box}
+
+```{r}
+valueBox(n_distinct(pesqEle$comp_cnpj), 
+         icon = "fa-building", color = "warning")
+```
+
+### Estatísticos responsáveis {.value-box}
+
+```{r}
+valueBox(n_distinct(pesqEle$stat_id), 
+         icon = "fa-users", color = "danger")
+```
+
+Row
+------------------------
+
+### Pesquisas ao longo do tempo {data-height=500}
+
+```{r fig.width=10, fig.height=4}
+# grafico 80%
+p_tempo <- pesqEle %>%
+  filter(lubridate::year(dt_reg) == 2016) %>% 
+  ggplot(aes(x = dt_reg)) +
+  geom_freqpoly(binwidth = 1)
+# grafico 100%
+p_tempo <- p_tempo +
+  theme_minimal(16) +
+  scale_x_date(labels = scales::date_format("%b\n%Y")) +
+  labs(x = "Data de Registro",
+       y = "Quantidade de pesquisas") +
+  ggtitle("Quantidade de registros no tempo")
+plotly::ggplotly(p_tempo)
+```
+
+### Pesquisas por UF {data-height=500}
+
+```{r fig.width=10, fig.height=4}
+# grafico 80%
+p_uf <- pesqEle %>% 
+  mutate(info_uf = fct_infreq(info_uf)) %>% 
+  ggplot(aes(x = info_uf)) +
+  geom_bar()
+# grafico 100%
+p_uf <- p_uf +
+  theme_minimal(16) +
+  labs(x = "UF", y = "Quantidade de\npesquisas")
+plotly::ggplotly(p_uf)
+```
+
+
+Row
+------------------------
+
+### Pesquisas no mapa {data-height=600}
+
+```{r}
+library(leaflet)
+pesqEle %>% 
+  mutate(label = str_glue(
+    "UF: {info_uf}<br/>",
+    "Município: {info_muni}<br/>",
+    "Empresa: {comp_nm}<br/>",
+    "Estatístico: {stat_nm}<br/>",
+    "Entrevistados: {pesq_n}<br/>",
+    "Valor: {scales::dollar(pesq_val)}<br/>"
+  )) %>% 
+  leaflet() %>% 
+  addTiles() %>% 
+  addMarkers(clusterOptions = markerOptions(),
+             label = ~map(label, shiny::HTML))
+```
+
+Preço das pesquisas
+========================
+
+Row
+------------------------
+
+### Pesquisas mais baratas
+
+```{r}
+tab <- pesqEle %>% 
+  filter(pesq_val > 0) %>% 
+  mutate(razao = pesq_val / pesq_n) %>% 
+  arrange(razao) %>% 
+  select(info_uf, info_muni, info_election, 
+         pesq_n, pesq_val, comp_nm, razao)
+# pra printar bonitinho
+DT::datatable(tab)
+```
+
+### Empresas mais baratas
+
+```{r}
+tab <- pesqEle %>% 
+  filter(pesq_val > 0) %>% 
+  group_by(comp_nm, comp_cnpj) %>% 
+  summarise(n_pesq = n(), 
+            media_valor = mean(pesq_val),
+            media_n = mean(pesq_n),
+            razao = media_valor / media_n) %>%
+  ungroup() %>% 
+  arrange(razao) %>% 
+  filter(n_pesq > 10)
+DT::datatable(tab)
+```
+
+Estatísticos
+========================
+
+Row
+------------------------
+
+### Estatísticos com mais pesquisas
+
+```{r}
+tab <- pesqEle %>% 
+  group_by(stat_nm) %>% 
+  summarise(n = n(), n_empresas = n_distinct(comp_cnpj)) %>% 
+  mutate(prop = scales::percent(n / sum(n))) %>% 
+  arrange(desc(n))
+DT::datatable(tab)
+```
+
+### Estatísticos mais "caros"
+
+```{r}
+tab <- pesqEle %>% 
+  group_by(stat_nm) %>% 
+  summarise(n = n(),
+            vl_medio = mean(pesq_val),
+            vl_mediano = median(pesq_val)) %>% 
+  filter(n > 10) %>% 
+  arrange(desc(vl_mediano))
+DT::datatable(tab)
+```
